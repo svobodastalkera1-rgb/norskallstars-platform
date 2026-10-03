@@ -11,7 +11,7 @@ Docker/Compose and real backend/CodeQL CI definitions. No product endpoints/tabl
 identity, importer, media pipeline, Redis, Web/Android runtime or deployment exists.
 
 Local evidence (2026-10-03):
-- 41 backend tests passed on Python 3.13.16; integration cases use real isolated PostgreSQL.
+- 42 backend tests passed on Python 3.13.16; integration cases use real isolated PostgreSQL.
 - Ruff format/lint and strict mypy checks passed.
 - pip-audit reported no known vulnerabilities in locked runtime/dev dependencies.
 - The image built successfully; a loopback-only diagnostic container demonstrated
@@ -42,6 +42,6 @@ For aee7f0248a8ad7d7428dfc9e1b120c97e842933b, all PR runs completed successfully
 
 This evidence is specific to that revision. A follow-up requires an explicit
 environment rather than falling back to development; its added negative test
-and final PR HEAD runs must be verified separately. Complete historical alert
+is isolated from the test runner environment and passes locally; final PR HEAD runs must be verified separately. Complete historical alert
 listing is inaccessible to this integration (HTTP 403), so the owner reviews
 Code scanning results in GitHub. No zero-total-alerts claim is made.
