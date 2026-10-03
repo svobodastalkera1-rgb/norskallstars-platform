@@ -1,8 +1,17 @@
 # Owner GitHub settings checklist
 
-No remote setting changes are made by Phase 0. The public branch API reported
-main unprotected on 2026-10-03. Other features require owner verification rather
-than simulated enablement. Settings availability can depend on account/plan.
+No remote setting changes are made by Phase 0 closeout. Read-only authenticated
+checks on 2026-10-03 found main unprotected, no repository rulesets, private
+vulnerability reporting disabled, and no configured deployment environments.
+The Dependabot alerts endpoint explicitly reported alerts disabled.
+
+The current integration can publish repository content, but returned HTTP 403
+for branch-protection details, vulnerability-alert settings, Actions policies,
+workflow token defaults, CodeQL default setup and secret-scanning alerts. These
+403 responses do not establish that those features are disabled. The repository
+response did not expose security_and_analysis. The owner must verify unknown
+settings using GitHub's UI or suitably scoped credentials; no protections are
+weakened to obtain access. Settings availability can depend on account/plan.
 
 - [ ] Protect main with a branch rule/ruleset: pull requests, at least one owner
   review where staffing permits, dismissal/reapproval after substantive changes,

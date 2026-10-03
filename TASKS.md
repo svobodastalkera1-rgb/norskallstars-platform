@@ -1,17 +1,17 @@
 # Tasks
 
-## Now — owner review only
+## Phase 0 ACCEPTED — closeout and remaining owner actions
 
-- [ ] Product Owner reviews Phase 0 and accepts/revises ADRs and boundaries.
+- [x] Product Owner accepted Phase 0 review evidence and architecture decisions on 2026-10-03.
 - [ ] Product Owner explicitly authorizes Phase 1. Until then, stop application work.
 - [ ] Owner configures protected main and security settings; collect evidence
   without publishing credentials or operational details.
-- [ ] Owner selects a repository license; no license is assumed.
+- [ ] License remains **Product Owner pending**; add no license and make no open-source claim.
 - [ ] Owner arranges controlled public handoff of Contract v1, schemas,
   compatibility rules and approved synthetic fixture. No private repo browsing.
 - [ ] Owner confirms server-side confidentiality incident/support status privately.
 
-## Proposed Phase 1 — not authorized yet
+## Phase 1 — NOT STARTED / awaiting authorization
 
 1. Select supported backend Python/framework/dependency versions from current
    official compatibility guidance. Pin dependencies with a reviewed lockfile.

@@ -4,8 +4,8 @@ ADRs record consequential engineering decisions and alternatives, not tasks.
 Number them sequentially. Create a proposed record from template.md, discuss
 material product/security deviations with the owner, and mark accepted only
 within authorized engineering scope. Supersede an accepted ADR with a new linked
-record rather than erasing decision history. Accepted Phase 0 engineering
-choices remain subject to the owner's Phase 0 review.
+record rather than erasing decision history. Product Owner accepted the Phase 0 engineering
+choices on 2026-10-03; future changes follow the same review process.
 
 | ADR | Decision | Status |
 | --- | --- | --- |

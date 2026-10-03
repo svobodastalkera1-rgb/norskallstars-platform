@@ -1,8 +1,8 @@
 # Project state
 
 Updated: 2026-10-03. Product: NorskAllstars. Platform: NorskAllstars Platform.
-Current phase: **Phase 0 prepared; awaiting Product Owner review**.
-Phase 1 authorization: **not granted**. Production readiness: **not achieved**.
+Current phase: **Phase 0 ACCEPTED by Product Owner on 2026-10-03**.
+Phase 1: **NOT STARTED / awaiting explicit authorization**. Production readiness: **not achieved**.
 
 ## Actual implementation
 
@@ -21,6 +21,8 @@ files belong to subsequent authorized phases.
 
 The real Contract v1, schemas, PUBLIC_HANDOFF and synthetic fixture are external
 inputs awaiting controlled transfer. The handoff manifest is pending and empty.
+Handoff must close before Phase 2;
+it does not block Phase 1 after separate authorization.
 Private corpus access is not authorized. No private pilot or real content is
 present. Follow docs/corpus-integration/README.md; do not fill gaps by guessing.
 
@@ -37,16 +39,18 @@ execution. See docs/ci.md and docs/phase-0-review.md for remaining gates.
 
 ## Owner actions / known limitations
 
-- Review Phase 0 and explicitly authorize Phase 1 before application work.
+- Phase 0 review is accepted; explicitly authorize Phase 1 before application work.
 - Supply approved public-safe Course Package artifacts with provenance.
 - Configure main protection, required checks, security features and private
   vulnerability reporting per docs/security/github-settings.md. Public API
   reported main unprotected at bootstrap audit; no settings were changed.
-- Choose licensing before adding a license or claiming open-source usage rights.
+- License: **Product Owner pending**. No license is added and the project is not
+  announced as open-source.
 - Resolve later product decisions when their phase needs them; see TASKS.md.
 - Prior confidentiality incident: reachable public main was cleaned separately.
   Server-side removal remains a support-review matter, with no purge confirmation
   available to this implementation session. No confidential identifiers, removed
   object links, or private document text are reproduced here. Do not restore it.
 
-Next: owner review. Proposed Phase 1 scope is in TASKS.md, not work in progress.
+Next: Phase 0 publication/hosted CI verification, then wait for explicit Phase 1
+authorization. Proposed Phase 1 scope is in TASKS.md, not work in progress.

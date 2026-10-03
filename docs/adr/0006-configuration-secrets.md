@@ -1,6 +1,6 @@
 # 0006 — External validated configuration and secrets
 
-Status: Accepted (Phase 0 engineering baseline; owner review pending)
+Status: Accepted (Product Owner accepted Phase 0 on 2026-10-03)
 Date: 2026-10-03
 
 ## Context

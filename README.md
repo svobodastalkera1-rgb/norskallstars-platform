@@ -4,10 +4,10 @@ NorskAllstars Platform is being built for learning Norwegian Bokmål through
 comprehensible input and the Natural Method. The production direction includes
 a responsive Web client and a native Android client backed by the same services.
 
-**Status: Phase 0 — Bootstrap, prepared for Product Owner review.** The repository
+**Status: Phase 0 — Bootstrap, ACCEPTED by Product Owner.** The repository
 currently contains architecture, development tooling, confidentiality controls,
 and CI definitions. No learning application, API server, or deployable release
-exists yet. Phase 1 has not started. Production v1.0, rather than an MVP, is the
+exists yet. Phase 1 is NOT STARTED and awaits separate authorization. Production v1.0, rather than an MVP, is the
 release goal; see the [complete roadmap](ROADMAP.md).
 
 ## Architecture direction
@@ -27,6 +27,8 @@ services or infrastructure resources provisioned in bootstrap.
 | infra/ | Environment and deployment definitions | Design only |
 | docs/ | Engineering, ADRs, security and delivery guidance | Implemented |
 | scripts/ | Repository and confidentiality checks | Implemented |
+
+License selection remains pending Product Owner decision; no license is added.
 
 See [architecture](docs/architecture/README.md) and the [ADR index](docs/adr/README.md).
 

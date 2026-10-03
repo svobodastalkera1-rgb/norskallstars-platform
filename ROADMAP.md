@@ -7,8 +7,8 @@ documentation, and a state update. Foundational failures block downstream work.
 
 | Phase | Outcome and acceptance direction | Status |
 | --- | --- | --- |
-| 0 — Bootstrap | Public monorepo boundaries, ADRs, project memory, developer setup, confidentiality controls and honest CI gates | Prepared; owner review pending |
-| 1 — Core Infrastructure | Backend skeleton, validated configuration, PostgreSQL migrations, structured logging, health, test support, storage interface and basic security policies | Not started |
+| 0 — Bootstrap | Public monorepo boundaries, ADRs, project memory, developer setup, confidentiality controls and honest CI gates | ACCEPTED by Product Owner |
+| 1 — Core Infrastructure | Backend skeleton, validated configuration, PostgreSQL migrations, structured logging, health, test support, storage interface and basic security policies | NOT STARTED / awaiting authorization |
 | 2 — Course Integration | Integrate approved Contract v1 and synthetic fixture; validate untrusted packages, create versioned staged releases and authorized audited publication | Blocked on handoff; not started |
 | 3 — Identity | Shared accounts, email and Google sign-in, verification, recovery, session/device revocation, authorization and account deletion lifecycle | Not started |
 | 4 — Learning Core | Structured curriculum, versioned lessons/activities, deterministic placement/evaluation/mastery/review, attempts, progress and learning events | Not started |

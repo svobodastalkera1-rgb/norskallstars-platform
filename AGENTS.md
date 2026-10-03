@@ -12,8 +12,9 @@ Do not invent contractual data structures or silently narrow release scope.
 
 ## Phase control
 
-Phase 0 is prepared for Product Owner review. Phase 1 is NOT authorized until
-that review is accepted explicitly. Do not implement application runtime,
+Phase 0 is ACCEPTED by Product Owner. Phase 1 is NOT STARTED and requires
+separate explicit authorization; acceptance of Phase 0 does not authorize it.
+Do not implement application runtime,
 identity, importers, learning, billing, administration, sync, or deployments
 as part of bootstrap. Keep actual implementation status in PROJECT_STATE.md.
 Subsequent phases follow design, implementation, validation, security review,

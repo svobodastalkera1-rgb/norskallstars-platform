@@ -1,6 +1,7 @@
 # Phase 0 review evidence
 
-Status: prepared for owner review, not a production release. Phase 1 has not started.
+Status: **Phase 0 ACCEPTED by Product Owner on 2026-10-03**. No production
+release exists. Phase 1 is **NOT STARTED / awaiting separate authorization**.
 
 ## Delivered
 
@@ -55,7 +56,7 @@ scanner token are not stored in the public repository.
 
 ## Gates remaining
 
-Owner Phase 0 review; hosted CI run; main protection/security settings; license
+Hosted CI verification/publication; main protection/security settings; license
 selection; controlled Contract v1 handoff. Application checks and CodeQL are
 pending real runtimes. The synthetic demo cannot run before handoff and later
 application implementation. Private pilot access is not granted. Any server-side
