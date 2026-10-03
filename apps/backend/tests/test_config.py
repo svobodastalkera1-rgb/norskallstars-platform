@@ -81,7 +81,8 @@ def test_dsn_special_characters_are_not_interpolated(settings):
     assert parsed.database_url.password == password
 
 
-def test_environment_is_required_instead_of_falling_back_to_development(settings):
+def test_environment_is_required_instead_of_falling_back_to_development(settings, monkeypatch):
+    monkeypatch.delenv("NORSKALLSTARS_ENV", raising=False)
     data = settings.model_dump()
     data.pop("env")
     with pytest.raises(ValidationError):
