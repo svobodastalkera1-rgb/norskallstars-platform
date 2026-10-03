@@ -1,3 +1,75 @@
-# Keep the private Master Technical Specification out of Git.
+# Product Owner specifications and internal content are never public inputs.
 ТЗ №2 — Norwegian Learning Platform Production v1.0.md
-[Mm]aster*[Ss]pecification*
+ТЗ*.md
+ТЗ*.pdf
+ТЗ*.docx
+[Mm][Aa][Ss][Tt][Ee][Rr]*[Ss][Pp][Ee][Cc]*
+master-specification/
+private/
+.private/
+private-*/
+private_*/
+private-*
+private_*
+corpus/
+norwegian-course/
+course-packages/
+private-packages/
+production-packages/
+production-assets/
+generation-prompts/
+private-qa/
+character-references/
+
+# Runtime configuration, credentials and device signing material.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+credentials*.json
+service-account*.json
+
+# Generated or sensitive runtime artifacts.
+backups/
+dumps/
+exports/
+recordings/
+logs/
+artifacts/
+reports/
+*.zip
+*.tar
+*.tgz
+*.7z
+*.rar
+*.dump
+*.bak
+*.log
+*.sqlite
+*.sqlite3
+*.db
+*.sarif
+
+# Local tooling and build outputs.
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+node_modules/
+dist/
+coverage/
+.gradle/
+.kotlin/
+**/build/
+local.properties
+.idea/
+.vscode/
+.DS_Store
