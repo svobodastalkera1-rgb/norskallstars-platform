@@ -79,3 +79,10 @@ def test_dsn_special_characters_are_not_interpolated(settings):
     password = secrets.token_urlsafe(32) + "@:%/"
     parsed = Settings(**(values(settings) | {"database_password": password}))
     assert parsed.database_url.password == password
+
+
+def test_environment_is_required_instead_of_falling_back_to_development(settings):
+    data = settings.model_dump()
+    data.pop("env")
+    with pytest.raises(ValidationError):
+        Settings(**data)

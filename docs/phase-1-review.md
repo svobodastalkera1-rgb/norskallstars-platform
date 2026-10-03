@@ -22,11 +22,26 @@ Local evidence (2026-10-03):
 - Gitleaks found no secrets in indexed files or reachable main history.
 - actionlint validated all workflows; no guard suppressions were introduced.
 
-Hosted results, final test counts, PR revision and remaining owner actions are
-recorded only after actual verification. See ci.md for exact required-check names,
+Published as [PR #4](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/4),
+awaiting owner review without automatic merge. Hosted evidence below records
+actual completed runs; every later head needs verification. See ci.md for exact required-check names,
 security/phase-1-review.md for threat findings and development.md for commands.
 
 Remaining: owner review, setting required checks after successful PR runs,
 CodeQL setup/results review, license decision, and handoff before Phase 2.
 Live production TLS/least-privilege provisioning, S3 adapter/delivery, rate limits
 for sensitive endpoints and OS-image CVE scanning remain later acceptance work.
+
+## Hosted evidence
+
+For aee7f0248a8ad7d7428dfc9e1b120c97e842933b, all PR runs completed successfully:
+- [Backend CI](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37162992910): quality, 41 tests, dependency audit and standard Compose smoke passed.
+- [Phase 0 CI](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37162992885): bootstrap and security passed.
+- [Python CodeQL](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37162992943): analysis/upload passed.
+- The generated CodeQL results check completed successfully with zero annotations.
+
+This evidence is specific to that revision. A follow-up requires an explicit
+environment rather than falling back to development; its added negative test
+and final PR HEAD runs must be verified separately. Complete historical alert
+listing is inaccessible to this integration (HTTP 403), so the owner reviews
+Code scanning results in GitHub. No zero-total-alerts claim is made.

@@ -15,8 +15,9 @@ runtime and real backend/CodeQL CI definitions. Product domains, importers,
 identity, Web/Android, sync/billing, production infrastructure and Redis are absent.
 
 Runtime and decisions: docs/architecture/backend-runtime.md and ADRs 0008/0009.
-Verification evidence: docs/phase-1-review.md. No application CI result is assumed
-until the specific hosted run completes. Web/Android gates remain pending.
+Verification evidence: docs/phase-1-review.md. Initial Phase 1 PR runs passed
+quality/tests/audit/container, Phase 0 safeguards and Python CodeQL. Each updated
+PR head is verified separately; historical evidence does not substitute for it. Web/Android gates remain pending.
 
 ## Repository governance
 
@@ -54,5 +55,8 @@ Hosted Backend container checks exercise standard Compose independently.
 Live deployed TLS/roles, production storage/delivery, release image scanning and
 later domain security remain future work, not production-readiness claims.
 
-Next: complete/check Phase 1 PR CI and wait for Product Owner review.
+Next: wait for Product Owner review of
+[PR #4](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/4)
+after verifying its latest hosted CI. Code-scanning alert listing requires
+owner UI review because the integration receives HTTP 403.
 Do not begin Phase 2 automatically.

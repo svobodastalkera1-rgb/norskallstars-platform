@@ -6,7 +6,7 @@ identity, private packages or production deployment is exercised.
 
 | Threat | Implemented control | Evidence / remaining boundary |
 | --- | --- | --- |
-| Insecure configuration | Required strong password, typed bounded values; deployed TLS/CA/host rules; no implicit .env | Positive/negative settings tests; live production TLS handshake not yet exercised |
+| Insecure configuration | Required explicit environment/strong password, typed bounded values; deployed TLS/CA/host rules; no implicit .env | Positive/negative settings tests; live production TLS handshake not yet exercised |
 | API information exposure | Minimal health payloads; generic 4xx/5xx; disabled deployed docs/debug | Runtime tests with injected sensitive exceptions/validation inputs |
 | Logging leakage | Event allowlist; no message args/exception values, headers, bodies or query paths | Secret-like input/log redaction tests; raw framework access logging disabled |
 | Resource exhaustion | Bounded body reads, content length, request/probe/query/connect timeouts and pools | Oversize streamed/body and timeout tests; rate limiting accompanies future sensitive endpoints |

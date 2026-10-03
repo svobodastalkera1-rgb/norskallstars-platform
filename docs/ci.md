@@ -14,10 +14,12 @@ and reported after completion; existence of a workflow is not a passing result.
 | Backend dependency audit | Full locked runtime/dev dependency vulnerability audit |
 | Backend container | Digest-pinned image build, Compose migrations/startup and HTTP/security/runtime smoke |
 | CodeQL Python | Python security-extended analysis of runtime and repository scripts |
+| CodeQL | GitHub Advanced Security code-scanning results check |
 
 After successful Phase 1 PR runs, the Product Owner adds these exact names to
-Protect main required status checks, using the GitHub Actions provider and
-confirming names in the actual PR. No required-check setting is changed here.
+Protect main required status checks, confirming names in the actual PR. The
+first seven checks are provided by GitHub Actions; CodeQL is provided by GitHub
+Advanced Security (github-advanced-security), not the Actions job provider. No required-check setting is changed here.
 The owner intentionally deferred required checks until real Phase 1 runs.
 
 The CodeQL advanced workflow uses contents/actions read and security-events write

@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix="NORSKALLSTARS_", env_file=None, extra="forbid", hide_input_in_errors=True
     )
-    env: Environment = Environment.LOCAL
+    env: Environment
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR"] = "INFO"
     database_host: str = Field(pattern=r"^[A-Za-z0-9][A-Za-z0-9._-]{0,252}$")
     database_port: int = Field(default=5432, ge=1, le=65535)

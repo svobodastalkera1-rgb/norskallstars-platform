@@ -25,8 +25,8 @@ are hidden, engine echo is off, and drivers cannot emit arbitrary message text
 through the configured JSON formatter. Domain/session ownership is not yet an
 application authorization model.
 
-Config supports local (dev alias), test, staging and production. Credentials
-are required; no default password or implicit .env lookup exists. Staging and
+Config supports local (dev alias), test, staging and production. Environment and credentials
+are required; no implicit development fallback, default password or .env lookup exists. Staging and
 production require verified database TLS, a mounted CA, explicit service hosts,
 nondefault administrator username and no DEBUG or local storage. Deployment
 must provision separate least-privilege application/migration credentials;

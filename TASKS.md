@@ -22,7 +22,8 @@
 - [x] Build non-root backend image and local Compose configuration.
 - [x] Replace backend pending gate with real quality/tests/dependency/container CI.
 - [x] Prepare Python CodeQL analysis and runtime threat/security review.
-- [ ] Verify final Phase 1 PR hosted CI and record exact revision/run evidence.
+- [x] Initial Phase 1 PR hosted runs passed; revision/run evidence is recorded.
+- [ ] Owner verifies latest PR head checks and reviews complete Code scanning results.
 - [ ] Product Owner accepts Phase 1; authorization of Phase 2 is a separate decision.
 
 ## Phase 2 — NOT STARTED / not authorized
