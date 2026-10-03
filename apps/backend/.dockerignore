@@ -1,0 +1,17 @@
+# Positive build-context allowlist; environment, tests and local data never enter it.
+**
+!Dockerfile
+!pyproject.toml
+!uv.lock
+!src/
+!src/**
+!alembic.ini
+!migrations/
+!migrations/**
+**/__pycache__
+**/*.pyc
+**/.env*
+**/*.pem
+**/*.key
+**/private*
+**/*[Mm]aster*[Ss]pec*

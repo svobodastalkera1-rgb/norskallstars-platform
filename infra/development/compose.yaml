@@ -1,0 +1,69 @@
+name: norskallstars-local
+
+x-runtime: &runtime
+  build:
+    context: ../../apps/backend
+  image: norskallstars-backend:local
+  environment: &environment
+    NORSKALLSTARS_ENV: local
+    NORSKALLSTARS_DATABASE_HOST: database
+    NORSKALLSTARS_DATABASE_PORT: "5432"
+    NORSKALLSTARS_DATABASE_NAME: norskallstars_local
+    NORSKALLSTARS_DATABASE_USER: norskallstars_dev
+    NORSKALLSTARS_DATABASE_PASSWORD: ${NORSKALLSTARS_DATABASE_PASSWORD:?Run scripts/phase1.py init}
+    NORSKALLSTARS_ALLOWED_HOSTS: '["localhost","127.0.0.1","backend"]'
+  read_only: true
+  tmpfs:
+    - /tmp:rw,noexec,nosuid,size=16m
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+
+services:
+  database:
+    # PostgreSQL 17.11; local development/test only.
+    image: postgres:17.11-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    environment:
+      POSTGRES_USER: norskallstars_dev
+      POSTGRES_DB: norskallstars_local
+      POSTGRES_PASSWORD: ${NORSKALLSTARS_DATABASE_PASSWORD:?Run scripts/phase1.py init}
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U norskallstars_dev -d norskallstars_local"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    security_opt: [no-new-privileges:true]
+
+  backend:
+    <<: *runtime
+    environment:
+      <<: *environment
+      NORSKALLSTARS_STORAGE_BACKEND: local
+      NORSKALLSTARS_STORAGE_ROOT: /app/storage
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - local-assets:/app/storage
+    depends_on:
+      database:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=5)"]
+      interval: 5s
+      timeout: 6s
+      retries: 12
+
+  migrate:
+    <<: *runtime
+    profiles: [tools]
+    command: [alembic, -c, /app/alembic.ini, upgrade, head]
+    depends_on:
+      database:
+        condition: service_healthy
+
+volumes:
+  database-data:
+  local-assets:

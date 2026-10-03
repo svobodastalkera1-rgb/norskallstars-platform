@@ -2,17 +2,18 @@
 
 Implemented locally: confidentiality ignore rules, an indexed-path/content guard,
 a pre-commit hook, pinned Gitleaks, reachable-history checks and active CI
-security job definitions. Remote execution/settings remain unverified or pending.
+security job definitions. Owner-confirmed repository settings are recorded in github-settings.md; Phase 1
+adds runtime guards, dependency audit and a Python CodeQL workflow.
 
 | Layer | Bootstrap state | Later gate |
 | --- | --- | --- |
 | Confidential content | Index/history path rules and public handoff manifest | Human approval for every imported artifact |
-| Secrets | Redacted Gitleaks in index/history and pre-commit | Owner enables GitHub alerts and push protection |
-| Dependencies | Weekly GitHub Actions update config | Add locked Python/npm/Gradle ecosystems when manifests exist; scan known vulnerabilities |
-| SAST | Bootstrap Python compile/static repository checks; no security coverage claim | Enable CodeQL Python, JavaScript/TypeScript and Java/Kotlin as applications exist |
-| Main protection | Owner action required | PR review + actual required checks; no force pushes as normal workflow |
-| Vulnerability reporting | SECURITY.md and owner enablement checklist | Private triage, supported versions and remediation policy before release |
-| Runtime security | Architecture requirements only | Threat model and negative resource/auth/import/sync/billing tests |
+| Secrets | Redacted Gitleaks in index/history and pre-commit | Owner confirmed alerts/push protection enabled |
+| Dependencies | Weekly GitHub Actions update config | uv lock/audit and update config now exist; npm/Gradle remain deferred |
+| SAST | Ruff security lint and prepared Python CodeQL | Verify hosted Python analysis; client languages wait for runtime |
+| Main protection | Active Protect main ruleset | Owner adds Phase 1 required checks after success; no bypass/automatic merge |
+| Vulnerability reporting | Private vulnerability reporting enabled by owner | Private triage, supported versions and remediation policy before release |
+| Runtime security | Phase 1 threat review and bounded/safe infrastructure | Threat model and negative resource/auth/import/sync/billing tests |
 
 Pin Actions to full commit SHAs. Run untrusted PRs with read-only permissions,
 without repository secrets or private course materials; do not use

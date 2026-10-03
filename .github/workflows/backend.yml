@@ -1,0 +1,80 @@
+name: Backend CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: backend-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Backend quality
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          version: 0.12.23
+          enable-cache: false
+      - run: uv sync --locked --project apps/backend
+      - run: uv run --locked --project apps/backend ruff format --check apps/backend
+      - run: uv run --locked --project apps/backend ruff check apps/backend
+      - run: uv run --locked --project apps/backend mypy --config-file apps/backend/pyproject.toml apps/backend/src
+
+  tests:
+    name: Backend tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          version: 0.12.23
+          enable-cache: false
+      - run: uv sync --locked --project apps/backend
+      - run: python3 scripts/phase1.py init
+      - run: python3 scripts/phase1.py test
+      - name: Stop local test containers without deleting volumes
+        if: always()
+        run: python3 scripts/phase1.py down
+
+  dependencies:
+    name: Backend dependency audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          version: 0.12.23
+          enable-cache: false
+      - run: uv sync --locked --project apps/backend
+      - run: python3 scripts/phase1.py audit
+
+  container:
+    name: Backend container
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - run: python3 scripts/phase1.py init
+      - run: python3 scripts/phase1.py up
+      - run: python3 scripts/phase1.py smoke
+      - name: Stop local containers without deleting volumes
+        if: always()
+        run: python3 scripts/phase1.py down

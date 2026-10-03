@@ -24,7 +24,8 @@ class BoundaryTests(unittest.TestCase):
                      'private-pilot.json', 'private/fixture.json',
                      'norwegian-course/schema.json', 'backups/data.sql',
                      '.env.production', 'apps/backend/.env', 'signing/release.jks',
-                     'exports/users.csv', 'production-assets/image.png']:
+                     'exports/users.csv', 'production-assets/image.png', '.cache/prod.env',
+                     '.venv/credentials.json']:
             with self.subTest(path=path):
                 self.assertTrue(forbidden_path(path))
                 self.assertTrue(validate(files(**{path: b'content'}), 'test'))

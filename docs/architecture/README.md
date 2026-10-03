@@ -1,7 +1,8 @@
 # Architecture
 
-The baseline is a monorepo with one modular backend and two clients. These
-boundaries are designed in Phase 0; runtime implementations start later.
+The baseline is a monorepo with one modular backend and two clients. The
+boundaries were accepted in Phase 0. Phase 1 now implements backend infrastructure;
+product domains and the clients remain unimplemented.
 
 ```mermaid
 flowchart LR
@@ -28,8 +29,8 @@ Production corpus/media stay outside source control and public CI.
 
 Use domain modules rather than services by default. Candidate domains include
 identity, curriculum/release management, learning/evaluation, progress/review,
-media, gamification, access/billing, and administration. Final module/file layout
-is a Phase 1 design task; avoid empty domain implementation scaffolds now.
+media, gamification, access/billing, and administration. Current infrastructure layout is described in [backend runtime](backend-runtime.md);
+product module layouts follow their future authorized phases.
 Each module owns its persistence and public interfaces. Avoid cross-module ORM
 writes and shared mutable domain logic. Public DTOs do not expose storage models.
 The backend is authoritative; clients do not independently decide access rights,
