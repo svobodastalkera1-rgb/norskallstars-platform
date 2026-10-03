@@ -1,13 +1,17 @@
 # CI state and gates
 
-Phase 0 defines CI; no hosted successful run is claimed before owner-authorized
-push. A green bootstrap job means its named checks passed, not that an application
+Hosted Phase 0 CI completed successfully on 2026-10-03 for revision
+f2230088aba1a38cbdc5d8f9589c8d806ef5a79d, on both
+[branch push](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37149083813) and
+[pull request](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37149098027). Both Bootstrap checks and Security checks passed.
+This records those specific runs; each later commit needs its own completed run.
+Application CodeQL coverage and application builds remain pending. A green bootstrap job means its named checks passed, not that an application
 build, security hardening or production acceptance exists.
 
 | Gate | Definition | State |
 | --- | --- | --- |
-| Bootstrap checks | Compile tooling, validate docs/links and handoff inventory; check indexed/historical confidential paths | Active workflow; locally exercised |
-| Security checks | Pinned Gitleaks on actual index and reachable main/HEAD history; redacted output | Active workflow; locally exercised |
+| Bootstrap checks | Compile tooling, validate docs/links and handoff inventory; check indexed/historical confidential paths | Active workflow; local and hosted runs passed |
+| Security checks | Pinned Gitleaks on actual index and reachable main/HEAD history; redacted output | Active workflow; local and hosted runs passed |
 | Backend checks | Future format/lint/types/unit/integration/security/build, dependency scanning | Pending; runtime absent |
 | Web checks | Future locked install, lint/types/components/build/security | Pending; app absent |
 | Android checks | Future verified Gradle wrapper, lint/unit/instrumentation/build/security | Pending; app absent |

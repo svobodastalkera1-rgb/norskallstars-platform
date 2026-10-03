@@ -32,7 +32,12 @@ Run make check and make security-check. These validate repository boundaries,
 local document links, indexed file contents, current-main confidentiality paths,
 and secrets in index and reachable history. Active CI definitions cover those
 checks. Application gates are pending and manual invocation fails explicitly.
-No hosted CI run, CodeQL coverage, or successful application build is claimed.
+Hosted Phase 0 CI completed successfully on 2026-10-03 for revision
+f2230088aba1a38cbdc5d8f9589c8d806ef5a79d, on both
+[branch push](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37149083813) and
+[pull request](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37149098027). Both Bootstrap checks and Security checks passed.
+This records those specific runs; each later commit needs its own completed run.
+Application CodeQL coverage and application builds remain pending.
 Local validation passed: 12 guard tests, index/main secret and confidentiality
 checks, workflow linting, ignore scenarios and clean-snapshot bootstrap/hook
 execution. See docs/ci.md and docs/phase-0-review.md for remaining gates.
@@ -52,5 +57,7 @@ execution. See docs/ci.md and docs/phase-0-review.md for remaining gates.
   available to this implementation session. No confidential identifiers, removed
   object links, or private document text are reproduced here. Do not restore it.
 
-Next: Phase 0 publication/hosted CI verification, then wait for explicit Phase 1
-authorization. Proposed Phase 1 scope is in TASKS.md, not work in progress.
+Next: wait for explicit Phase 1 authorization. Phase 0 publication uses
+[pull request #1](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/1)
+with ordinary merge and per-commit hosted CI verification. Proposed Phase 1
+scope is in TASKS.md, not work in progress.

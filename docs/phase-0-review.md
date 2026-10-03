@@ -12,7 +12,7 @@ pre-commit hook and CI definitions. No product runtime or deployment exists.
 
 ## Verification
 
-Evidence is local until a hosted run is authorized. Commands:
+Local bootstrap commands:
 
 ```sh
 make bootstrap
@@ -49,14 +49,20 @@ Results on 2026-10-03:
 - The installed pre-commit hook executed successfully on the clean snapshot.
 - git diff --cached --check passed. No known private corpus artifacts were found.
 
-Hosted CI, actual application lint/type/tests/builds and application SAST have
-not run. No product feature behavior, production runtime or private pilot
+Hosted Phase 0 CI completed successfully on 2026-10-03 for revision
+f2230088aba1a38cbdc5d8f9589c8d806ef5a79d, on both
+[branch push](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37149083813) and
+[pull request](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37149098027). Both Bootstrap checks and Security checks passed.
+This records those specific runs; each later commit needs its own completed run.
+Application CodeQL coverage and application builds remain pending.
+
+Actual application lint/type/tests/builds and application SAST have not run. No product feature behavior, production runtime or private pilot
 acceptance has been tested. The private-input comparison and temporary synthetic
 scanner token are not stored in the public repository.
 
 ## Gates remaining
 
-Hosted CI verification/publication; main protection/security settings; license
+Main protection/security settings; license
 selection; controlled Contract v1 handoff. Application checks and CodeQL are
 pending real runtimes. The synthetic demo cannot run before handoff and later
 application implementation. Private pilot access is not granted. Any server-side

@@ -3,6 +3,8 @@
 ## Phase 0 ACCEPTED — closeout and remaining owner actions
 
 - [x] Product Owner accepted Phase 0 review evidence and architecture decisions on 2026-10-03.
+- [x] Published the Phase 0 branch/PR and verified successful hosted push/PR CI.
+  Every later commit and the final main merge must be verified separately.
 - [ ] Product Owner explicitly authorizes Phase 1. Until then, stop application work.
 - [ ] Owner configures protected main and security settings; collect evidence
   without publishing credentials or operational details.
