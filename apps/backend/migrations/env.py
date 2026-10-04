@@ -9,6 +9,7 @@ from sqlalchemy.engine import Connection
 from norskallstars_backend.config import load_settings
 from norskallstars_backend.course_packages.models import CourseRelease
 from norskallstars_backend.database import Database
+from norskallstars_backend.identity.models import Account  # noqa: F401 -- register metadata
 from norskallstars_backend.logging import configure_logging, exception_fields
 
 

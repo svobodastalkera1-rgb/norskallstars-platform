@@ -12,6 +12,8 @@ x-runtime: &runtime
     NORSKALLSTARS_DATABASE_NAME: norskallstars_local
     NORSKALLSTARS_DATABASE_USER: norskallstars_dev
     NORSKALLSTARS_DATABASE_PASSWORD: ${NORSKALLSTARS_DATABASE_PASSWORD:?Run scripts/phase1.py init}
+    NORSKALLSTARS_IDENTITY_PEPPER: ${NORSKALLSTARS_IDENTITY_PEPPER:?Run scripts/phase1.py init}
+    NORSKALLSTARS_IDENTITY_MAIL_KEY: ${NORSKALLSTARS_IDENTITY_MAIL_KEY:?Run scripts/phase1.py init}
     NORSKALLSTARS_ALLOWED_HOSTS: '["localhost","127.0.0.1","backend"]'
   read_only: true
   tmpfs:

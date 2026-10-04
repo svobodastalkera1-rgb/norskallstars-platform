@@ -12,10 +12,10 @@ Do not invent contractual data structures or silently narrow release scope.
 
 ## Phase control
 
-Phase 0 is CLOSED and ACCEPTED. Phase 1 is CLOSED and ACCEPTED (PR #4 merged). Product Owner authorized
-Phase 2 Course Integration after successful controlled receiving. Phase 3 and
-later phases need separate authorization. Work through a feature PR; never
-merge without Product Owner review.
+Phase 0 is CLOSED and ACCEPTED. Phase 1 is CLOSED and ACCEPTED (PR #4 merged).
+Phase 2 is CLOSED and ACCEPTED (PR #7 merged and verified). Product Owner authorized
+Phase 3 Identity only. Phase 4 and later phases need separate authorization.
+Work through a feature PR; never merge without Product Owner review.
 Do not implement application runtime,
 identity, importers, learning, billing, administration, sync, or deployments
 as part of bootstrap. Keep actual implementation status in PROJECT_STATE.md.

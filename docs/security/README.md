@@ -11,7 +11,7 @@ adds runtime guards, dependency audit and a Python CodeQL workflow.
 | Secrets | Redacted Gitleaks in index/history and pre-commit | Owner confirmed alerts/push protection enabled |
 | Dependencies | Weekly GitHub Actions update config | uv lock/audit and update config now exist; npm/Gradle remain deferred |
 | SAST | Ruff security lint and prepared Python CodeQL | Verify hosted Python analysis; client languages wait for runtime |
-| Main protection | Active Protect main ruleset | Owner adds Phase 1 required checks after success; no bypass/automatic merge |
+| Main protection | Active Protect main ruleset | Seven real checks active with strict up-to-date branches; no bypass/automatic merge |
 | Vulnerability reporting | Private vulnerability reporting enabled by owner | Private triage, supported versions and remediation policy before release |
 | Runtime security | Phase 1 threat review and bounded/safe infrastructure | Threat model and negative resource/auth/import/sync/billing tests |
 
@@ -28,3 +28,7 @@ Primary references:
 - [CodeQL](https://docs.github.com/en/code-security/concepts/code-scanning/codeql/codeql-code-scanning)
 - [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
 - [OWASP API Security](https://owasp.org/www-project-api-security/)
+
+Phase 3 adds [identity threat review](phase-3-review.md): ownership, Google/token
+verification, session replay, input/abuse bounds, account deletion and private mail.
+No course HTTP publication/admin authority or production storage is added.

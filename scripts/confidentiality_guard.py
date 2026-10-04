@@ -23,7 +23,7 @@ BLOCKED_DIRS = {'.local', '.venv', '.cache', 'node_modules', '.gradle', '__pycac
 BLOCKED_NAMES = ('private-*', 'private_*', '.gitleaksignore', 'master*spec*', 'тз*.md', 'тз*.pdf', 'тз*.docx',
                  'credentials*.json', 'service-account*.json',
                  '*.pem', '*.key', '*.p12', '*.pfx', '*.jks', '*.keystore',
-                 '*.dump', '*.bak', '*.log', '*.sqlite', '*.sqlite3', '*.db', '*.sarif')
+                 '*.dump', '*.bak', '*.log', '*.sqlite', '*.sqlite3', '*.db', '*.sarif', '*.eml')
 ARTIFACT_SUFFIXES = {'.zip', '.tar', '.gz', '.tgz', '.7z', '.rar',
                      '.mp3', '.wav', '.ogg', '.m4a', '.mp4', '.webm'}
 PRIVATE_HEADER = re.compile(rb'(?im)^\s*MASTER\s+TECHNICAL\s+SPECIFICATION\s*$')
