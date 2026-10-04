@@ -4,27 +4,28 @@ NorskAllstars Platform is being built for learning Norwegian Bokmål through
 comprehensible input and the Natural Method. The production direction includes
 a responsive Web client and a native Android client backed by the same services.
 
-**Status: Phase 0 — Bootstrap, ACCEPTED by Product Owner.** The repository
-currently contains architecture, development tooling, confidentiality controls,
-and CI definitions. No learning application, API server, or deployable release
-exists yet. Phase 1 is NOT STARTED and awaits separate authorization. Production v1.0, rather than an MVP, is the
-release goal; see the [complete roadmap](ROADMAP.md).
+**Status: Phase 0 CLOSED/ACCEPTED; Phase 1 Core Infrastructure prepared for review.**
+A real backend runtime now provides health endpoints, PostgreSQL/migrations,
+configuration/logging and a storage boundary. Learning functions, accounts,
+Course Package import, Web/Android clients and production deployment are not
+implemented. Production v1.0 remains the release goal; see the [complete roadmap](ROADMAP.md).
+Phase 2 has not started.
 
 ## Architecture direction
 
 A monorepo will hold a Python/FastAPI modular monolith, PostgreSQL persistence
 with SQLAlchemy/Alembic, Pydantic validation, React/TypeScript Web, and native
-Kotlin/Jetpack Compose Android. Docker and an object storage abstraction are
-planned; Redis or workers require a demonstrated use case. There are no runtime
-services or infrastructure resources provisioned in bootstrap.
+Kotlin/Jetpack Compose Android. Phase 1 supplies Docker packaging and an object
+storage boundary. Redis or workers require a demonstrated use case. No production
+infrastructure is provisioned.
 
 | Location | Responsibility | Current state |
 | --- | --- | --- |
-| apps/backend/ | API and domain modules | Boundary documentation |
+| apps/backend/ | Backend infrastructure; later domain modules | Phase 1 runtime and tests |
 | apps/web/ | Responsive learning client | Boundary documentation |
 | apps/android/ | Native client and later offline capability | Boundary documentation |
 | contracts/ | Public API and Course Package interfaces | Integration placeholders |
-| infra/ | Environment and deployment definitions | Design only |
+| infra/ | Local runtime; future deployment definitions | Local Docker Compose |
 | docs/ | Engineering, ADRs, security and delivery guidance | Implemented |
 | scripts/ | Repository and confidentiality checks | Implemented |
 
@@ -44,8 +45,8 @@ A future development/demo environment must run with synthetic content alone.
 
 ## Local development
 
-Install Git and Python **3.14.2** for bootstrap tooling; no application dependencies
-are required. This pin does not decide the future backend's supported Python version.
+Install Git and Python **3.14.2** for repository tooling. Backend Python **3.13.16**
+and dependencies are managed separately by pinned uv and uv.lock.
 From the repository root on Linux/macOS:
 
 ```sh
@@ -58,8 +59,17 @@ make hooks
 
 The security installer downloads a version/checksum-pinned Gitleaks binary.
 Windows PowerShell equivalents and offline setup are in the
-[development guide](docs/development.md). There is no application start command
-in Phase 0. Do not run a database or import a private package for bootstrap.
+[development guide](docs/development.md). For the Phase 1 local backend, install Docker/Compose and run:
+
+```sh
+python3 scripts/phase1.py init
+python3 scripts/phase1.py up
+python3 scripts/phase1.py smoke
+```
+
+These commands generate ignored local credentials, start PostgreSQL/backend and
+verify health. See the development guide for tests, host-network prerequisites
+and lifecycle commands. No private package is required or accepted.
 
 ## Public repository security
 

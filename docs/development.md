@@ -1,25 +1,78 @@
-# Reproducible bootstrap environment
+# Development environment
 
-Phase 0 checks need Git and Python 3.14.2. The repository has no third-party Python
-packages or application dependency graph. .python-version pins bootstrap tooling;
-it does not select the backend runtime before compatibility review. Make is a
-convenience only. Use a Python 3.14.2 installation from python.org or your reviewed
-version manager. Linux/macOS/Windows are supported; WSL is suitable for Make.
+Phase 0 repository tooling remains Python 3.14.2/Git with make bootstrap,
+make hooks, make check and make security-check. Backend uses a separate pinned
+Python 3.13.16 environment selected by apps/backend/.python-version and uv.lock.
+Install uv **0.12.23** with your reviewed package manager, or into the bootstrap
+venv: .venv/bin/python -m pip install uv==0.12.23. On Windows use the corresponding
+.venv/Scripts/python.exe. Docker Engine and Docker Compose are required for real
+local PostgreSQL/container checks; no private corpus access is needed.
 
-## Setup
+## Start the Phase 1 local runtime
 
-Linux/macOS, from the repository root:
+From the repository root:
 
 ```sh
-python3 -m venv .venv
-.venv/bin/python scripts/install_security_tool.py
-.venv/bin/python scripts/install_hooks.py
-.venv/bin/python scripts/check_repository.py
-.venv/bin/python scripts/confidentiality_guard.py --history main
-.venv/bin/python scripts/scan_secrets.py --history main
+python3 scripts/phase1.py init
+python3 scripts/phase1.py up
+python3 scripts/phase1.py smoke
 ```
 
-Windows PowerShell:
+init creates an ignored mode-600 password file without displaying values. up
+starts PostgreSQL, builds the backend, runs an explicit migration job, then waits
+for backend readiness. Ports bind only to localhost: API 8000, PostgreSQL 5433.
+The default local environment is synthetic/empty and has no accounts or lessons.
+Health endpoints are http://127.0.0.1:8000/health/live and /health/ready; local
+OpenAPI docs are available at /docs. There are no business routes.
+
+Use python3 scripts/phase1.py down to stop services; volumes are preserved.
+Never casually delete generated credentials while retaining a database volume:
+the original database password does not automatically change. Backup/reset of
+local data requires an explicit developer action, not an implicit script cleanup.
+Do not use this Compose definition for staging/production. The local database
+role is privileged for disposable development/test provisioning only.
+
+A Docker host must permit normal inter-container bridge traffic. This workspace
+has conflicting legacy/nft forwarding rules; its bridge timeout was diagnosed
+without altering the firewall. The runtime image was validated through a
+loopback-only diagnostic path here, and CI exercises standard Compose. Fix host
+Docker networking administratively rather than changing application security.
+
+## Backend checks
+
+```sh
+uv sync --locked --project apps/backend
+uv run --locked --project apps/backend ruff format --check apps/backend
+uv run --locked --project apps/backend ruff check apps/backend
+uv run --locked --project apps/backend mypy --config-file apps/backend/pyproject.toml apps/backend/src
+python3 scripts/phase1.py test
+python3 scripts/phase1.py audit
+make check
+make security-check
+```
+
+The helper also locates uv installed in the root bootstrap venv. It never inherits
+NORSKALLSTARS production settings from your shell: test creates a separate
+norskallstars_test database, migrates it and runs all backend tests. Integration
+tests fail unless the environment is test and the database name ends in _test.
+They intentionally exercise rollback and migration downgrade; never point them
+at real data. A reduced unit run uses pytest -c apps/backend/pyproject.toml
+apps/backend/tests -m 'not integration'; that is not full backend acceptance.
+
+Settings are environment-only; .env.example is explanatory, not a runnable secret
+source. For a direct source process, supply required configuration securely and
+run uvicorn norskallstars_backend.app:create_app --factory with access logs and
+proxy headers disabled. The image already selects those flags. Staging/production
+require verified database TLS, mounted CA, explicit hosts, safe logging and
+external secret injection; production orchestration is outside Phase 1.
+
+Hook/scanner setup from Phase 0 still applies. Gitleaks remains checksum-pinned,
+redacts output and inspects the index. Do not use full Docker environment output,
+raw exceptions, private packages or sensitive logs as public CI artifacts.
+
+## Phase 0 portability and offline scanner setup
+
+Windows PowerShell repository tooling remains supported:
 
 ```powershell
 py -3.14 -m venv .venv
@@ -30,37 +83,9 @@ py -3.14 -m venv .venv
 .venv\Scripts\python.exe scripts/scan_secrets.py --history main
 ```
 
-Hooks use the .venv Python interpreter and execute a Git-compatible shell hook.
-The installer refuses to replace an existing unrelated hook or custom hooksPath.
-A missing tool causes commit/check failure with setup instructions, not a skip.
-
-The Gitleaks installer supports pinned Linux x64/arm64, macOS x64/arm64 and
-Windows x64 archives. It verifies archive SHA-256 against committed upstream
-release checksums before extracting just the executable. Network access is only
-to the upstream public release, not the corpus repository. Cached binaries are
-verified using a locally recorded executable checksum on each scan. For offline
-setup, supply the matching archive with --archive /path/to/archive; the same
-committed checksum applies. Never use unverified executables to bypass a check.
-
-## Working and checking
-
-Inspect git status, work on a focused branch, and read AGENTS.md before changes.
-Stage public-safe files, review git diff --cached, and run the checks again.
-make check validates docs/tooling and scans index paths/content plus main trees.
-make security-check scans secrets in the exact index and main history. CI scans
-HEAD as well as main when available. Tests for new application behavior arrive
-with the actual implementation; no product tests run in bootstrap.
-
-.env.example contains only future non-secret environment labels. A local .env
-may be copied when Phase 1 implements settings, but is unnecessary now. Docker,
-PostgreSQL, Node and Android SDK installation is deferred until needed and pinned
-with real manifests/locks. There is no demo application command yet; synthetic
-handoff availability is a prerequisite for the future demo environment.
-
-## Limitations
-
-Local hooks are bypassable and scanners cannot prove arbitrary content public.
-Current-main checks exclude old dangling objects/reflogs; do not recover private
-inputs from them. Use current clean history. Tool downloads/runner images are
-third-party inputs; review pins and security updates. Hosted Actions execution
-must be verified after an authorized push; local success is not hosted CI evidence.
+The scanner installer supports checksum-pinned Linux x64/arm64, macOS x64/arm64
+and Windows x64 archives. Offline setup uses --archive /path/to/archive with
+the same committed checksum. Existing unrelated hooks/hooksPath are never replaced.
+Backend filesystem-adapter tests run on Linux/POSIX; Docker Desktop uses Linux
+containers. On non-POSIX hosts protect ignored credential files with appropriate
+user-only filesystem permissions; chmod alone does not establish Windows ACLs.

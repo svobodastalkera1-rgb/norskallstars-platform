@@ -1,38 +1,37 @@
-# CI state and gates
+# CI state and required checks
 
-Hosted Phase 0 CI completed successfully on 2026-10-03 for revision
-f2230088aba1a38cbdc5d8f9589c8d806ef5a79d, on both
-[branch push](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37149083813) and
-[pull request](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37149098027). Both Bootstrap checks and Security checks passed.
-This records those specific runs; each later commit needs its own completed run.
-Application CodeQL coverage and application builds remain pending. A green bootstrap job means its named checks passed, not that an application
-build, security hardening or production acceptance exists.
+Phase 0 bootstrap/security gates remain active. Phase 1 adds real backend gates;
+Web/Android remain pending and are not represented by passing placeholder jobs.
+Hosted outcomes are recorded with their actual revision/run in Phase 1 review
+and reported after completion; existence of a workflow is not a passing result.
 
-| Gate | Definition | State |
-| --- | --- | --- |
-| Bootstrap checks | Compile tooling, validate docs/links and handoff inventory; check indexed/historical confidential paths | Active workflow; local and hosted runs passed |
-| Security checks | Pinned Gitleaks on actual index and reachable main/HEAD history; redacted output | Active workflow; local and hosted runs passed |
-| Backend checks | Future format/lint/types/unit/integration/security/build, dependency scanning | Pending; runtime absent |
-| Web checks | Future locked install, lint/types/components/build/security | Pending; app absent |
-| Android checks | Future verified Gradle wrapper, lint/unit/instrumentation/build/security | Pending; app absent |
-| Application CodeQL | Python, JavaScript/TypeScript and Java/Kotlin when real sources exist | Pending |
-| Dependency audit | Locked ecosystem scans and release severity gate | Pending application manifests |
-| Deployment | Staging verification and explicit production approval | Absent; not authorized |
+| Exact status-check name | Real checks |
+| --- | --- |
+| Bootstrap checks | Tooling syntax/docs links and confidentiality safeguard tests/index/history |
+| Security checks | Checksum-pinned redacted Gitleaks index and reachable history scan |
+| Backend quality | Locked environment; Ruff format/lint/security rules; strict mypy |
+| Backend tests | Real isolated PostgreSQL tests, migration roundtrip/drift and backend tests |
+| Backend dependency audit | Full locked runtime/dev dependency vulnerability audit |
+| Backend container | Digest-pinned image build, Compose migrations/startup and HTTP/security/runtime smoke |
+| CodeQL Python | Python security-extended analysis of runtime and repository scripts |
+| CodeQL | GitHub Advanced Security code-scanning results check |
 
-ci.yml runs real bootstrap and security checks on pushes/PRs with read-only tokens,
-full checkout for history and commit-SHA-pinned actions. It uploads no artifacts
-and has no secrets/private corpus dependency. Full PR HEAD is scanned, including
-commits not yet on main. Dependabot reviews pinned Actions updates weekly.
+After successful Phase 1 PR runs, the Product Owner adds these exact names to
+Protect main required status checks, confirming names in the actual PR. The
+first seven checks are provided by GitHub Actions; CodeQL is provided by GitHub
+Advanced Security (github-advanced-security), not the Actions job provider. No required-check setting is changed here.
+The owner intentionally deferred required checks until real Phase 1 runs.
 
-application-gates.yml is manual-only. Each backend/Web/Android job currently
-**fails with PENDING and exit 2**, because there is no application to check.
-This is a visible fail-closed skeleton, not a fake passing test. It is not a
-required main check until replaced with real application commands/locks.
-Its jobs must not be interpreted as production verification or triggered as a
-way to approve Phase 0. Activate real per-PR jobs as each runtime is authorized.
+The CodeQL advanced workflow uses contents/actions read and security-events write
+only for analysis upload. It never receives private content or production secrets.
+The owner should review Code scanning availability/results and use the committed
+advanced workflow; do not activate a competing default-setup pipeline. If GitHub
+rejects upload because setup is not enabled, enable the supported advanced setup
+manually; do not bypass permissions or substitute a fake success.
 
-No CodeQL workflow is enabled for empty application directories. Bootstrap
-syntax/document checks are not SAST coverage. Use CodeQL/default or advanced
-setup once sources/toolchains exist, and enforce actionable alert thresholds.
-Security features and branch protections are owner actions in
-security/github-settings.md. Do not lower gates merely to merge a scaffold.
+The manual pending-client workflow still exits 2 for Web/Android; do not add those
+pending names to required checks. Backend was removed from that skeleton because
+backend.yml now owns its real checks. No production CD workflow is enabled.
+All contributor workflows use SHA pins, no secret inputs, and no pull_request_target.
+The local check guide is in development.md. Dependabot updates uv and Actions
+weekly. License and Contract v1 handoff remain owner-pending decisions.

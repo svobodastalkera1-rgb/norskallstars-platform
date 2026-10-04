@@ -1,7 +1,15 @@
-# Backend boundary
+# Backend infrastructure
 
-Planned Python/FastAPI modular monolith with Pydantic interfaces and
-PostgreSQL/SQLAlchemy/Alembic persistence. This directory contains no application
-in Phase 0. Phase 1 will select compatible pinned versions, build the service
-skeleton and real checks, and define module ownership. Product functions start
-in their later phases. See ../../docs/architecture/README.md.
+Phase 1 implements an infrastructure-only FastAPI modular-monolith foundation.
+Python 3.13.16, async SQLAlchemy/psycopg, PostgreSQL 17.11 and Alembic are pinned
+through pyproject.toml, uv.lock and image digests. No product domain tables or
+business endpoints exist. Only /health/live and /health/ready are delivered.
+
+src/norskallstars_backend contains the factory, typed settings, pool/transaction
+boundary, safe JSON logging, request middleware and object-storage interface.
+migrations tracks an empty baseline; tests exercises runtime and isolated real
+PostgreSQL behavior. There is no Redis, worker, importer or application client.
+
+See [runtime setup](../../docs/development.md),
+[runtime architecture](../../docs/architecture/backend-runtime.md), and
+[Phase 1 review](../../docs/phase-1-review.md).

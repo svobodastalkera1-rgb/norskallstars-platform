@@ -1,0 +1,41 @@
+"""Migration CLI with the same settings/driver as the runtime; never log a DSN."""
+
+import asyncio
+import logging
+
+from alembic import context
+from sqlalchemy.engine import Connection
+
+from norskallstars_backend.config import load_settings
+from norskallstars_backend.database import Base, Database
+from norskallstars_backend.logging import configure_logging, exception_fields
+
+
+def run(connection: Connection) -> None:
+    context.configure(connection=connection, target_metadata=Base.metadata, compare_type=True)
+    with context.begin_transaction():
+        context.run_migrations()
+
+
+async def online() -> None:
+    settings = load_settings()
+    configure_logging(settings.log_level)
+    database = Database(settings)
+    try:
+        async with database.engine.connect() as connection:
+            await connection.run_sync(run)
+    except Exception as exc:
+        logging.getLogger("norskallstars.migrations").error(
+            "unexpected_error", extra=exception_fields(exc)
+        )
+        raise RuntimeError("Migration failed; check database access and revision") from None
+    finally:
+        await database.close()
+
+
+if context.is_offline_mode():
+    context.configure(dialect_name="postgresql", target_metadata=Base.metadata, literal_binds=True)
+    with context.begin_transaction():
+        context.run_migrations()
+else:
+    asyncio.run(online())

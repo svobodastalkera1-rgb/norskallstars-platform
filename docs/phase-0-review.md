@@ -1,5 +1,7 @@
 # Phase 0 review evidence
 
+Historical closeout snapshot; current phase status is in ../../PROJECT_STATE.md.
+
 Status: **Phase 0 ACCEPTED by Product Owner on 2026-10-03**. No production
 release exists. Phase 1 is **NOT STARTED / awaiting separate authorization**.
 

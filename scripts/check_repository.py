@@ -5,7 +5,7 @@ import re
 import sys
 from urllib.parse import unquote
 
-from repository import ROOT
+from repository import ROOT, git
 
 REQUIRED = ('AGENTS.md', 'PROJECT_STATE.md', 'ROADMAP.md', 'TASKS.md', 'README.md',
             'SECURITY.md', 'CHANGELOG.md', '.env.example', '.python-version',
@@ -24,9 +24,10 @@ def main() -> int:
             compile(path.read_text(), str(path), 'exec')
         except SyntaxError as exc:
             errors.append(f'Invalid tooling syntax: {path.name}: {exc.msg}')
-    docs = [ROOT / name for name in REQUIRED if name.endswith('.md')]
-    docs += list((ROOT / 'docs').rglob('*.md'))
-    docs += list((ROOT / 'apps').rglob('*.md'))
+    # Inspect public repository candidates, not installed virtualenv/vendor READMEs.
+    docs = [ROOT / raw.decode() for raw in git(
+        'ls-files', '--cached', '--others', '--exclude-standard', '-z'
+    ).split(b'\0') if raw and raw.endswith(b'.md')]
     for path in set(docs):
         if not path.exists():
             continue
@@ -52,7 +53,7 @@ def main() -> int:
         print('\n'.join(errors), file=sys.stderr)
         return 1
     print(f'Bootstrap checks passed: tooling syntax, local links, {len(adrs)} ADRs, '
-          'required files and Action pins. Application gates remain pending.')
+          'required files and Action pins. Web/Android gates remain pending.')
     return 0
 
 

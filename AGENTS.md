@@ -12,8 +12,9 @@ Do not invent contractual data structures or silently narrow release scope.
 
 ## Phase control
 
-Phase 0 is ACCEPTED by Product Owner. Phase 1 is NOT STARTED and requires
-separate explicit authorization; acceptance of Phase 0 does not authorize it.
+Phase 0 is CLOSED and ACCEPTED. Product Owner explicitly authorized Phase 1
+Core Infrastructure only. Phase 2 is NOT STARTED and needs separate authorization.
+Prepare a feature-branch PR for Phase 1; never merge it without Product Owner review.
 Do not implement application runtime,
 identity, importers, learning, billing, administration, sync, or deployments
 as part of bootstrap. Keep actual implementation status in PROJECT_STATE.md.

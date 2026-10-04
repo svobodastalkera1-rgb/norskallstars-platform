@@ -1,44 +1,43 @@
 # Tasks
 
-## Phase 0 ACCEPTED — closeout and remaining owner actions
+## Completed governance
 
-- [x] Product Owner accepted Phase 0 review evidence and architecture decisions on 2026-10-03.
-- [x] Published the Phase 0 branch/PR and verified successful hosted push/PR CI.
-  Every later commit and the final main merge must be verified separately.
-- [ ] Product Owner explicitly authorizes Phase 1. Until then, stop application work.
-- [ ] Owner configures protected main and security settings; collect evidence
-  without publishing credentials or operational details.
-- [ ] License remains **Product Owner pending**; add no license and make no open-source claim.
-- [ ] Owner arranges controlled public handoff of Contract v1, schemas,
-  compatibility rules and approved synthetic fixture. No private repo browsing.
-- [ ] Owner confirms server-side confidentiality incident/support status privately.
+- [x] Phase 0 CLOSED/ACCEPTED and published; hosted main Phase 0 CI passed.
+- [x] Owner configured active Protect main and repository security features.
+- [x] Owner explicitly authorized Phase 1 Core Infrastructure only.
+- [ ] Owner adds actual successful PR check names to Protect main; see docs/ci.md.
+- [ ] Owner reviews Phase 1 PR; no automatic merge even with zero required approvals.
+- [ ] License remains Product Owner pending; add no license/make no open-source claim.
+- [ ] Controlled public Contract v1 handoff before Phase 2; no private repo access.
+- [ ] Owner confirms earlier server-side confidentiality incident status privately.
 
-## Phase 1 — NOT STARTED / awaiting authorization
+## Phase 1 — implementation prepared / review pending
 
-1. Select supported backend Python/framework/dependency versions from current
-   official compatibility guidance. Pin dependencies with a reviewed lockfile.
-2. Bootstrap modular FastAPI service, settings validation and isolated test harness.
-3. Introduce PostgreSQL local/test service definitions, SQLAlchemy ownership
-   boundaries and first reviewed Alembic migrations; no product data models yet.
-4. Add structured safe logs, correlation IDs, liveness/readiness and error policy.
-5. Define object storage interface with test doubles/local synthetic data support.
-6. Add base request limits, restrictive CORS configuration and security test seams.
-7. Activate real backend lint/type/test/security/build gates and Python SAST.
-8. Update state with evidence, review unresolved decisions, request phase acceptance.
+- [x] Pin backend runtime and public-index dependencies in uv.lock.
+- [x] Implement FastAPI factory, typed settings and lifespan ownership.
+- [x] Add async PostgreSQL transaction boundary and real isolated test database.
+- [x] Add Alembic tracking baseline without product tables; migration sanity/drift tests.
+- [x] Implement bounded health, safe errors/logs, correlation IDs and request boundary.
+- [x] Define storage protocol and tested development-only local adapter.
+- [x] Build non-root backend image and local Compose configuration.
+- [x] Replace backend pending gate with real quality/tests/dependency/container CI.
+- [x] Prepare Python CodeQL analysis and runtime threat/security review.
+- [x] Initial Phase 1 PR hosted runs passed; revision/run evidence is recorded.
+- [ ] Owner verifies latest PR head checks and reviews complete Code scanning results.
+- [ ] Product Owner accepts Phase 1; authorization of Phase 2 is a separate decision.
 
-Web/Android builds, Course Package importer, users/authentication and production
-services are outside Phase 1 except for documented integration seams.
+## Phase 2 — NOT STARTED / not authorized
 
-## Later decisions — ask at the relevant phase
+Proposed next plan only: controlled public handoff review/provenance, actual
+Contract v1 compatibility assessment, untrusted-input validation design, transactional
+staged CourseRelease import and minimal protected/audited publication, synthetic
+fixture integration and negative tests. Missing contractual/security decisions
+must be resolved before implementation; never infer schemas or use private pilot
+in public source/CI. Product identity/administration completion stays in its phases.
 
-- Contract compatibility is determined by the real handoff, never inferred here.
-- Account/session transport, Google integration configuration and privacy retention
-  need identity-phase design and owner decisions where product/legal policy applies.
-- Payment providers, target markets, permitted Android purchase flow, release
-  audience and minimum Android support need explicit owner input/policy checks.
-- Hosting region/provider, recovery objectives, data retention, voice handling,
-  analytics and leaderboard display consent must be settled before acceptance.
-- Pedagogical thresholds and content-revision migration rules follow the approved
-  contract and owner decisions; do not fabricate missing rules.
+## Later owner decisions
 
-Missing handoff blocks Phase 2 implementation, not Phase 0 or basic Phase 1 work.
+Target markets/payment/store policies, hosting/regions, privacy/retention/voice
+handling, recovery objectives, client support and content-version migration rules
+must be settled before their relevant acceptance gates. Do not fabricate product
+rules to unblock infrastructure work.

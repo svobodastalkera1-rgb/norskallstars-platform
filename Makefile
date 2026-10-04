@@ -15,3 +15,17 @@ security-check:
 
 hooks:
 	$(PYTHON) scripts/install_hooks.py
+
+.PHONY: backend-test backend-audit local-up local-down
+backend-test:
+	$(PYTHON) scripts/phase1.py test
+
+backend-audit:
+	$(PYTHON) scripts/phase1.py audit
+
+local-up:
+	$(PYTHON) scripts/phase1.py init
+	$(PYTHON) scripts/phase1.py up
+
+local-down:
+	$(PYTHON) scripts/phase1.py down

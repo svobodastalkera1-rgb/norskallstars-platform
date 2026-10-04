@@ -1,6 +1,6 @@
 # Infrastructure boundary
 
-Phase 0 documents environments and ownership; it provisions nothing.
+Phase 1 provides local/test Docker definitions; no production resources exist.
 Future definitions live under development/ and deployment/. Select Docker for
 backend packaging and independent durable object storage. Do not create services
 without a runtime to exercise or add production identifiers/secrets here.

@@ -1,39 +1,32 @@
-# Owner GitHub settings checklist
+# GitHub settings and owner actions
 
-No remote setting changes are made by Phase 0 closeout. Read-only authenticated
-checks on 2026-10-03 found main unprotected, no repository rulesets, private
-vulnerability reporting disabled, and no configured deployment environments.
-The Dependabot alerts endpoint explicitly reported alerts disabled.
+After Phase 0, Product Owner confirmed the following manual setup. The ruleset
+was independently checked via read-only API before Phase 1: Protect main is active
+and targets the default branch, with deletion/non-fast-forward restrictions,
+linear history, pull requests and conversation resolution; approvals 0 and
+allowed merge methods Squash/Rebase. No settings are changed by this PR.
 
-The current integration can publish repository content, but returned HTTP 403
-for branch-protection details, vulnerability-alert settings, Actions policies,
-workflow token defaults, CodeQL default setup and secret-scanning alerts. These
-403 responses do not establish that those features are disabled. The repository
-response did not expose security_and_analysis. The owner must verify unknown
-settings using GitHub's UI or suitably scoped credentials; no protections are
-weakened to obtain access. Settings availability can depend on account/plan.
+Completed owner actions:
+- Protect main as above; direct development in main is prohibited.
+- Private vulnerability reporting enabled.
+- Dependency graph and automatic dependency submission enabled.
+- Dependabot alerts, malware alerts and security updates enabled.
+- Secret scanning and push protection enabled.
 
-- [ ] Protect main with a branch rule/ruleset: pull requests, at least one owner
-  review where staffing permits, dismissal/reapproval after substantive changes,
-  resolved conversations, and required passing checks from trusted Actions runs.
-- [ ] After a real hosted run, require **Bootstrap checks** and **Security checks**
-  from Phase 0 CI. Confirm actual check names in GitHub before configuring them.
-  Add backend/Web/Android gates only once implemented and exercised.
-- [ ] Restrict direct pushes, force pushes and branch deletion; minimize bypass
-  roles. Document unavoidable solo-maintainer limitations instead of claiming
-  independent review is always possible.
-- [ ] Enable/verify secret scanning alerts and repository push protection.
-  Keep personal push protection enabled as a supplement, not a substitute.
-- [ ] Enable Dependabot alerts/security updates; review weekly Actions updates.
-  Add ecosystem update jobs and vulnerability scans when real lockfiles exist.
-- [ ] Enable private vulnerability reporting and confirm the SECURITY.md route works.
-- [ ] Configure GitHub Actions read-only default token permissions and allowed
-  actions; require full-SHA pins and protect workflow/security-policy changes.
-- [ ] Enable CodeQL/code scanning for real application sources when available;
-  security findings and severity policy must become actual release gates.
-- [ ] Before future CD, configure isolated staging/production environments and
-  production approval with least-privilege runtime credentials. Do not configure
-  production access just to finish bootstrap.
+Required checks were intentionally left unset until successful real Phase 1 PR
+runs. Product Owner then adds the exact names in ../ci.md, selecting GitHub
+Actions as the provider. Do not require pending Web/Android checks or treat zero
+GitHub-required approvals as permission to bypass the explicit owner phase review.
 
-Retain private screenshots/settings evidence or public-safe confirmation; never
-commit admin credentials, bypass details or internal incident object links.
+CodeQL/application scanning was intentionally deferred until runtime existed.
+Phase 1 prepares the advanced Python workflow with only analysis-upload write
+permission. After reviewing the PR, verify Code scanning setup/results in GitHub;
+use the committed advanced workflow rather than a duplicate default setup. If
+upload is unavailable, enable the supported advanced configuration manually.
+The integration never changes repository settings through an alternate API path.
+
+License stays owner-pending. Course Package handoff stays pending before Phase 2.
+Before future CD, configure isolated staging/production identities and approval;
+there is no production environment or deployment authorization in this phase.
+Token-default/allowed-action policies still deserve owner verification in the UI.
+Keep security evidence public-safe; never publish raw configuration/incident logs.
