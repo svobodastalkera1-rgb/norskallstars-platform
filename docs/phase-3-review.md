@@ -19,7 +19,7 @@ unchanged. Encrypted transactional mail queue has bounded private maintenance; n
 HTTP operator jobs, course import/publication or media delivery are introduced.
 No private corpus/provider credentials/user data or live external mail is used.
 
-Local evidence (2026-10-04): 164 backend tests passed, including 82 new Identity
+Local evidence (2026-10-04): 165 backend tests passed, including 83 new Identity
 unit/integration/security tests and all 82 previous infrastructure/course/storage
 tests. Full PostgreSQL migrations/drift/downgrade/re-upgrade, identity rollback,
 crypto/provider failures, refresh replay/concurrency, IDOR, deletion/proof binding,
@@ -65,3 +65,9 @@ including evidence-only documentation updates, is separately checked and reporte
 in the PR; no inherited run substitutes for final-head acceptance. Review real Google/
 SMTP staging setup, client persistence and deferred privacy/operations/storage gates
 before their applicable milestones. Phase 3 remains awaiting Product Owner review.
+
+Final contract/security refinement declares the actually required client header
+in OpenAPI (not an authentication assertion) and filters session/proof ownership
+before locking. A deterministic PostgreSQL test first reproduced a cross-account
+revocation deadlock, then passed with both requests rejected and sessions intact.
+The full regression suite is rerun; final-head hosted evidence belongs to the PR.

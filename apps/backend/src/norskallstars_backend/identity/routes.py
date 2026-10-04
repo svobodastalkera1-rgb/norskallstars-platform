@@ -3,10 +3,10 @@
 import json
 from collections.abc import Callable, Coroutine
 from dataclasses import asdict
-from typing import Annotated, Any, cast
+from typing import Annotated, Any, Literal, cast
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Header, Request
 from fastapi.responses import JSONResponse
 from fastapi.routing import APIRoute
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -83,6 +83,9 @@ async def principal(
 
 
 PrincipalDependency = Annotated[Principal, Depends(principal)]
+ClientHeader = Annotated[
+    Literal["web", "android", "operator"], Header(alias="X-NorskAllstars-Client")
+]
 
 
 def strict_pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
@@ -149,48 +152,60 @@ async def limited(request: Request, operation: str, email: str = "") -> Identity
 
 
 @router.post("/register", status_code=202, response_model=Accepted)
-async def register(data: inputs.Registration, request: Request) -> dict[str, str]:
+async def register(
+    client: ClientHeader, data: inputs.Registration, request: Request
+) -> dict[str, str]:
     service = await limited(request, "register", data.email)
     await service.register(data.email, data.password)
     return safe_response()
 
 
 @router.post("/verification/request", status_code=202, response_model=Accepted)
-async def verification_request(data: inputs.EmailRequest, request: Request) -> dict[str, str]:
+async def verification_request(
+    client: ClientHeader, data: inputs.EmailRequest, request: Request
+) -> dict[str, str]:
     service = await limited(request, "verify_request", data.email)
     await service.email_request(data.email, "verify")
     return safe_response()
 
 
 @router.post("/verification/confirm", response_model=Accepted)
-async def verification_confirm(data: inputs.TokenRequest, request: Request) -> dict[str, str]:
+async def verification_confirm(
+    client: ClientHeader, data: inputs.TokenRequest, request: Request
+) -> dict[str, str]:
     service = await limited(request, "verify_confirm")
     await service.verify_email(data.token.get_secret_value())
     return safe_response()
 
 
 @router.post("/password/recovery", status_code=202, response_model=Accepted)
-async def recovery(data: inputs.EmailRequest, request: Request) -> dict[str, str]:
+async def recovery(
+    client: ClientHeader, data: inputs.EmailRequest, request: Request
+) -> dict[str, str]:
     service = await limited(request, "recovery", data.email)
     await service.email_request(data.email, "reset")
     return safe_response()
 
 
 @router.post("/password/reset", response_model=Accepted)
-async def reset(data: inputs.PasswordReset, request: Request) -> dict[str, str]:
+async def reset(
+    client: ClientHeader, data: inputs.PasswordReset, request: Request
+) -> dict[str, str]:
     service = await limited(request, "reset")
     await service.reset_password(data.token.get_secret_value(), data.password)
     return safe_response()
 
 
 @router.post("/sign-in", response_model=SessionTokens)
-async def sign_in(data: inputs.SignIn, request: Request) -> dict[str, object]:
+async def sign_in(client: ClientHeader, data: inputs.SignIn, request: Request) -> dict[str, object]:
     service = await limited(request, "sign_in", data.email)
     return asdict(await service.sign_in(data.email, data.password, data.device_label))
 
 
 @router.post("/sessions/refresh", response_model=SessionTokens)
-async def refresh(data: inputs.Refresh, request: Request) -> dict[str, object]:
+async def refresh(
+    client: ClientHeader, data: inputs.Refresh, request: Request
+) -> dict[str, object]:
     service = await limited(request, "refresh")
     return asdict(await service.refresh(data.refresh_token.get_secret_value()))
 
@@ -202,7 +217,7 @@ async def me(request: Request, actor: PrincipalDependency) -> dict[str, object]:
 
 @router.patch("/me/preferences", response_model=Accepted)
 async def preferences(
-    data: inputs.Preferences, request: Request, actor: PrincipalDependency
+    client: ClientHeader, data: inputs.Preferences, request: Request, actor: PrincipalDependency
 ) -> dict[str, str]:
     service = await limited(request, "preferences")
     await service.preferences(actor, data.interface_language)
@@ -216,7 +231,7 @@ async def sessions(request: Request, actor: PrincipalDependency) -> list[dict[st
 
 @router.delete("/sessions/{session_id}", response_model=Accepted)
 async def revoke_session(
-    session_id: UUID, request: Request, actor: PrincipalDependency
+    client: ClientHeader, session_id: UUID, request: Request, actor: PrincipalDependency
 ) -> dict[str, str]:
     service = await limited(request, "revoke")
     await service.revoke(actor, session_id)
@@ -224,20 +239,26 @@ async def revoke_session(
 
 
 @router.post("/sessions/revoke-all", response_model=Accepted)
-async def revoke_all(request: Request, actor: PrincipalDependency) -> dict[str, str]:
+async def revoke_all(
+    client: ClientHeader, request: Request, actor: PrincipalDependency
+) -> dict[str, str]:
     service = await limited(request, "revoke_all")
     await service.revoke(actor, None)
     return safe_response()
 
 
 @router.post("/google/challenge", response_model=GoogleChallengeView)
-async def challenge(data: inputs.GoogleChallenge, request: Request) -> dict[str, str]:
+async def challenge(
+    client: ClientHeader, data: inputs.GoogleChallenge, request: Request
+) -> dict[str, str]:
     service = await limited(request, "google_challenge")
     return await service.challenge(data.client_id)
 
 
 @router.post("/google/sign-in", response_model=SessionTokens | VerificationRequired)
-async def google_sign_in(data: inputs.GoogleSignIn, request: Request) -> dict[str, object]:
+async def google_sign_in(
+    client: ClientHeader, data: inputs.GoogleSignIn, request: Request
+) -> dict[str, object]:
     service = await limited(request, "google_sign_in")
     session = await service.google_sign_in(
         data.challenge.get_secret_value(), data.id_token.get_secret_value(), data.device_label
@@ -247,7 +268,10 @@ async def google_sign_in(data: inputs.GoogleSignIn, request: Request) -> dict[st
 
 @router.post("/reauthenticate", response_model=ReauthenticationView)
 async def reauthenticate(
-    data: inputs.Reauthentication, request: Request, actor: PrincipalDependency
+    client: ClientHeader,
+    data: inputs.Reauthentication,
+    request: Request,
+    actor: PrincipalDependency,
 ) -> dict[str, object]:
     service = await limited(request, "reauthenticate")
     google = (
@@ -261,7 +285,7 @@ async def reauthenticate(
 
 @router.post("/password/change", response_model=Accepted)
 async def change_password(
-    data: inputs.PasswordChange, request: Request, actor: PrincipalDependency
+    client: ClientHeader, data: inputs.PasswordChange, request: Request, actor: PrincipalDependency
 ) -> dict[str, str]:
     service = await limited(request, "password_change")
     await service.change_password(
@@ -272,7 +296,7 @@ async def change_password(
 
 @router.post("/me/google", response_model=Accepted)
 async def link_google(
-    data: inputs.GoogleLink, request: Request, actor: PrincipalDependency
+    client: ClientHeader, data: inputs.GoogleLink, request: Request, actor: PrincipalDependency
 ) -> dict[str, str]:
     service = await limited(request, "google_link")
     await service.link_google(
@@ -286,7 +310,10 @@ async def link_google(
 
 @router.delete("/me", response_model=Accepted)
 async def delete_account(
-    data: inputs.AuthorizedChange, request: Request, actor: PrincipalDependency
+    client: ClientHeader,
+    data: inputs.AuthorizedChange,
+    request: Request,
+    actor: PrincipalDependency,
 ) -> dict[str, str]:
     service = await limited(request, "delete")
     await service.delete_account(actor, data.reauthentication_token.get_secret_value())

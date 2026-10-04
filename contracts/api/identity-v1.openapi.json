@@ -585,6 +585,22 @@
     "/api/v1/identity/google/challenge": {
       "post": {
         "operationId": "challenge_api_v1_identity_google_challenge_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -746,6 +762,22 @@
     "/api/v1/identity/google/sign-in": {
       "post": {
         "operationId": "google_sign_in_api_v1_identity_google_sign_in_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -915,6 +947,22 @@
     "/api/v1/identity/me": {
       "delete": {
         "operationId": "delete_account_api_v1_identity_me_delete",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1235,6 +1283,22 @@
     "/api/v1/identity/me/google": {
       "post": {
         "operationId": "link_google_api_v1_identity_me_google_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1401,6 +1465,22 @@
     "/api/v1/identity/me/preferences": {
       "patch": {
         "operationId": "preferences_api_v1_identity_me_preferences_patch",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1567,6 +1647,22 @@
     "/api/v1/identity/password/change": {
       "post": {
         "operationId": "change_password_api_v1_identity_password_change_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1733,6 +1829,22 @@
     "/api/v1/identity/password/recovery": {
       "post": {
         "operationId": "recovery_api_v1_identity_password_recovery_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1894,6 +2006,22 @@
     "/api/v1/identity/password/reset": {
       "post": {
         "operationId": "reset_api_v1_identity_password_reset_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2055,6 +2183,22 @@
     "/api/v1/identity/reauthenticate": {
       "post": {
         "operationId": "reauthenticate_api_v1_identity_reauthenticate_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2221,6 +2365,22 @@
     "/api/v1/identity/register": {
       "post": {
         "operationId": "register_api_v1_identity_register_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2542,6 +2702,22 @@
     "/api/v1/identity/sessions/refresh": {
       "post": {
         "operationId": "refresh_api_v1_identity_sessions_refresh_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2703,6 +2879,22 @@
     "/api/v1/identity/sessions/revoke-all": {
       "post": {
         "operationId": "revoke_all_api_v1_identity_sessions_revoke_all_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -2869,6 +3061,20 @@
               "title": "Session Id",
               "type": "string"
             }
+          },
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -3027,6 +3233,22 @@
     "/api/v1/identity/sign-in": {
       "post": {
         "operationId": "sign_in_api_v1_identity_sign_in_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3188,6 +3410,22 @@
     "/api/v1/identity/verification/confirm": {
       "post": {
         "operationId": "verification_confirm_api_v1_identity_verification_confirm_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3349,6 +3587,22 @@
     "/api/v1/identity/verification/request": {
       "post": {
         "operationId": "verification_request_api_v1_identity_verification_request_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {

@@ -247,8 +247,14 @@ class Identity:
         self, db: AsyncSession, principal: Principal
     ) -> tuple[Account, DeviceSession]:
         account = await db.get(Account, principal.account_id, with_for_update=True)
-        session = await db.get(
-            DeviceSession, principal.session_id, with_for_update=True, populate_existing=True
+        session = await db.scalar(
+            select(DeviceSession)
+            .where(
+                DeviceSession.id == principal.session_id,
+                DeviceSession.account_id == principal.account_id,
+            )
+            .with_for_update()
+            .execution_options(populate_existing=True)
         )
         if account is None or session is None or session.account_id != principal.account_id:
             raise IdentityError()
@@ -391,7 +397,14 @@ class Identity:
             if session_id is None:
                 await self.revoke_all(db, principal.account_id)
             else:
-                session = await db.get(DeviceSession, session_id, with_for_update=True)
+                session = await db.scalar(
+                    select(DeviceSession)
+                    .where(
+                        DeviceSession.id == session_id,
+                        DeviceSession.account_id == principal.account_id,
+                    )
+                    .with_for_update()
+                )
                 if session is None or session.account_id != principal.account_id:
                     raise IdentityError(404, "not_found")
                 session.revoked_at = now()
@@ -504,8 +517,15 @@ class Identity:
     async def consume_reauth(
         self, db: AsyncSession, principal: Principal, raw: str, purpose: str
     ) -> None:
-        credential = await db.get(
-            OneTimeCredential, self.digest("reauth", raw), with_for_update=True
+        credential = await db.scalar(
+            select(OneTimeCredential)
+            .where(
+                OneTimeCredential.digest == self.digest("reauth", raw),
+                OneTimeCredential.account_id == principal.account_id,
+                OneTimeCredential.session_id == principal.session_id,
+                OneTimeCredential.purpose == purpose,
+            )
+            .with_for_update()
         )
         if (
             credential is None

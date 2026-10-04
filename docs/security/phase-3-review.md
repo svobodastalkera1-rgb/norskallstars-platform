@@ -11,7 +11,7 @@ unchanged. Phase 3 derives from the production roadmap, not provisional pilot da
 | Password compromise/CPU exhaustion | Argon2id; NFC, 15–128 length and initial blocklist; two workers/twenty slots retained through cancellation | Real hashes/verification, invalid inputs, cancellation/queue regression |
 | Enumeration/brute force/mail spam | Equal password work, generic signup/recovery/resend responses; persisted HMAC IP/account/global buckets; no raw addresses | Unknown/unverified/duplicate responses; persistent 429 and log redaction tests |
 | Bearer theft/replay | Hash-only tokens, short access, rotating refresh, replay commits revocation; absolute/idle/rotation/device bounds | Rotation/replay, concurrent rotation, access/refresh expiry and ten-device tests |
-| Ownership/privilege bypass | Server session principal, account-first row locks, own-session checks and opaque 404; no roles or account override | IDOR/session isolation; role rejection; no course/admin routes |
+| Ownership/privilege bypass | Server session principal, account-first row locks, ownership filters before row locks and opaque 404; no roles or account override | IDOR/session isolation and cross-account deadlock regression; role rejection; no course/admin routes |
 | Google forgery/SSRF/provider merge | Fixed verified HTTPS JWKS, no redirects/proxies; bounded key cache/fetch; RS256, audience/issuer/expiry/freshness/azp/verified-email/subject/nonce | Actual RSA crypto; wrong signature/algorithm/claims; unknown keys/cooldown/resource tests; nonce replay |
 | Account linking takeover | Provider subject identity; no email auto-merge; link needs fresh own-session proof; third-party email locally verified | Existing email conflict, provider ownership/conflict, Google-only verification/recovery and reauth tests |
 | Browser CSRF/input ambiguity | Bearer-only, no ambient cookies; explicit origins, HTTPS in staging/production, custom mutation header, JSON, no URL tokens; 32 KiB/depth/node/duplicate/header/field limits | Origin/cookie/header/content-type/query/oversize/deep/duplicate/role tests; generic errors |
@@ -48,3 +48,9 @@ limitation. Identity adds no production/remote asset storage or media route. Bef
 any production import/media/storage path: mandatory inventory reconciliation, active
 import protection, grace/reference re-check, auditable deletion, retention, retries
 and race/failure tests remain release gates. Never blindly delete after ambiguous commit.
+
+Final security review reproduced a cross-account session-revocation deadlock in
+an adversarial two-transaction test. Ownership filters now precede row locking
+for session/proof lookups; both unauthorized requests return 404 without locking
+foreign sessions or revoking either account. This was fixed within Phase 3 before
+owner review; the failing regression was demonstrated against the earlier code.

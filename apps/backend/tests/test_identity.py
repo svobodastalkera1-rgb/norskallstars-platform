@@ -1187,6 +1187,11 @@ def test_public_openapi_matches_actual_validated_routes():
     assert committed.read_bytes() == generated
     document = json.loads(generated)
     assert len(document["paths"]) == 17
+    for methods in document["paths"].values():
+        for method, operation in methods.items():
+            if method in ("post", "patch", "delete"):
+                headers = [p for p in operation.get("parameters", []) if p["in"] == "header"]
+                assert any(p["name"] == "X-NorskAllstars-Client" and p["required"] for p in headers)
     assert document["paths"]["/api/v1/identity/me"]["get"]["security"] == [{"HTTPBearer": []}]
     assert "security" not in document["paths"]["/api/v1/identity/register"]["post"]
     properties = document["components"]["schemas"]["AccountView"]["properties"]
@@ -1246,3 +1251,36 @@ def test_deployed_identity_rejects_cleartext_and_raw_forwarding(settings, tmp_pa
             response = client.get("/api/v1/identity/me", headers=headers)
             assert response.status_code == 400
             assert response.json()["error"]["code"] == "request_rejected"
+
+
+@pytest.mark.integration
+async def test_cross_account_revocation_never_locks_foreign_session(
+    identity_runtime, password, monkeypatch
+):
+    service, client = identity_runtime
+    one = await verified(service, client, password)
+    two = await verified(service, client, password, "other@example.com")
+    actors = [await service.authenticate(s["access_token"]) for s in (one, two)]
+    barrier = asyncio.Event()
+    acquired = 0
+    original = service.locked_principal
+
+    async def both_locked(db, principal):
+        nonlocal acquired
+        value = await original(db, principal)
+        acquired += 1
+        if acquired == 2:
+            barrier.set()
+        await asyncio.wait_for(barrier.wait(), timeout=2)
+        return value
+
+    monkeypatch.setattr(service, "locked_principal", both_locked)
+    results = await asyncio.gather(
+        service.revoke(actors[0], actors[1].session_id),
+        service.revoke(actors[1], actors[0].session_id),
+        return_exceptions=True,
+    )
+    assert all(isinstance(result, IdentityError) and result.status == 404 for result in results)
+    monkeypatch.setattr(service, "locked_principal", original)
+    assert await service.authenticate(one["access_token"]) == actors[0]
+    assert await service.authenticate(two["access_token"]) == actors[1]
