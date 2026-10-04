@@ -1,5 +1,6 @@
 """Local-only orchestration with generated ignored credentials, never production inputs."""
 import argparse
+import base64
 import json
 import os
 from pathlib import Path
@@ -8,6 +9,7 @@ import shutil
 import subprocess
 import sys
 import urllib.request
+import urllib.error
 
 ROOT = Path(__file__).resolve().parents[1]
 ENV_FILE = ROOT / ".cache" / "phase1.env"
@@ -61,7 +63,7 @@ def uv(*args: str) -> list[str]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("init", "up", "down", "test", "migrate", "smoke", "audit"))
+    parser.add_argument("command", choices=("init", "up", "down", "test", "migrate", "smoke", "audit", "mail", "identity-cleanup"))
     args = parser.parse_args()
     if args.command == "init":
         ENV_FILE.parent.mkdir(exist_ok=True)
@@ -69,6 +71,16 @@ def main() -> None:
             descriptor = os.open(ENV_FILE, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
             with os.fdopen(descriptor, "w") as stream:
                 stream.write("NORSKALLSTARS_DATABASE_PASSWORD=" + secrets.token_urlsafe(36) + "\n")
+        values = local_values()
+        additions = {
+            "NORSKALLSTARS_IDENTITY_PEPPER": secrets.token_urlsafe(36),
+            "NORSKALLSTARS_IDENTITY_MAIL_KEY": base64.urlsafe_b64encode(secrets.token_bytes(32)).decode(),
+        }
+        with ENV_FILE.open("a") as stream:
+            for key, value in additions.items():
+                if key not in values:
+                    stream.write(key + "=" + value + "\n")
+        ENV_FILE.chmod(0o600)
         print("Local credentials ready in ignored .cache/phase1.env (values not printed)")
     elif args.command == "up":
         compose("up", "-d", "--wait", "database")
@@ -89,6 +101,13 @@ def main() -> None:
         run(uv("alembic", "-c", "apps/backend/alembic.ini", "upgrade", "head"), env=environment(True))
         run(uv("pytest", "-c", "apps/backend/pyproject.toml", "apps/backend/tests"), env=environment(True))
         subprocess.run(uv("python", "-m", "unittest", "discover", "-s", "qa/automated", "-p", "test_course_package.py", "-v"), cwd=ROOT / "contracts/course-package/upstream", env=environment(True), check=True)
+    elif args.command in ("mail", "identity-cleanup"):
+        command = ["python", "-m", "norskallstars_backend.identity.cli"]
+        if args.command == "mail":
+            command.extend(["mail", "--private-directory", str(ROOT / ".cache/identity-mail")])
+        else:
+            command.append("cleanup")
+        run(uv(*command), env=environment())
     elif args.command == "audit":
         requirements = ROOT / ".cache" / "backend-audit.txt"
         requirements.parent.mkdir(exist_ok=True)
@@ -101,12 +120,22 @@ def main() -> None:
             with urllib.request.urlopen("http://127.0.0.1:8000/health/" + endpoint, timeout=5) as response:
                 assert response.status == 200 and json.load(response) == {"status": expected}
                 assert response.headers.get("X-Request-ID")
+        for path, expected in [("/api/v1/identity/me", 401), ("/api/v1/identity/register", 422)]:
+            payload = b"{}" if path.endswith("register") else None
+            request = urllib.request.Request("http://127.0.0.1:8000" + path, data=payload,
+                headers={"Content-Type": "application/json", "X-NorskAllstars-Client": "operator"})
+            try:
+                urllib.request.urlopen(request, timeout=5)
+                raise AssertionError("Identity boundary unexpectedly accepted request")
+            except urllib.error.HTTPError as response:
+                assert response.code == expected
+                assert json.load(response)["error"]["request_id"]
         runtime = json.loads(compose("config", "--format", "json", capture=True).stdout)["services"]["backend"]
         assert runtime["read_only"] and runtime["cap_drop"] == ["ALL"]
         uid = compose("exec", "-T", "backend", "id", "-u", capture=True).stdout.strip()
         assert uid == "10001"
         compose("exec", "-T", "backend", "python", "-c", "from norskallstars_backend.course_packages.validation import schema_registry; assert len(schema_registry()[0]) == 7")
-        print("PASS: real container liveness/readiness, correlation ID, non-root/read-only runtime and packaged contract schemas")
+        print("PASS: real container liveness/readiness, correlation ID, non-root/read-only runtime and packaged contract schemas/identity boundary")
 
 
 if __name__ == "__main__":

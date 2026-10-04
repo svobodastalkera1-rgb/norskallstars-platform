@@ -4,11 +4,12 @@ NorskAllstars Platform is being built for learning Norwegian Bokmål through
 comprehensible input and the Natural Method. The production direction includes
 a responsive Web client and a native Android client backed by the same services.
 
-**Status: Phase 0 and Phase 1 CLOSED/ACCEPTED; Phase 2 authorized, prepared for review.**
+**Status: Phases 0–2 CLOSED/ACCEPTED; Phase 3 Identity implemented on a feature branch for owner review.**
 The backend supplies infrastructure plus generic Course Package validation,
 immutable staged release import and explicit privileged publication transitions.
-Learning functions, accounts, Web/Android clients and production deployment remain
-unimplemented. Production v1.0 remains the goal; see the [complete roadmap](ROADMAP.md).
+Phase 3 adds shared accounts, email/password and Google proof validation,
+verification/recovery, revocable sessions, preferences and self-service deletion.
+Learning functions, Web/Android clients and production deployment remain unimplemented. Production v1.0 remains the goal; see the [complete roadmap](ROADMAP.md).
 
 ## Architecture direction
 
@@ -20,7 +21,7 @@ infrastructure is provisioned.
 
 | Location | Responsibility | Current state |
 | --- | --- | --- |
-| apps/backend/ | Backend infrastructure; later domain modules | Infrastructure and course release integration/tests |
+| apps/backend/ | Backend infrastructure; later domain modules | Infrastructure, course integration and identity/tests |
 | apps/web/ | Responsive learning client | Boundary documentation |
 | apps/android/ | Native client and later offline capability | Boundary documentation |
 | contracts/ | Public API and Course Package interfaces | Reviewed Contract v1 and synthetic-only fixture |
@@ -81,6 +82,10 @@ See [SECURITY.md](SECURITY.md), [CI status](docs/ci.md), and the
 
 Start a new engineering session with [AGENTS.md](AGENTS.md),
 [PROJECT_STATE.md](PROJECT_STATE.md), and [TASKS.md](TASKS.md).
+
+Identity API/security/limits: [identity architecture](docs/architecture/identity.md)
+and [threat review](docs/security/phase-3-review.md). Live Google/SMTP configuration
+and client flows still require their acceptance gates. No real emails are sent by CI.
 
 Receiving/integration details: [receiving workflow](docs/corpus-integration/receiving.md)
 and [integration architecture](docs/architecture/course-integration.md).

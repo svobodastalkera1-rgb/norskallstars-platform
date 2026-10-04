@@ -1,18 +1,18 @@
-# Backend infrastructure
+# NorskAllstars backend
 
-Phase 1 implements an infrastructure-only FastAPI modular-monolith foundation.
-Python 3.13.16, async SQLAlchemy/psycopg, PostgreSQL 17.11 and Alembic are pinned
-through pyproject.toml, uv.lock and image digests. No product domain tables or
-business endpoints exist. Only /health/live and /health/ready are delivered.
+Python/FastAPI modular monolith; Python 3.13.16, SQLAlchemy/psycopg, PostgreSQL 17.11
+and Alembic, locked with uv and pinned image digests. Phases 1/2 are owner-accepted;
+Phase 3 Identity is prepared for review. No learning, Web/Android or deployment.
 
-src/norskallstars_backend contains the factory, typed settings, pool/transaction
-boundary, safe JSON logging, request middleware and object-storage interface.
-migrations tracks an empty baseline; tests exercises runtime and isolated real
-PostgreSQL behavior. There is no Redis, worker, importer or application client.
+src/norskallstars_backend contains infrastructure, course_packages and identity.
+Health endpoints remain minimal; `/api/v1/identity` is the shared account API.
+Course import/publication remains operator-side, with no HTTP/admin privilege grant.
+Migration 0003_identity follows the accepted course-release schema; no course changes.
+Redis is absent. Encrypted transactional mail outbox has private bounded maintenance,
+without public job endpoints. Deterministic tests use synthetic identities and data.
 
-See [runtime setup](../../docs/development.md),
-[runtime architecture](../../docs/architecture/backend-runtime.md), and
-[Phase 1 review](../../docs/phase-1-review.md).
-
-Phase 1 is owner-accepted. Phase 2 course release validation/import/operator
-transitions are described in docs/architecture/course-integration.md from root.
+See [development](../../docs/development.md),
+[identity](../../docs/architecture/identity.md),
+[course integration](../../docs/architecture/course-integration.md),
+[security review](../../docs/security/phase-3-review.md) and
+[Phase 3 evidence](../../docs/phase-3-review.md).

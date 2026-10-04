@@ -41,6 +41,35 @@ class Settings(BaseSettings):
     storage_root: Path | None = None
     storage_max_bytes: int = Field(default=10_485_760, ge=1, le=104_857_600)
 
+    identity_pepper: SecretStr
+    identity_mail_key: SecretStr
+    identity_public_origin: str = "http://localhost:3000"
+    google_client_ids: list[str] = []
+    mail_transport: Literal["outbox", "smtp"] = "outbox"
+    smtp_host: str | None = Field(default=None, pattern=r"^[A-Za-z0-9][A-Za-z0-9.-]{0,252}$")
+    smtp_port: int = Field(default=465, ge=1, le=65535)
+    smtp_username: SecretStr | None = None
+    smtp_password: SecretStr | None = None
+    mail_sender: str | None = None
+
+    @field_validator("identity_pepper")
+    @classmethod
+    def identity_key_strength(cls, value: SecretStr) -> SecretStr:
+        if len(value.get_secret_value()) < 32:
+            raise ValueError("Identity pepper must contain at least 32 characters")
+        return value
+
+    @field_validator("identity_mail_key")
+    @classmethod
+    def valid_mail_key(cls, value: SecretStr) -> SecretStr:
+        from cryptography.fernet import Fernet
+
+        try:
+            Fernet(value.get_secret_value().encode())
+        except (ValueError, TypeError):
+            raise ValueError("An explicit Fernet key is required") from None
+        return value
+
     @field_validator("env", mode="before")
     @classmethod
     def environment_alias(cls, value: object) -> object:
@@ -60,7 +89,7 @@ class Settings(BaseSettings):
             for host in self.allowed_hosts
         ):
             raise ValueError("Explicit allowed hosts are required; wildcards are forbidden")
-        for origin in self.cors_origins:
+        for origin in [*self.cors_origins, self.identity_public_origin]:
             from urllib.parse import urlsplit
 
             parsed = urlsplit(origin)
@@ -75,6 +104,30 @@ class Settings(BaseSettings):
                 or "*" in origin
             ):
                 raise ValueError("CORS origins must be explicit HTTP(S) origins")
+        if len(self.google_client_ids) > 8 or len(set(self.google_client_ids)) != len(
+            self.google_client_ids
+        ):
+            raise ValueError("Explicit unique Google audiences are required")
+        if any(
+            not client.endswith(".apps.googleusercontent.com")
+            or len(client) > 255
+            or not client.replace("-", "").replace(".", "").isalnum()
+            for client in self.google_client_ids
+        ):
+            raise ValueError("Invalid Google client identifier")
+        if self.mail_transport == "smtp":
+            from email_validator import EmailNotValidError, validate_email
+
+            if not all((self.smtp_host, self.smtp_username, self.smtp_password, self.mail_sender)):
+                raise ValueError("Authenticated TLS SMTP configuration is required")
+            try:
+                validate_email(self.mail_sender or "", check_deliverability=False)
+            except EmailNotValidError:
+                raise ValueError("Invalid mail sender") from None
+            if not self.smtp_username or not self.smtp_username.get_secret_value().strip():
+                raise ValueError("SMTP username is required")
+            if not self.smtp_password or not self.smtp_password.get_secret_value():
+                raise ValueError("SMTP password is required")
         if self.storage_backend == "local" and (
             self.storage_root is None or not self.storage_root.is_absolute()
         ):
@@ -92,6 +145,10 @@ class Settings(BaseSettings):
                 raise ValueError("Debug logging and local asset storage are development-only")
             if any(host in ("localhost", "127.0.0.1", "testserver") for host in self.allowed_hosts):
                 raise ValueError("Staging/production require explicit service hosts")
+            if self.mail_transport != "smtp" or not self.google_client_ids:
+                raise ValueError("Staging/production require SMTP and explicit Google audiences")
+            if not self.identity_public_origin.startswith("https://"):
+                raise ValueError("Staging/production identity links require HTTPS")
             if any(not origin.startswith("https://") for origin in self.cors_origins):
                 raise ValueError("Staging/production CORS requires HTTPS")
         return self

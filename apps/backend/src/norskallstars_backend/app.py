@@ -1,4 +1,4 @@
-"""Infrastructure-only application factory; no business endpoints."""
+"""Application factory: infrastructure and versioned identity, no course HTTP operations."""
 
 import asyncio
 import logging
@@ -14,6 +14,10 @@ from starlette.responses import JSONResponse
 
 from norskallstars_backend.config import Environment, Settings, load_settings
 from norskallstars_backend.database import Database
+from norskallstars_backend.identity.google import GoogleVerificationError, GoogleVerifier
+from norskallstars_backend.identity.routes import identity_error, router
+from norskallstars_backend.identity.security import PasswordCapacityError
+from norskallstars_backend.identity.service import Identity, IdentityError
 from norskallstars_backend.logging import configure_logging, exception_fields, request_id
 from norskallstars_backend.middleware import RequestBoundary
 from norskallstars_backend.storage import LocalObjectStorage, ObjectStorage
@@ -50,14 +54,31 @@ def create_app(settings: Settings | None = None, database: Database | None = Non
         openapi_url="/openapi.json" if development else None,
     )
     app.state.database, app.state.storage = database, storage
+    app.state.identity = Identity(settings, database, GoogleVerifier())
+    app.include_router(router)
+    app.add_exception_handler(IdentityError, identity_error)
+
+    @app.exception_handler(PasswordCapacityError)
+    async def password_capacity(request: Request, exc: PasswordCapacityError) -> JSONResponse:
+        return await identity_error(request, IdentityError(503, "service_unavailable"))
+
+    @app.exception_handler(GoogleVerificationError)
+    async def google_error(request: Request, exc: GoogleVerificationError) -> JSONResponse:
+        return await identity_error(request, IdentityError())
+
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.allowed_hosts)
     if settings.cors_origins:
         app.add_middleware(
             CORSMiddleware,
             allow_origins=settings.cors_origins,
             allow_credentials=False,
-            allow_methods=["GET"],
-            allow_headers=["X-Request-ID"],
+            allow_methods=["GET", "POST", "PATCH", "DELETE"],
+            allow_headers=[
+                "X-Request-ID",
+                "Authorization",
+                "Content-Type",
+                "X-NorskAllstars-Client",
+            ],
         )
     app.add_middleware(RequestBoundary, settings=settings)
 

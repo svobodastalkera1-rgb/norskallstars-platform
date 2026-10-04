@@ -18,12 +18,13 @@ python3 scripts/phase1.py up
 python3 scripts/phase1.py smoke
 ```
 
-init creates an ignored mode-600 password file without displaying values. up
+init creates/extends an ignored mode-600 database/identity key file without displaying values. up
 starts PostgreSQL, builds the backend, runs an explicit migration job, then waits
 for backend readiness. Ports bind only to localhost: API 8000, PostgreSQL 5433.
-The default local environment is synthetic/empty and has no accounts or lessons.
+The default local environment has no real users or lessons; use synthetic accounts only.
 Health endpoints are http://127.0.0.1:8000/health/live and /health/ready; local
-OpenAPI docs are available at /docs. There are no business routes.
+OpenAPI docs are available at /docs. Phase 3 exposes the documented Identity API;
+no course import/publication or media HTTP routes exist.
 
 Use python3 scripts/phase1.py down to stop services; volumes are preserved.
 Never casually delete generated credentials while retaining a database volume:
@@ -89,3 +90,34 @@ the same committed checksum. Existing unrelated hooks/hooksPath are never replac
 Backend filesystem-adapter tests run on Linux/POSIX; Docker Desktop uses Linux
 containers. On non-POSIX hosts protect ignored credential files with appropriate
 user-only filesystem permissions; chmod alone does not establish Windows ACLs.
+
+## Phase 3 identity development
+
+Re-run `python3 scripts/phase1.py init` after updating an older checkout: it preserves
+existing credentials and adds independent identity pepper/mail encryption keys.
+Nothing prints their values. Do not commit generated keys or local email files.
+Local transport defaults to encrypted DB outbox. A private mailbox is optional:
+
+```sh
+python3 scripts/phase1.py mail
+python3 scripts/phase1.py identity-cleanup
+```
+
+Read local `.eml` files privately; the one-use token is in a URL fragment and must
+be submitted as JSON to verification/reset API. There is no Web account UI yet.
+Delete local mailbox files after testing; they are mode 600 and never CI artifacts.
+The helper always targets the generated local environment, not inherited production
+settings. The command manages only expired identity tokens/mail/rate/session rows;
+it does not implement the deferred course object reconciliation gate.
+
+Identity mutations use JSON and `X-NorskAllstars-Client: operator`, `web` or `android`.
+That header is request shape, not authorization. Protected routes require the actual
+opaque bearer session; cookies/URL tokens and unapproved origins are rejected.
+No real emails are sent by tests. Native/Web Google audiences and authenticated
+TLS SMTP must be configured privately for staging/production; provider checks there
+remain owner actions, not simulated CI acceptance. See [identity architecture](architecture/identity.md)
+for endpoints, lifetimes, transaction behavior and exact limits.
+
+```sh
+uv run --locked --project apps/backend python -m norskallstars_backend.identity.openapi contracts/api/identity-v1.openapi.json --check
+```

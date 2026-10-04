@@ -16,7 +16,18 @@ CONFIG = str(Path(__file__).resolve().parents[1] / "alembic.ini")
 
 async def test_real_postgresql_and_session_commit_rollback(database):
     assert await database.ready()
-    assert set(Base.metadata.tables) == {"course_releases", "release_assets", "release_events"}
+    assert set(Base.metadata.tables) == {
+        "course_releases",
+        "release_assets",
+        "release_events",
+        "identity_accounts",
+        "identity_google",
+        "identity_sessions",
+        "identity_refresh_credentials",
+        "identity_one_time_credentials",
+        "identity_mail_outbox",
+        "identity_rate_buckets",
+    }
     async with database.transaction() as session:
         # Temporary table exists only on this isolated test session/connection.
         await session.execute(text("CREATE TEMP TABLE phase1_probe (value INTEGER) ON COMMIT DROP"))

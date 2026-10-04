@@ -180,6 +180,13 @@ def test_production_has_no_debug_docs_and_sets_security_headers(settings, tmp_pa
                 "database_sslmode": "verify-full",
                 "database_sslrootcert": ca,
                 "allowed_hosts": ["api.example.invalid"],
+                "identity_public_origin": "https://app.example.invalid",
+                "google_client_ids": ["synthetic.apps.googleusercontent.com"],
+                "mail_transport": "smtp",
+                "smtp_host": "smtp.example.invalid",
+                "smtp_username": "synthetic",
+                "smtp_password": settings.database_password,
+                "mail_sender": "noreply@example.com",
             }
         )
     )

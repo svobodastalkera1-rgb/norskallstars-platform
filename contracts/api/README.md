@@ -1,5 +1,7 @@
 # Platform API contracts
 
-Reserved for reviewed OpenAPI and client compatibility artifacts once endpoints
-exist. No invented API or generated client is provided in Phase 0. See ADR 0003
-and docs/api/README.md. These contracts do not redefine upstream Course Package v1.
+[identity-v1.openapi.json](identity-v1.openapi.json) is generated from Phase 3
+FastAPI routes/validated DTOs; Backend quality checks exact drift. Compatibility
+changes require explicit review under ADR 0003. No generated client/runtime is
+introduced here. See [identity API](../../docs/architecture/identity.md).
+These contracts do not redefine upstream Course Package v1.

@@ -25,7 +25,7 @@ class BoundaryTests(unittest.TestCase):
                      'norwegian-course/schema.json', 'backups/data.sql',
                      '.env.production', 'apps/backend/.env', 'signing/release.jks',
                      'exports/users.csv', 'production-assets/image.png', '.cache/prod.env',
-                     '.venv/credentials.json']:
+                     '.venv/credentials.json', 'mail/verification.eml']:
             with self.subTest(path=path):
                 self.assertTrue(forbidden_path(path))
                 self.assertTrue(validate(files(**{path: b'content'}), 'test'))
@@ -94,6 +94,12 @@ class IndexTests(unittest.TestCase):
         indexed = index_files(self.root)
         self.assertEqual(indexed['innocent.md'][1], marker)
         self.assertTrue(validate(indexed, 'test'))
+
+    def test_private_mail_is_rejected_from_real_index(self):
+        (self.root / '.gitignore').write_text('*.eml\n')
+        (self.root / 'verification.eml').write_bytes(b'Synthetic private mail')
+        subprocess.run(['git', '-C', str(self.root), 'add', '-f', 'verification.eml'], check=True)
+        self.assertTrue(validate(index_files(self.root), 'test'))
 
     def test_symlink_rejected_before_materialization(self):
         # Force an index symlink without depending on platform symlink privileges.

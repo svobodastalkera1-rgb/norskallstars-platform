@@ -26,6 +26,12 @@ class RequestBoundary:
         if scope["type"] != "http":
             await self.app(scope, receive, send)
             return
+        identity_request = scope.get("path", "").startswith("/api/v1/identity/")
+        body_limit = (
+            min(self.settings.max_request_bytes, 32768)
+            if identity_request
+            else self.settings.max_request_bytes
+        )
         candidates = [value for key, value in scope["headers"] if key.lower() == b"x-request-id"]
         try:
             identifier = (
@@ -42,7 +48,7 @@ class RequestBoundary:
             nonlocal size
             message = await receive()
             size += len(message.get("body", b""))
-            if size > self.settings.max_request_bytes:
+            if size > body_limit:
                 raise BodyTooLarge
             return message
 
@@ -72,7 +78,7 @@ class RequestBoundary:
             if len(lengths) > 1 or (lengths and (not lengths[0].isdigit() or len(lengths[0]) > 12)):
                 await failure("invalid_request", 400)
                 return
-            if lengths and int(lengths[0]) > self.settings.max_request_bytes:
+            if lengths and int(lengths[0]) > body_limit:
                 await failure("request_too_large", 413)
                 return
             try:

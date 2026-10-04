@@ -1,6 +1,7 @@
 import secrets
 
 import pytest
+from cryptography.fernet import Fernet
 
 from norskallstars_backend.config import Environment, Settings, load_settings
 from norskallstars_backend.database import Database
@@ -10,6 +11,8 @@ from norskallstars_backend.database import Database
 def settings():
     return Settings(
         env="test",
+        identity_pepper=secrets.token_urlsafe(36),
+        identity_mail_key=Fernet.generate_key().decode(),
         database_host="127.0.0.1",
         database_name="unit_test",
         database_user="test_user",

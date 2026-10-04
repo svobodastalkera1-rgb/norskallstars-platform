@@ -54,6 +54,13 @@ def test_deployed_configuration_requires_explicit_tls_and_hosts(settings, enviro
         "database_sslmode": "verify-full",
         "database_sslrootcert": ca,
         "allowed_hosts": ["api.example.invalid"],
+        "identity_public_origin": "https://app.example.invalid",
+        "google_client_ids": ["synthetic.apps.googleusercontent.com"],
+        "mail_transport": "smtp",
+        "smtp_host": "smtp.example.invalid",
+        "smtp_username": "synthetic",
+        "smtp_password": secrets.token_urlsafe(32),
+        "mail_sender": "noreply@example.com",
     }
     assert Settings(**data).database_sslmode == "verify-full"
     for change in [

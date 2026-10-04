@@ -4,7 +4,7 @@
 
 - [x] Phase 0 CLOSED/ACCEPTED and published; hosted main Phase 0 CI passed.
 - [x] Owner configured active Protect main and repository security features.
-- [x] Owner explicitly authorized Phase 1 Core Infrastructure only.
+- [x] Owner authorized and accepted Phase 1 Core Infrastructure.
 - [x] Owner added seven real required checks and enabled strict up-to-date branches.
 - [x] Owner reviewed/accepted Phase 1 and merged PR #4 through protected workflow.
 - [ ] License remains Product Owner pending; add no license/make no open-source claim.
@@ -26,7 +26,7 @@
 - [x] Owner verified successful PR checks and healthy default-branch Code scanning/no alerts.
 - [x] Product Owner accepted Phase 1 and authorized Phase 2 subject to receiving gate.
 
-## Phase 2 — AUTHORIZED / implementation prepared for review
+## Phase 2 — CLOSED / ACCEPTED
 
 Receiving completed; implementation follows: controlled public handoff review/provenance, actual
 Contract v1 compatibility assessment, untrusted-input validation design, transactional
@@ -40,8 +40,35 @@ in public source/CI. Product identity/administration completion stays in its pha
 - [x] Generic bounded validation and immutable staged release/asset/audit persistence.
 - [x] Identity/version conflict handling, transactional rollback and concurrency tests.
 - [x] Complete security/compatibility tests and initial real hosted CI; open PR #7.
-- [ ] Product Owner reviews PR #7 and checks its exact final HEAD results.
-- [ ] Owner review/acceptance; Phase 3 needs separate authorization.
+- [x] Owner reviewed/accepted PR #7, required checks, scanning and clarification.
+- [x] PR #7 merged; accepted implementation verified on current main.
+
+## Phase 3 — Identity / AUTHORIZED
+
+- [x] Shared accounts, email/password and Google sign-in; verification/recovery.
+- [x] Preferences, revocable sessions/devices and account-owned authorization.
+- [x] Self-service account deletion with complete identity/session invalidation.
+- [x] Typed secret/configuration, migrations, threat review and regression suites.
+- [x] PR #8 implementation 62b5a8a passed hosted required checks/CodeQL (15 successful).
+  Every later head is verified separately; no inherited/fake green checks.
+- [ ] Product Owner reviews/accepts Phase 3 PR #8; never auto-merge.
+- [ ] Configure/verify real isolated staging Google/SMTP before live operation.
+- [ ] Before production: owner privacy/unverified-account/financial retention policy;
+  later-domain erasure hooks; broader compromised-password/edge abuse review;
+  mail/credential cleanup scheduling, monitoring and explicit key rotation.
+- [ ] Web/Android phases: secure token persistence and browser CSRF/cookie adapter
+  review if introduced; Phase 10 separate administrator MFA/RBAC.
+- [ ] Phase 4 remains NOT STARTED / awaiting separate authorization.
+
+## Mandatory future production storage gate
+
+- [ ] Before production/remote persistent object storage, HTTP media delivery,
+  externally reachable assets or production imports: implement storage inventory
+  reconciliation against committed DB references, in-flight import protection,
+  grace period, reference re-check immediately before deletion, auditable deletion,
+  retention, safe retries/idempotency and race/failure tests. Accepted Phase 2
+  orphans are private/unmapped and DB rollback remains complete; this development
+  limitation must not silently become a production retention policy.
 
 ## Later owner decisions
 

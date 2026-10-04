@@ -53,3 +53,10 @@ worker/container with CPU/memory/temp-disk limits. No package content executes.
 Upstream uses deprecated RefResolver (jsonschema 4.x locked); platform schema
 validation uses modern offline Registry. Upstream migration needs reviewed handoff,
 not local rewriting of its approved bytes.
+
+Phase 3 Identity supplies ordinary account/session authorization only. It does
+not expose import, publication or release transitions through HTTP and confers
+no operator role. The CLI actor/approval/confirmation fields remain trusted operator
+audit assertions, not authentication/RBAC. Privileged HTTP/Admin UI requires the
+separate strong authorization/MFA design in Phase 10. Mandatory private orphan
+reconciliation/retention/GC must precede production storage/media/import operation.
