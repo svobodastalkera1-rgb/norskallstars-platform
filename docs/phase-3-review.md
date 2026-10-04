@@ -46,3 +46,22 @@ client secure token persistence/CSRF, administrator MFA/RBAC, mail scheduling/ke
 rotation and live provider staging acceptance remain their explicit future gates.
 License stays owner pending. Phase 3 needs Product Owner review; do not merge.
 Phase 4 is NOT STARTED and requires separate authorization.
+
+## Published review evidence
+
+[PR #8](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/8) is open;
+not merged. Implementation HEAD 62b5a8a152aa2d394c8727d8cce2898ed0095680 passed
+all 15 actual checks (seven required jobs for push/PR plus generated CodeQL):
+[Backend PR run](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37238976128),
+[Safeguards PR run](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37238976127),
+[Python CodeQL PR run](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37238976120).
+Hosted standard Compose migration/startup/identity/runtime smoke succeeded despite
+this workspace's local bridge limitation. Required job names remain unchanged.
+Generated CodeQL succeeded; total repository alerts require owner UI verification
+because this integration cannot read the full alerts API. No settings are changed.
+
+These results apply to that exact implementation revision. Any subsequent head,
+including evidence-only documentation updates, is separately checked and reported
+in the PR; no inherited run substitutes for final-head acceptance. Review real Google/
+SMTP staging setup, client persistence and deferred privacy/operations/storage gates
+before their applicable milestones. Phase 3 remains awaiting Product Owner review.

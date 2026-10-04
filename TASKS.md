@@ -49,8 +49,9 @@ in public source/CI. Product identity/administration completion stays in its pha
 - [x] Preferences, revocable sessions/devices and account-owned authorization.
 - [x] Self-service account deletion with complete identity/session invalidation.
 - [x] Typed secret/configuration, migrations, threat review and regression suites.
-- [ ] Verify exact PR-head hosted required checks/CodeQL; no fake green checks.
-- [ ] Product Owner reviews/accepts Phase 3 PR; never auto-merge.
+- [x] PR #8 implementation 62b5a8a passed hosted required checks/CodeQL (15 successful).
+  Every later head is verified separately; no inherited/fake green checks.
+- [ ] Product Owner reviews/accepts Phase 3 PR #8; never auto-merge.
 - [ ] Configure/verify real isolated staging Google/SMTP before live operation.
 - [ ] Before production: owner privacy/unverified-account/financial retention policy;
   later-domain erasure hooks; broader compromised-password/edge abuse review;

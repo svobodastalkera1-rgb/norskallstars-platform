@@ -95,6 +95,9 @@ Phase 3 Identity introduces none of those paths; the gate remains mandatory.
 
 ## Phase 3 review and deferred identity gates
 
+Phase 3 [PR #8](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/8)
+is open; not merged. Implementation 62b5a8a passed all 15 actual hosted checks,
+including standard Compose and CodeQL. Later heads need separate verification.
 Feature implementation is not owner acceptance or a production deployment. Exact
 local/hosted evidence is recorded in docs/phase-3-review.md and the PR. No real
 Google/SMTP credentials or users are used in public tests. Owner must configure and
