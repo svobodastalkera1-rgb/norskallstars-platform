@@ -64,7 +64,9 @@ Phase 1 acceptance reconciliation: GitHub confirms PR #4 merged into main at
 completed successfully. Owner confirmed default-branch scanning healthy/no alerts.
 No implementation is reopened; Phase 1 review evidence is historical.
 
-Next: finish Phase 2 tests/security review and open a feature PR; never merge
-without owner review or begin Phase 3 automatically. Future “Залил новый handoff,
+Phase 2 tests/security review are complete; PR #7 is open for Product Owner
+review. Initial hosted backend/safeguard/CodeQL workflows passed for f4b5214;
+final-head results are verified/reported in the PR. Never merge without owner
+review or begin Phase 3 automatically. Future “Залил новый handoff,
 продолжай работу” follows docs/corpus-integration/receiving.md and only resumes
 already-authorized work. It grants no production/irreversible authorization.

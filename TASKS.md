@@ -39,7 +39,8 @@ in public source/CI. Product identity/administration completion stays in its pha
 - [x] Byte-preserving public-only transfer; raw ZIP and transfer metadata excluded.
 - [x] Generic bounded validation and immutable staged release/asset/audit persistence.
 - [x] Identity/version conflict handling, transactional rollback and concurrency tests.
-- [ ] Complete security/compatibility tests, hosted CI and Phase 2 PR review.
+- [x] Complete security/compatibility tests and initial real hosted CI; open PR #7.
+- [ ] Product Owner reviews PR #7 and checks its exact final HEAD results.
 - [ ] Owner review/acceptance; Phase 3 needs separate authorization.
 
 ## Later owner decisions

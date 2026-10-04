@@ -34,3 +34,12 @@ make check/security-check and locked dependency audit passed; no known dependenc
 vulnerabilities or indexed/reachable-history secrets were found. The reviewed
 image built successfully and the actual receiving contract gate passed in its
 no-network constrained container. Hosted exact-head results are recorded in PR.
+
+Published as [PR #7](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/7);
+not merged. For f4b521492cbbab973bfeff4764d1d73f11f90369 all PR workflows completed
+successfully: [Backend](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37232893299),
+[Safeguards](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37232893245),
+[CodeQL](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37232893190).
+Generated CodeQL check succeeded with zero annotations. Full alerts API is HTTP
+403 for this integration; no zero-total-alerts claim is made. This evidence is
+revision-specific; final HEAD hosted runs are verified separately in the PR.
