@@ -1,0 +1,33 @@
+{
+  "build_kind": "internal_validation",
+  "build_timestamp": "2026-10-02T00:00:00Z",
+  "checksums": {
+    "activities/fixture.activity.choose.json": "a98772e42cfadbde9459a07a6b3c81d0f1b3ef92c6b8199abba3372f7187cc62",
+    "activities/fixture.activity.describe.json": "11918b92a8aedbd8f9e6b99e6f503ccc5f10899306c55e60f10e0ec6b6d61a96",
+    "activities/fixture.activity.match.json": "763787c40c6e402f4af57eb01f81196517b4f20c07760830bcedbf1bb555051a",
+    "assets/audio/fixture-chime.wav": "e2810671f0ab2f0e1c09db8b0af6fe754af30dd1883692ee8d1c873fad73887b",
+    "assets/images/fixture-garden.png": "bb381813562a097122f3a6bd1410e77b29dd29f1c886ddb1773c82dcc5e5efe0",
+    "chapters/fixture.chapter.garden.json": "3234fa0bc169e913d8526d8d5df50970e98e222e5e5882777b0f6d460ddd8ebb",
+    "course.json": "5b395aa4dfca2d4fddd9d386173d6caaf4fe4df1b96d5d2d0a575d41353bbfa1",
+    "lessons/fixture.lesson.pattern.json": "50d95c0264b9a30f4361bbf67c20c2c336ac931095d7426018a1441cf86bba06",
+    "lessons/fixture.lesson.signal.json": "1d2e0e5afad2deca756fe652abfb959e369388afaee126f50338ae045923a545"
+  },
+  "compatibility": {
+    "minimum_importer_version": "1.0.0",
+    "schema_major": 1
+  },
+  "components": [
+    "activities/fixture.activity.choose.json",
+    "activities/fixture.activity.describe.json",
+    "activities/fixture.activity.match.json",
+    "chapters/fixture.chapter.garden.json",
+    "course.json",
+    "lessons/fixture.lesson.pattern.json",
+    "lessons/fixture.lesson.signal.json"
+  ],
+  "content_version": "1.0.0",
+  "course_id": "fixture.course",
+  "course_version": "1.0.0",
+  "release_eligible": false,
+  "schema_version": "1.0.0"
+}

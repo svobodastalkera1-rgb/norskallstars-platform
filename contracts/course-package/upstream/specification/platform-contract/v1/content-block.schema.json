@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://schemas.invalid/course-package/v1/content-block.schema.json", "title": "Extensible content block v1", "type": "object", "required": ["block_id", "type", "order"],
+  "properties": {
+    "block_id": {"$ref": "course.schema.json#/$defs/id"}, "type": {"enum": ["text", "image", "audio", "dialogue", "explanation", "activity", "summary"]},
+    "text": {"type": "string"}, "language": {"type": "string"}, "reference_text": {"type": "string"}, "speaker_notes": {"type": "array", "items": {"type": "string"}}, "asset_ref": {"$ref": "course.schema.json#/$defs/id"}, "transcript": {"type": "string"}, "activity_ref": {"$ref": "course.schema.json#/$defs/id"}, "alt_text": {"type": "string"}, "order": {"type": "integer", "minimum": 1}
+  },
+  "allOf": [
+    {"if": {"properties": {"type": {"const": "text"}}, "required": ["type"]}, "then": {"required": ["text"]}},
+    {"if": {"properties": {"type": {"const": "image"}}, "required": ["type"]}, "then": {"required": ["asset_ref", "alt_text"]}},
+    {"if": {"properties": {"type": {"const": "audio"}}, "required": ["type"]}, "then": {"anyOf": [{"required": ["asset_ref"]}, {"required": ["text"]}]}},
+    {"if": {"properties": {"type": {"const": "dialogue"}}, "required": ["type"]}, "then": {"required": ["text"]}},
+    {"if": {"properties": {"type": {"const": "activity"}}, "required": ["type"]}, "then": {"required": ["activity_ref"]}}
+  ],
+  "additionalProperties": true
+}

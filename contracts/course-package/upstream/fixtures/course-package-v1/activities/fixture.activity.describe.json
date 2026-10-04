@@ -1,0 +1,7 @@
+{
+  "activity_id": "fixture.activity.describe",
+  "type": "description",
+  "prompt": "Describe one invented sign from the lesson.",
+  "response_mode": "text",
+  "evaluation": {"type": "rubric", "rubric": ["Names a sign", "Gives its fictional action"]}
+}

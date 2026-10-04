@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://schemas.invalid/course-package/v1/chapter.schema.json", "title": "Chapter v1", "type": "object", "additionalProperties": false,
+  "required": ["chapter_id", "order", "title", "description", "lesson_refs", "prerequisites", "review", "completion"],
+  "properties": {
+    "chapter_id": {"$ref": "course.schema.json#/$defs/id"}, "order": {"type": "integer", "minimum": 1}, "title": {"type": "string", "minLength": 1}, "description": {"type": "string"},
+    "lesson_refs": {"type": "array", "minItems": 1, "items": {"$ref": "course.schema.json#/$defs/id"}}, "prerequisites": {"type": "array", "uniqueItems": true, "items": {"$ref": "course.schema.json#/$defs/id"}},
+    "review": {"type": ["object", "null"], "additionalProperties": true}, "completion": {"type": ["object", "null"], "additionalProperties": true}
+  }
+}

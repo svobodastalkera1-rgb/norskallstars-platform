@@ -15,7 +15,7 @@ from repository import git, history_refs, index_files, tree_files
 MANIFEST = 'contracts/course-package/handoff-manifest.json'
 RESERVATIONS = {'contracts/course-package/README.md', MANIFEST,
                 'fixtures/course-package/README.md'}
-BLOCKED_DIRS = {'.venv', '.cache', 'node_modules', '.gradle', '__pycache__', 'private', '.private', 'corpus', 'norwegian-course',
+BLOCKED_DIRS = {'.local', '.venv', '.cache', 'node_modules', '.gradle', '__pycache__', 'private', '.private', 'corpus', 'norwegian-course',
                 'course-packages', 'private-packages', 'production-packages',
                 'production-assets', 'generation-prompts', 'private-qa',
                 'character-references', 'backups', 'dumps', 'exports',

@@ -13,3 +13,6 @@ PostgreSQL behavior. There is no Redis, worker, importer or application client.
 See [runtime setup](../../docs/development.md),
 [runtime architecture](../../docs/architecture/backend-runtime.md), and
 [Phase 1 review](../../docs/phase-1-review.md).
+
+Phase 1 is owner-accepted. Phase 2 course release validation/import/operator
+transitions are described in docs/architecture/course-integration.md from root.

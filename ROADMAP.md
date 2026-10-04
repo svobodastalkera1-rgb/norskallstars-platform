@@ -1,15 +1,15 @@
 # Production roadmap
 
 NorskAllstars targets Production v1.0. An internal milestone is not a substitute
-for release acceptance. Phase 0 is CLOSED/ACCEPTED; Phase 1 alone is authorized for current work.
+for release acceptance. Phase 0 is CLOSED/ACCEPTED; Phase 1 is CLOSED/ACCEPTED; Phase 2 is authorized after its receiving gate.
 Every phase needs design, implementation, meaningful tests, security review,
 documentation, and a state update. Foundational failures block downstream work.
 
 | Phase | Outcome and acceptance direction | Status |
 | --- | --- | --- |
 | 0 — Bootstrap | Public monorepo boundaries, ADRs, project memory, developer setup, confidentiality controls and honest CI gates | CLOSED / ACCEPTED by Product Owner |
-| 1 — Core Infrastructure | Backend skeleton, validated configuration, PostgreSQL migrations, structured logging, health, test support, storage interface and basic security policies | Implemented; awaiting owner review |
-| 2 — Course Integration | Integrate approved Contract v1 and synthetic fixture; validate untrusted packages, create versioned staged releases and authorized audited publication | Blocked on handoff; not started |
+| 1 — Core Infrastructure | Backend skeleton, validated configuration, PostgreSQL migrations, structured logging, health, test support, storage interface and basic security policies | CLOSED / ACCEPTED by Product Owner |
+| 2 — Course Integration | Integrate approved Contract v1 and synthetic fixture; validate untrusted packages, create versioned staged releases and authorized audited publication | Receiving gate passed; implementation prepared for review |
 | 3 — Identity | Shared accounts, email and Google sign-in, verification, recovery, session/device revocation, authorization and account deletion lifecycle | Not started |
 | 4 — Learning Core | Structured curriculum, versioned lessons/activities, deterministic placement/evaluation/mastery/review, attempts, progress and learning events | Not started |
 | 5 — Web | Responsive accessible client with core learning, audio/images, microphone flows, dashboard, preferences and localized interface | Not started |

@@ -12,9 +12,10 @@ Do not invent contractual data structures or silently narrow release scope.
 
 ## Phase control
 
-Phase 0 is CLOSED and ACCEPTED. Product Owner explicitly authorized Phase 1
-Core Infrastructure only. Phase 2 is NOT STARTED and needs separate authorization.
-Prepare a feature-branch PR for Phase 1; never merge it without Product Owner review.
+Phase 0 is CLOSED and ACCEPTED. Phase 1 is CLOSED and ACCEPTED (PR #4 merged). Product Owner authorized
+Phase 2 Course Integration after successful controlled receiving. Phase 3 and
+later phases need separate authorization. Work through a feature PR; never
+merge without Product Owner review.
 Do not implement application runtime,
 identity, importers, learning, billing, administration, sync, or deployments
 as part of bootstrap. Keep actual implementation status in PROJECT_STATE.md.
@@ -49,3 +50,15 @@ Do not push, deploy, publish, change repository settings/visibility, rewrite
 history, delete remote refs, or perform external irreversible actions unless
 explicitly authorized for that action. Phase 0 needs no such operations.
 Do not print secret values or attach private scan output publicly.
+
+## Repeatable receiving
+
+“Залил новый handoff, продолжай работу” means inspect exactly one candidate ZIP
+in ignored .local/handoff and follow docs/corpus-integration/receiving.md.
+Run scripts/receive_handoff.py; independently review every text/code/media
+artifact before acknowledging its exact SHA and running the contract gate.
+Fail closed on any discrepancy; never sanitize a rejected handoff into acceptance.
+Review destination mapping and compatibility/regression tests before changing
+inventoried public files. Continue only the already-authorized task/phase.
+The short command never authorizes deployments, publication, destructive
+migrations, secrets/billing changes or irreversible external operations.

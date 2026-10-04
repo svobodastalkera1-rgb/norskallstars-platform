@@ -1,0 +1,8 @@
+{
+  "activity_id": "fixture.activity.match",
+  "type": "matching",
+  "prompt": {"instruction": "Match each invented sign to its garden action."},
+  "response_mode": "matching",
+  "choices": [{"sign": "yellow square", "action": "water"}, {"sign": "blue circle", "action": "shade"}],
+  "evaluation": {"type": "deterministic"}
+}

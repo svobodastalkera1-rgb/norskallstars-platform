@@ -7,12 +7,15 @@ from alembic import context
 from sqlalchemy.engine import Connection
 
 from norskallstars_backend.config import load_settings
-from norskallstars_backend.database import Base, Database
+from norskallstars_backend.course_packages.models import CourseRelease
+from norskallstars_backend.database import Database
 from norskallstars_backend.logging import configure_logging, exception_fields
 
 
 def run(connection: Connection) -> None:
-    context.configure(connection=connection, target_metadata=Base.metadata, compare_type=True)
+    context.configure(
+        connection=connection, target_metadata=CourseRelease.metadata, compare_type=True
+    )
     with context.begin_transaction():
         context.run_migrations()
 
@@ -34,7 +37,9 @@ async def online() -> None:
 
 
 if context.is_offline_mode():
-    context.configure(dialect_name="postgresql", target_metadata=Base.metadata, literal_binds=True)
+    context.configure(
+        dialect_name="postgresql", target_metadata=CourseRelease.metadata, literal_binds=True
+    )
     with context.begin_transaction():
         context.run_migrations()
 else:

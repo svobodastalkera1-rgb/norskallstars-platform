@@ -1,0 +1,11 @@
+{
+  "activity_id": "fixture.activity.choose",
+  "type": "single_choice",
+  "prompt": "What does the fictional yellow square mean?",
+  "response_mode": "choice",
+  "choices": ["water", "music"],
+  "accepted_answers": ["water"],
+  "normalization": {"trim": true, "case_fold": true},
+  "evaluation": {"type": "deterministic"},
+  "feedback": "The synthetic story says it means water."
+}

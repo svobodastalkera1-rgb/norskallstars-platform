@@ -2,5 +2,6 @@ name: NorskAllstars Python infrastructure
 paths:
   - apps/backend/src
   - scripts
+  - contracts/course-package/upstream/tools
 queries:
   - uses: security-extended

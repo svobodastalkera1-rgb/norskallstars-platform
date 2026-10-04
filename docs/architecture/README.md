@@ -2,7 +2,7 @@
 
 The baseline is a monorepo with one modular backend and two clients. The
 boundaries were accepted in Phase 0. Phase 1 now implements backend infrastructure;
-product domains and the clients remain unimplemented.
+Phase 2 adds curriculum release integration; learning/identity and clients remain unimplemented.
 
 ```mermaid
 flowchart LR
@@ -11,7 +11,7 @@ flowchart LR
   API --> Domains[Backend domain modules]
   Domains --> DB[(PostgreSQL)]
   Domains --> Storage[Object storage interface]
-  Handoff[Approved public Contract v1 handoff] --> Validation[Future validated package integration]
+  Handoff[Approved public Contract v1 handoff] --> Validation[Validated package integration]
   Validation --> Domains
 ```
 

@@ -1,6 +1,6 @@
-# Synthetic fixture reservation
+# Synthetic Course Package fixture
 
-No fixture has been transferred. Only the owner-approved public-safe upstream
-synthetic fixture may be placed here, with each file listed and checksum-verified
-in contracts/course-package/handoff-manifest.json. Do not invent Contract v1 or
-substitute private pilot data. See docs/corpus-integration/README.md.
+The reviewed upstream fixture is stored once under
+contracts/course-package/upstream/fixtures/course-package-v1, beside the generic
+upstream tests. It remains release_eligible=false. The platform consumer tests
+use it without private corpus access or pilot assumptions.

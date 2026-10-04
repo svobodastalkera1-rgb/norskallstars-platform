@@ -1,0 +1,48 @@
+{
+  "assets": [
+    {
+      "alt_text": "A synthetic yellow sun above three square green plants.",
+      "asset_id": "fixture.asset.garden",
+      "checksum": "bb381813562a097122f3a6bd1410e77b29dd29f1c886ddb1773c82dcc5e5efe0",
+      "height": 32,
+      "mime_type": "image/png",
+      "path": "assets/images/fixture-garden.png",
+      "related_to": [
+        "fixture.lesson.signal"
+      ],
+      "required": true,
+      "status": "approved",
+      "type": "image",
+      "version": "1.0.0",
+      "width": 32
+    },
+    {
+      "alt_text": "A short synthetic two-note chime.",
+      "asset_id": "fixture.asset.chime",
+      "checksum": "e2810671f0ab2f0e1c09db8b0af6fe754af30dd1883692ee8d1c873fad73887b",
+      "duration_ms": 250,
+      "mime_type": "audio/wav",
+      "path": "assets/audio/fixture-chime.wav",
+      "related_to": [
+        "fixture.lesson.signal"
+      ],
+      "required": false,
+      "status": "approved",
+      "transcript": "ding-dong",
+      "type": "audio",
+      "version": "1.0.0"
+    }
+  ],
+  "chapters": [
+    "fixture.chapter.garden"
+  ],
+  "course_id": "fixture.course",
+  "description": "A fictional demonstration package for testing import formats.",
+  "language": "en",
+  "metadata": {
+    "fixture": true,
+    "public_safe": true
+  },
+  "title": "Tiny Garden Signals (synthetic fixture)",
+  "version": "1.0.0"
+}

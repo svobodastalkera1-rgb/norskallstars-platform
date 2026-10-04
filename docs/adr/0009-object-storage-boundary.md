@@ -1,6 +1,6 @@
 # 0009 — Vendor-neutral object boundary with development-only local storage
 
-Status: Accepted (Phase 1 engineering decision; owner phase review pending)
+Status: Accepted (Phase 1 engineering decision; Product Owner accepted Phase 1 on 2026-10-04)
 Date: 2026-10-03
 
 ## Context

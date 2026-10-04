@@ -1,0 +1,26 @@
+# Positive context allowlist: no inbound staging, private payload or fixture/test media.
+**
+!apps/
+!apps/backend/
+!apps/backend/Dockerfile
+!apps/backend/pyproject.toml
+!apps/backend/uv.lock
+!apps/backend/src/
+!apps/backend/src/**
+!apps/backend/alembic.ini
+!apps/backend/migrations/
+!apps/backend/migrations/**
+!contracts/
+!contracts/course-package/
+!contracts/course-package/upstream/
+!contracts/course-package/upstream/specification/
+!contracts/course-package/upstream/specification/**
+!contracts/course-package/upstream/tools/
+!contracts/course-package/upstream/tools/course_package.py
+**/__pycache__
+**/*.pyc
+**/.env*
+**/*.pem
+**/*.key
+**/private*
+**/*[Mm]aster*[Ss]pec*
