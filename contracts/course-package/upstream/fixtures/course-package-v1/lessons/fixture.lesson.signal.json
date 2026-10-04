@@ -1,0 +1,20 @@
+{
+  "lesson_id": "fixture.lesson.signal",
+  "version": "1.0.0",
+  "chapter_id": "fixture.chapter.garden",
+  "order": 1,
+  "kind": "lesson",
+  "title": "The garden signal",
+  "prerequisites": [],
+  "learning_objectives": ["Recognize the fictional garden signal."],
+  "concepts": [],
+  "blocks": [
+    {"block_id": "fixture.block.story", "type": "text", "language": "en", "text": "In this invented garden, a yellow square means water.", "order": 1},
+    {"block_id": "fixture.block.picture", "type": "image", "asset_ref": "fixture.asset.garden", "alt_text": "A synthetic yellow sun above three square green plants.", "order": 2},
+    {"block_id": "fixture.block.chime", "type": "audio", "asset_ref": "fixture.asset.chime", "transcript": "ding-dong", "order": 3},
+    {"block_id": "fixture.block.quiz", "type": "activity", "activity_ref": "fixture.activity.choose", "order": 4}
+  ],
+  "activity_refs": ["fixture.activity.choose"],
+  "completion": null,
+  "review": null
+}

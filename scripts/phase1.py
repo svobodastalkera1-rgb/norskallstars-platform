@@ -88,6 +88,7 @@ def main() -> None:
                     "-c", "CREATE DATABASE norskallstars_test")
         run(uv("alembic", "-c", "apps/backend/alembic.ini", "upgrade", "head"), env=environment(True))
         run(uv("pytest", "-c", "apps/backend/pyproject.toml", "apps/backend/tests"), env=environment(True))
+        subprocess.run(uv("python", "-m", "unittest", "discover", "-s", "qa/automated", "-p", "test_course_package.py", "-v"), cwd=ROOT / "contracts/course-package/upstream", env=environment(True), check=True)
     elif args.command == "audit":
         requirements = ROOT / ".cache" / "backend-audit.txt"
         requirements.parent.mkdir(exist_ok=True)
@@ -104,7 +105,8 @@ def main() -> None:
         assert runtime["read_only"] and runtime["cap_drop"] == ["ALL"]
         uid = compose("exec", "-T", "backend", "id", "-u", capture=True).stdout.strip()
         assert uid == "10001"
-        print("PASS: real container liveness/readiness, correlation ID, non-root/read-only runtime")
+        compose("exec", "-T", "backend", "python", "-c", "from norskallstars_backend.course_packages.validation import schema_registry; assert len(schema_registry()[0]) == 7")
+        print("PASS: real container liveness/readiness, correlation ID, non-root/read-only runtime and packaged contract schemas")
 
 
 if __name__ == "__main__":

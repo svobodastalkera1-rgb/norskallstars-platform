@@ -1,0 +1,10 @@
+{
+  "chapter_id": "fixture.chapter.garden",
+  "order": 1,
+  "title": "Garden signals",
+  "description": "A fictional sequence about simple garden symbols.",
+  "lesson_refs": ["fixture.lesson.signal", "fixture.lesson.pattern"],
+  "prerequisites": [],
+  "review": {"included": false},
+  "completion": null
+}

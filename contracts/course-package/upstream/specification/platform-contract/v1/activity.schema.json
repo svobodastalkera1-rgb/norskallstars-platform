@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://schemas.invalid/course-package/v1/activity.schema.json", "title": "Activity v1", "type": "object", "additionalProperties": false,
+  "required": ["activity_id", "type", "prompt", "response_mode", "evaluation"],
+  "properties": {
+    "activity_id": {"$ref": "course.schema.json#/$defs/id"}, "type": {"enum": ["single_choice", "multiple_choice", "matching", "ordering", "context_selection", "fill_blank", "sentence_construction", "transformation", "dictation", "short_answer", "free_text", "description", "retelling", "open_response", "speaking", "true_false", "listen_select", "mark_location", "trace_route", "select_calendar", "personal_response", "role_play", "spaced_retrieval", "comprehension"]},
+    "prompt": {"type": ["string", "object"], "minLength": 1}, "stimulus_refs": {"type": "array", "items": {"$ref": "course.schema.json#/$defs/id"}}, "response_mode": {"enum": ["choice", "matching", "ordering", "text", "speech", "action", "reflection"]}, "choices": {"type": "array", "items": {"type": ["string", "object"]}}, "accepted_answers": {"type": "array", "items": {"type": ["string", "number", "boolean"]}}, "normalization": {"type": "object", "additionalProperties": true}, "evaluation": {"type": "object", "additionalProperties": false, "required": ["type"], "properties": {"type": {"enum": ["deterministic", "rubric", "self_assessment", "none", "external_future"]}, "rubric": {"type": "array", "items": {"type": "string"}}}}, "feedback": {"type": ["string", "null"]}, "reference_feedback": {"type": ["string", "null"]}
+  }
+}

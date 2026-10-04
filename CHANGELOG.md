@@ -9,3 +9,7 @@
 - No product features or production release delivered.
 
 Release policy: [docs/releases.md](docs/releases.md).
+
+Phase 2: controlled public Contract v1 receiving, repeatable fail-closed handoff
+tooling, bounded generic validation, immutable staged releases/assets/audit,
+idempotent import and privileged publication boundary. Owner review pending.

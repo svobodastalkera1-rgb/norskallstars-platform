@@ -4,12 +4,11 @@ NorskAllstars Platform is being built for learning Norwegian Bokmål through
 comprehensible input and the Natural Method. The production direction includes
 a responsive Web client and a native Android client backed by the same services.
 
-**Status: Phase 0 CLOSED/ACCEPTED; Phase 1 Core Infrastructure prepared for review.**
-A real backend runtime now provides health endpoints, PostgreSQL/migrations,
-configuration/logging and a storage boundary. Learning functions, accounts,
-Course Package import, Web/Android clients and production deployment are not
-implemented. Production v1.0 remains the release goal; see the [complete roadmap](ROADMAP.md).
-Phase 2 has not started.
+**Status: Phase 0 and Phase 1 CLOSED/ACCEPTED; Phase 2 authorized, prepared for review.**
+The backend supplies infrastructure plus generic Course Package validation,
+immutable staged release import and explicit privileged publication transitions.
+Learning functions, accounts, Web/Android clients and production deployment remain
+unimplemented. Production v1.0 remains the goal; see the [complete roadmap](ROADMAP.md).
 
 ## Architecture direction
 
@@ -21,10 +20,10 @@ infrastructure is provisioned.
 
 | Location | Responsibility | Current state |
 | --- | --- | --- |
-| apps/backend/ | Backend infrastructure; later domain modules | Phase 1 runtime and tests |
+| apps/backend/ | Backend infrastructure; later domain modules | Infrastructure and course release integration/tests |
 | apps/web/ | Responsive learning client | Boundary documentation |
 | apps/android/ | Native client and later offline capability | Boundary documentation |
-| contracts/ | Public API and Course Package interfaces | Integration placeholders |
+| contracts/ | Public API and Course Package interfaces | Reviewed Contract v1 and synthetic-only fixture |
 | infra/ | Local runtime; future deployment definitions | Local Docker Compose |
 | docs/ | Engineering, ADRs, security and delivery guidance | Implemented |
 | scripts/ | Repository and confidentiality checks | Implemented |
@@ -37,9 +36,9 @@ See [architecture](docs/architecture/README.md) and the [ADR index](docs/adr/REA
 
 The separate private NorskAllstars Corpus repository owns teaching materials.
 This platform does not inspect its directory layout or embed real content.
-Integration will use the existing versioned Course Package Contract v1, through
-a controlled public handoff. Schemas and the approved synthetic fixture have
-**not yet been supplied here**; no substitute contract or fake fixture is defined.
+Integration uses the existing Course Package Contract v1 received through a
+controlled public handoff. Its schemas and synthetic fixture are individually
+inventoried; the fixture remains release-ineligible. No private pilot is included.
 [Integration readiness](docs/corpus-integration/README.md) records the import gate.
 A future development/demo environment must run with synthetic content alone.
 
@@ -82,3 +81,6 @@ See [SECURITY.md](SECURITY.md), [CI status](docs/ci.md), and the
 
 Start a new engineering session with [AGENTS.md](AGENTS.md),
 [PROJECT_STATE.md](PROJECT_STATE.md), and [TASKS.md](TASKS.md).
+
+Receiving/integration details: [receiving workflow](docs/corpus-integration/receiving.md)
+and [integration architecture](docs/architecture/course-integration.md).

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.invalid/course-package/v1/manifest.schema.json",
+  "title": "Course package manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "course_id", "course_version", "build_timestamp", "content_version", "components", "checksums", "compatibility", "release_eligible"],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^1\\.[0-9]+\\.[0-9]+$"},
+    "course_id": {"$ref": "https://schemas.invalid/course-package/v1/course.schema.json#/$defs/id"},
+    "course_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "build_timestamp": {"type": "string", "format": "date-time"},
+    "content_version": {"type": "string", "minLength": 1},
+    "components": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"$ref": "#/$defs/path"}},
+    "checksums": {"type": "object", "minProperties": 2, "propertyNames": {"$ref": "#/$defs/path"}, "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+    "compatibility": {"type": "object", "additionalProperties": false, "required": ["minimum_importer_version"], "properties": {"minimum_importer_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"}, "schema_major": {"const": 1}}},
+    "release_eligible": {"type": "boolean"},
+    "build_kind": {"enum": ["release", "internal_validation"]}
+  },
+  "$defs": {
+    "path": {"type": "string", "pattern": "^(course\\.json|chapters/[A-Za-z0-9._-]+\\.json|lessons/[A-Za-z0-9._-]+\\.json|activities/[A-Za-z0-9._-]+\\.json|assets/(images|audio)/[A-Za-z0-9._-]+\\.(png|jpg|jpeg|webp|mp3|wav|ogg))$"}
+  }
+}

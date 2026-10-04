@@ -1,0 +1,19 @@
+{
+  "lesson_id": "fixture.lesson.pattern",
+  "version": "1.0.0",
+  "chapter_id": "fixture.chapter.garden",
+  "order": 2,
+  "kind": "lesson",
+  "title": "Match a garden sign",
+  "prerequisites": ["fixture.lesson.signal"],
+  "learning_objectives": ["Match invented symbols to invented actions."],
+  "concepts": [],
+  "blocks": [
+    {"block_id": "fixture.block.matching", "type": "activity", "activity_ref": "fixture.activity.match", "order": 1},
+    {"block_id": "fixture.block.reply", "type": "dialogue", "language": "en", "text": "Ari: The square means water. / Bo: I see the square.", "order": 2},
+    {"block_id": "fixture.block.open", "type": "activity", "activity_ref": "fixture.activity.describe", "order": 3}
+  ],
+  "activity_refs": ["fixture.activity.match", "fixture.activity.describe"],
+  "completion": null,
+  "review": {"previous_lesson": "fixture.lesson.signal"}
+}

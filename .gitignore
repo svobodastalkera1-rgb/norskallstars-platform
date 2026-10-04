@@ -20,6 +20,7 @@ production-assets/
 generation-prompts/
 private-qa/
 character-references/
+.local/
 
 # Runtime configuration, credentials and device signing material.
 .env

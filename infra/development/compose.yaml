@@ -2,7 +2,8 @@ name: norskallstars-local
 
 x-runtime: &runtime
   build:
-    context: ../../apps/backend
+    context: ../..
+    dockerfile: apps/backend/Dockerfile
   image: norskallstars-backend:local
   environment: &environment
     NORSKALLSTARS_ENV: local
@@ -14,7 +15,7 @@ x-runtime: &runtime
     NORSKALLSTARS_ALLOWED_HOSTS: '["localhost","127.0.0.1","backend"]'
   read_only: true
   tmpfs:
-    - /tmp:rw,noexec,nosuid,size=16m
+    - /tmp:rw,noexec,nosuid,size=160m
   cap_drop: [ALL]
   security_opt: [no-new-privileges:true]
 

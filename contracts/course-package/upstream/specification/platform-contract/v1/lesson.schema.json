@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://schemas.invalid/course-package/v1/lesson.schema.json", "title": "Lesson v1", "type": "object", "additionalProperties": false,
+  "required": ["lesson_id", "version", "chapter_id", "order", "kind", "title", "prerequisites", "learning_objectives", "concepts", "blocks", "activity_refs", "completion", "review"],
+  "properties": {
+    "lesson_id": {"$ref": "course.schema.json#/$defs/id"}, "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"}, "chapter_id": {"$ref": "course.schema.json#/$defs/id"}, "order": {"type": "integer", "minimum": 1}, "kind": {"enum": ["lesson", "review"]}, "title": {"type": "string", "minLength": 1},
+    "prerequisites": {"type": "array", "uniqueItems": true, "items": {"$ref": "course.schema.json#/$defs/id"}}, "learning_objectives": {"type": "array", "items": {"type": "string"}}, "concepts": {"type": "array", "items": {"type": "object", "required": ["id", "kind"], "properties": {"id": {"$ref": "course.schema.json#/$defs/id"}, "kind": {"enum": ["vocabulary", "grammar"]}, "label": {"type": "string"}}, "additionalProperties": false}},
+    "blocks": {"type": "array", "items": {"$ref": "content-block.schema.json"}}, "activity_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "course.schema.json#/$defs/id"}}, "completion": {"type": ["object", "null"], "additionalProperties": true}, "review": {"type": ["object", "null"], "additionalProperties": true}, "summary": {"type": ["string", "null"]}
+  }
+}

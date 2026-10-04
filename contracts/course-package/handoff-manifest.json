@@ -1,6 +1,133 @@
 {
-  "status": "pending",
+  "status": "received",
   "contract": "Course Package Contract v1",
-  "approval": null,
-  "artifacts": []
+  "approval": "Product Owner authorized public candidate receiving; independent receiver audit and 19 upstream tests passed on 2026-10-04",
+  "candidate_sha256": "5a7d6c4d05af910b53b4dec97395ea2f37b294e4c165d6c70d6d37d3e1818104",
+  "artifacts": [
+    {
+      "path": "contracts/course-package/upstream/fixtures/README.md",
+      "sha256": "b4ef9c589d33cf348e02aa493ed3e2fb679b6d1745e2d8ca9287ecdba0afd7a9",
+      "role": "synthetic fixture"
+    },
+    {
+      "path": "contracts/course-package/upstream/fixtures/course-package-v1/activities/fixture.activity.choose.json",
+      "sha256": "a98772e42cfadbde9459a07a6b3c81d0f1b3ef92c6b8199abba3372f7187cc62",
+      "role": "synthetic fixture"
+    },
+    {
+      "path": "contracts/course-package/upstream/fixtures/course-package-v1/activities/fixture.activity.describe.json",
+      "sha256": "11918b92a8aedbd8f9e6b99e6f503ccc5f10899306c55e60f10e0ec6b6d61a96",
+      "role": "synthetic fixture"
+    },
+    {
+      "path": "contracts/course-package/upstream/fixtures/course-package-v1/activities/fixture.activity.match.json",
+      "sha256": "763787c40c6e402f4af57eb01f81196517b4f20c07760830bcedbf1bb555051a",
+      "role": "synthetic fixture"
+    },
+    {
+      "path": "contracts/course-package/upstream/fixtures/course-package-v1/assets/audio/fixture-chime.wav",
+      "sha256": "e2810671f0ab2f0e1c09db8b0af6fe754af30dd1883692ee8d1c873fad73887b",
+      "role": "synthetic fixture"
+    },
+    {
+      "path": "contracts/course-package/upstream/fixtures/course-package-v1/assets/images/fixture-garden.png",
+      "sha256": "bb381813562a097122f3a6bd1410e77b29dd29f1c886ddb1773c82dcc5e5efe0",
+      "role": "synthetic fixture"
+    },
+    {
+      "path": "contracts/course-package/upstream/fixtures/course-package-v1/chapters/fixture.chapter.garden.json",
+      "sha256": "3234fa0bc169e913d8526d8d5df50970e98e222e5e5882777b0f6d460ddd8ebb",
+      "role": "synthetic fixture"
+    },
+    {
+      "path": "contracts/course-package/upstream/fixtures/course-package-v1/course.json",
+      "sha256": "5b395aa4dfca2d4fddd9d386173d6caaf4fe4df1b96d5d2d0a575d41353bbfa1",
+      "role": "synthetic fixture"
+    },
+    {
+      "path": "contracts/course-package/upstream/fixtures/course-package-v1/lessons/fixture.lesson.pattern.json",
+      "sha256": "50d95c0264b9a30f4361bbf67c20c2c336ac931095d7426018a1441cf86bba06",
+      "role": "synthetic fixture"
+    },
+    {
+      "path": "contracts/course-package/upstream/fixtures/course-package-v1/lessons/fixture.lesson.signal.json",
+      "sha256": "1d2e0e5afad2deca756fe652abfb959e369388afaee126f50338ae045923a545",
+      "role": "synthetic fixture"
+    },
+    {
+      "path": "contracts/course-package/upstream/fixtures/course-package-v1/manifest.json",
+      "sha256": "0f8b6cd04581091162da5e299ac1135b42aa502b7461b23b9273bf271eabdb9d",
+      "role": "synthetic fixture"
+    },
+    {
+      "path": "contracts/course-package/upstream/qa/automated/test_course_package.py",
+      "sha256": "e3528186a6ac665499a7fe44d376c8d0f09c700eb700924df6d79ef886895b5e",
+      "role": "generic tooling/test"
+    },
+    {
+      "path": "contracts/course-package/upstream/specification/platform-contract/CHANGELOG.md",
+      "sha256": "fceaac79477dd06c133699ecb5f3365600bf4f7438249ce4b523ddfdb1825e53",
+      "role": "contract documentation"
+    },
+    {
+      "path": "contracts/course-package/upstream/specification/platform-contract/PUBLIC_HANDOFF.md",
+      "sha256": "ed2a53aacca6f7d4c9425f1ff8d2e50e032a923b3a9849742f42a90d3ef49abd",
+      "role": "contract documentation"
+    },
+    {
+      "path": "contracts/course-package/upstream/specification/platform-contract/v1/README.md",
+      "sha256": "d1935088612f9f6cab5b63cc35297d6e318bca1bd84120c60fc0b8b021c855e6",
+      "role": "contract documentation"
+    },
+    {
+      "path": "contracts/course-package/upstream/specification/platform-contract/v1/activity.schema.json",
+      "sha256": "329d1a112c04007e0ac915b481b6de47f4b132aa8e134b14da77f86ad0c63553",
+      "role": "schema"
+    },
+    {
+      "path": "contracts/course-package/upstream/specification/platform-contract/v1/asset.schema.json",
+      "sha256": "1ce5ac7a956cdc309b6a79daa987f76ff42fe4bb1ae0c6bb6f8c594bf6cc06a0",
+      "role": "schema"
+    },
+    {
+      "path": "contracts/course-package/upstream/specification/platform-contract/v1/chapter.schema.json",
+      "sha256": "3fc6dfc6c4bb7296fc37332611e46268ab79579aee396056aa3bc18b8bdc1503",
+      "role": "schema"
+    },
+    {
+      "path": "contracts/course-package/upstream/specification/platform-contract/v1/content-block.schema.json",
+      "sha256": "fe1c0976da6c0bcc9c51de406ea907c7b39efe127ad50f6188323f2f3efcc252",
+      "role": "schema"
+    },
+    {
+      "path": "contracts/course-package/upstream/specification/platform-contract/v1/course.schema.json",
+      "sha256": "ef864eb29fa2bcd5cc84e8e2567a844c79d56af408b1e41bea7269a8696b8694",
+      "role": "schema"
+    },
+    {
+      "path": "contracts/course-package/upstream/specification/platform-contract/v1/lesson.schema.json",
+      "sha256": "70429550492070c6def7c6d59091c57dc5cad929af0b458a85ab8991373a026c",
+      "role": "schema"
+    },
+    {
+      "path": "contracts/course-package/upstream/specification/platform-contract/v1/manifest.schema.json",
+      "sha256": "41cd395e78353a052141d0440a51ab53811dea656f9d2eb2c10d3d30abb673f1",
+      "role": "schema"
+    },
+    {
+      "path": "contracts/course-package/upstream/tools/build_course_package.py",
+      "sha256": "5c2faa5c31b3bebc4c80e3412d76a189700c7815cccac6d5c8e0fc1976844e31",
+      "role": "generic tooling/test"
+    },
+    {
+      "path": "contracts/course-package/upstream/tools/course_package.py",
+      "sha256": "16399229f0a25f239a0890763a6bba605476e945197aba9d318aa084051dde2d",
+      "role": "generic tooling/test"
+    },
+    {
+      "path": "contracts/course-package/upstream/tools/validate_course_package.py",
+      "sha256": "081b1a33b8b48312b461ef36782253a8017bc472bf5ac7fd61baa38823d6e511",
+      "role": "generic tooling/test"
+    }
+  ]
 }

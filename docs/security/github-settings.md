@@ -13,19 +13,19 @@ Completed owner actions:
 - Dependabot alerts, malware alerts and security updates enabled.
 - Secret scanning and push protection enabled.
 
-Required checks were intentionally left unset until successful real Phase 1 PR
-runs. Product Owner then adds the exact names in ../ci.md, selecting GitHub
-Actions as the provider. Do not require pending Web/Android checks or treat zero
-GitHub-required approvals as permission to bypass the explicit owner phase review.
+Product Owner configured seven required Actions checks after Phase 1 (verified
+via ruleset API on 2026-10-04): Bootstrap checks, Security checks, Backend quality,
+Backend tests, Backend dependency audit, Backend container, CodeQL Python. Strict
+up-to-date branches are required. Generated CodeQL remains advisory, not a required
+ruleset entry. No Web/Android pending checks are required. Zero required approvals
+does not override explicit Product Owner review/merge requirements.
 
-CodeQL/application scanning was intentionally deferred until runtime existed.
-Phase 1 prepares the advanced Python workflow with only analysis-upload write
-permission. After reviewing the PR, verify Code scanning setup/results in GitHub;
-use the committed advanced workflow rather than a duplicate default setup. If
-upload is unavailable, enable the supported advanced configuration manually.
-The integration never changes repository settings through an alternate API path.
-
-License stays owner-pending. Course Package handoff stays pending before Phase 2.
+Phase 1 PR #4 was merged by the approved workflow. All three main engineering
+workflows succeeded. Owner verified default-branch scanning healthy and no alerts
+at acceptance. Advanced Python CodeQL operates; no duplicate default setup or
+settings bypass is introduced. Review new results per PR; acceptance-time absence
+of alerts is not a guarantee about later commits. License stays owner-pending.
+Controlled Contract v1 public receiving passed for Phase 2.
 Before future CD, configure isolated staging/production identities and approval;
 there is no production environment or deployment authorization in this phase.
 Token-default/allowed-action policies still deserve owner verification in the UI.

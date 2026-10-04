@@ -1,8 +1,10 @@
 # Phase 1 review evidence
 
-Status: implementation prepared for owner review. Phase 0 is CLOSED/ACCEPTED.
-Phase 1 is not owner-accepted yet. Phase 2 has NOT STARTED and needs separate
-approval plus the controlled public Contract v1 handoff before implementation.
+Historical Phase 1 evidence: Product Owner accepted and merged PR #4 on 2026-10-04.
+The following review-time snapshot is retained as history, not current state.
+Status at preparation: implementation prepared for owner review. Phase 0 is CLOSED/ACCEPTED.
+Phase 1 is CLOSED/ACCEPTED; Phase 2 is separately authorized following controlled
+public receiving. See PROJECT_STATE.md for current state. Historical evidence follows.
 
 Implemented: FastAPI factory/lifespan, typed environment configuration, async
 PostgreSQL transactions/pool, Alembic baseline, bounded health probes, JSON logs,
@@ -27,8 +29,9 @@ awaiting owner review without automatic merge. Hosted evidence below records
 actual completed runs; every later head needs verification. See ci.md for exact required-check names,
 security/phase-1-review.md for threat findings and development.md for commands.
 
-Remaining: owner review, setting required checks after successful PR runs,
-CodeQL setup/results review, license decision, and handoff before Phase 2.
+Review-time pending actions were subsequently closed by Product Owner:
+Phase 1 acceptance/merge, seven strict required checks and default-branch CodeQL
+verification. License remains pending; Contract v1 receiving has passed.
 Live production TLS/least-privilege provisioning, S3 adapter/delivery, rate limits
 for sensitive endpoints and OS-image CVE scanning remain later acceptance work.
 

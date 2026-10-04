@@ -5,13 +5,13 @@
 - [x] Phase 0 CLOSED/ACCEPTED and published; hosted main Phase 0 CI passed.
 - [x] Owner configured active Protect main and repository security features.
 - [x] Owner explicitly authorized Phase 1 Core Infrastructure only.
-- [ ] Owner adds actual successful PR check names to Protect main; see docs/ci.md.
-- [ ] Owner reviews Phase 1 PR; no automatic merge even with zero required approvals.
+- [x] Owner added seven real required checks and enabled strict up-to-date branches.
+- [x] Owner reviewed/accepted Phase 1 and merged PR #4 through protected workflow.
 - [ ] License remains Product Owner pending; add no license/make no open-source claim.
-- [ ] Controlled public Contract v1 handoff before Phase 2; no private repo access.
+- [x] Controlled public Contract v1 receiving gate passed; no private repo access.
 - [ ] Owner confirms earlier server-side confidentiality incident status privately.
 
-## Phase 1 — implementation prepared / review pending
+## Phase 1 — CLOSED / ACCEPTED
 
 - [x] Pin backend runtime and public-index dependencies in uv.lock.
 - [x] Implement FastAPI factory, typed settings and lifespan ownership.
@@ -23,17 +23,24 @@
 - [x] Replace backend pending gate with real quality/tests/dependency/container CI.
 - [x] Prepare Python CodeQL analysis and runtime threat/security review.
 - [x] Initial Phase 1 PR hosted runs passed; revision/run evidence is recorded.
-- [ ] Owner verifies latest PR head checks and reviews complete Code scanning results.
-- [ ] Product Owner accepts Phase 1; authorization of Phase 2 is a separate decision.
+- [x] Owner verified successful PR checks and healthy default-branch Code scanning/no alerts.
+- [x] Product Owner accepted Phase 1 and authorized Phase 2 subject to receiving gate.
 
-## Phase 2 — NOT STARTED / not authorized
+## Phase 2 — AUTHORIZED / implementation prepared for review
 
-Proposed next plan only: controlled public handoff review/provenance, actual
+Receiving completed; implementation follows: controlled public handoff review/provenance, actual
 Contract v1 compatibility assessment, untrusted-input validation design, transactional
 staged CourseRelease import and minimal protected/audited publication, synthetic
 fixture integration and negative tests. Missing contractual/security decisions
 must be resolved before implementation; never infer schemas or use private pilot
 in public source/CI. Product identity/administration completion stays in its phases.
+
+- [x] Fail-closed local staging/archive/inventory/confidentiality/contract gates.
+- [x] Byte-preserving public-only transfer; raw ZIP and transfer metadata excluded.
+- [x] Generic bounded validation and immutable staged release/asset/audit persistence.
+- [x] Identity/version conflict handling, transactional rollback and concurrency tests.
+- [ ] Complete security/compatibility tests, hosted CI and Phase 2 PR review.
+- [ ] Owner review/acceptance; Phase 3 needs separate authorization.
 
 ## Later owner decisions
 

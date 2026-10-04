@@ -107,3 +107,9 @@ class IndexTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class LocalStagingBoundaryTests(unittest.TestCase):
+    def test_force_added_local_staging_is_forbidden(self):
+        from confidentiality_guard import forbidden_path
+        self.assertTrue(forbidden_path('.local/handoff/candidate.zip'))
