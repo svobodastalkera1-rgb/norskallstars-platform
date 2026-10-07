@@ -2,8 +2,9 @@
 
 Authority: [ROADMAP Phase 4](../../ROADMAP.md), [public product direction](product-direction.md),
 [TASKS](../../TASKS.md), and Product Owner's public-safe Phase 4 decisions on 2026-10-04.
-Phases 0–3 are CLOSED/ACCEPTED; PR #8 is merged at
-`d03336a52559cf247e1fe3a7af3c33205d7c05ee`. Phase 4 is authorized; Phase 5 is not.
+Phases 0–4 are CLOSED/ACCEPTED; PR #9 is merged at
+`9194c7c0ca8d67cb7936be8508ef6df029a03364`. Phase 5 Web is conditionally authorized,
+with scope and pending product decisions recorded in [Web direction](../web/README.md).
 These rules are public platform requirements, independent of private corpus/pilot content.
 
 ## Objective and complete scope

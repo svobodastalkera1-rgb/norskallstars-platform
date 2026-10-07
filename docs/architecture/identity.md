@@ -26,7 +26,7 @@ one-use tokens, replay/revocation, bounded inputs/work, transactional account/to
 and deletion behavior; truthful locked dependencies/OpenAPI; all previous regression
 suites, identity unit/integration/security tests, quality/audit/container/safeguard/
 CodeQL hosted checks pass at the exact PR head. Owner accepted and merged PR #8;
-Phase 4 Learning Core is now authorized, with its approved normative policies documented
+Phase 4 Learning Core is accepted and merged, with its approved normative policies documented
 in [Learning Core](learning-core.md). This is phase acceptance, not production
 release acceptance. Live staging SMTP/Google verification remains open.
 

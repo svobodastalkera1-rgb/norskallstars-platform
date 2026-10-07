@@ -1,11 +1,13 @@
 # Project state
 
-Updated: 2026-10-06. Product: NorskAllstars. Platform: NorskAllstars Platform.
+Updated: 2026-10-07. Product: NorskAllstars. Platform: NorskAllstars Platform.
 Phase 0: **CLOSED / ACCEPTED by Product Owner**.
 Phase 1: **CLOSED / ACCEPTED by Product Owner; PR #4 merged**.
 Phase 2: **CLOSED / ACCEPTED by Product Owner; PR #7 merged**.
 Phase 3: **CLOSED / ACCEPTED by Product Owner; PR #8 merged**.
-Phase 4: **AUTHORIZED — Learning Core; implementation IN PROGRESS under approved public-safe normative rules**.
+Phase 4: **CLOSED / ACCEPTED by Product Owner; PR #9 merged**.
+Phase 5: **Web scope reviewed; conditional authorization, implementation stopped pending required voice/privacy policy**.
+Phase 6: **NOT STARTED / NOT AUTHORIZED**.
 Production readiness: **not achieved**.
 
 ## Actual implementation
@@ -18,10 +20,10 @@ runtime and real backend/CodeQL CI definitions. Phase 2 now adds bounded generic
 release persistence, idempotent staged import, asset references and audited
 privileged publication. Phase 3 implements the Identity module: shared accounts, verification/recovery,
 Google cryptographic proof validation, interface-language preference, revocable
-opaque sessions and account/session ownership/deletion. Phase 4 feature work adds
+opaque sessions and account/session ownership/deletion. Accepted Phase 4 adds
 versioned learning policies, pinned enrollments, attempts/evaluation/progress/review,
-advisory placement and authenticated curriculum/history/translation APIs. Validation
-is in progress; Phase 4 is not accepted. Web/Android, sync/billing, production
+advisory placement and authenticated curriculum/history/translation APIs.
+Web/Android, sync/billing, production
 infrastructure and Redis remain absent.
 
 Runtime and decisions: docs/architecture/backend-runtime.md and ADRs 0008/0009.
@@ -95,9 +97,10 @@ Before production storage, remote persistent storage, media delivery, externally
 reachable assets or production imports: implement and verify reconciliation,
 retention and orphan GC, including in-flight protection, grace period, immediate
 reference re-check, auditable deletion, safe retry and race/failure tests.
-Phase 3 Identity introduces none of those paths. Phase 4 preparation adds no
-runtime or storage/media interface; the gate remains mandatory and becomes
-in-scope in the first phase that crosses any of these boundaries.
+Accepted Identity/Learning Core introduce no storage/media delivery interface.
+Phase 5 course audio/image delivery crosses this boundary: reconciliation,
+retention and orphan GC are required before accepting that capability. No such
+delivery/GC has been implemented or verified yet.
 
 ## Phase 3 acceptance and deferred identity gates
 
@@ -133,8 +136,8 @@ in [Learning Core](docs/architecture/learning-core.md): optional advisory placem
 evaluator-independent evidence, linear canonical mastery gates, release/policy-pinned
 progress and account-lifetime private learning data erased with account deletion.
 No default numeric pedagogical threshold is authorized; require explicit versioned
-platform policy. Contract v1 bytes/semantics remain unchanged. Phase 5 is NOT STARTED
-and not authorized. Phase 4 implementation is in progress, not accepted.
+platform policy. Contract v1 bytes/semantics remain unchanged. Phase 4 is accepted
+and merged; its design rules remain authoritative for the Web client.
 
 Phase 4 implementation/review evidence: docs/phase-4-review.md and ADR 0012.
 Migration 0004_learning adds eight learning tables; account-owned learning rows
@@ -147,8 +150,43 @@ checks passed. All seven required hosted jobs and CodeQL analysis passed on
 implementation commit
 82188982e8ecbaab5b58cbde17114785bd3cb0f5 in PR #9. The subsequent evidence-update
 head 17cc29bc3071e88d27385b744e8372d72fee72de also passed all seven required hosted
-jobs and CodeQL analysis. The current PR-head Code Scanning alert inventory remains
-for Product Owner review; acceptance is pending.
+jobs and CodeQL analysis. These are historical implementation-time observations;
+the post-merge acceptance evidence follows below.
 Local Docker bridge routing blocks the containerized migrator in this workspace; the
-supported host migration and complete backend test path both passed. Phase 5 is NOT
-STARTED and remains unauthorized.
+supported host migration and complete backend test path both passed.
+
+## Phase 4 post-merge acceptance reconciliation
+
+GitHub confirms [PR #9](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/9)
+merged at 2026-10-07T08:17:59Z into main at
+`9194c7c0ca8d67cb7936be8508ef6df029a03364`. The main tree equals accepted PR head
+`351308a2f604266c7ebeffc2c4e1653188d22bfc` (`git diff` is empty).
+Merged main workflows completed successfully:
+[Backend CI](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37592844028),
+[Phase 0 CI](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37592844092),
+[Python CodeQL](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37592844072).
+Product Owner accepted the required checks, hosted CI, conflict and confidential
+artifact review, and reported no blocking Code Scanning alerts at acceptance.
+This is a dated observation, not a guarantee about later alerts. Historical
+docs/phase-4-review.md and docs/security/phase-4-review.md remain unchanged.
+
+## Phase 5 scope and decision gate
+
+Sources agree on Phase 5 **Web**: ROADMAP, public product direction, Web direction
+and accepted Identity/Learning Core contracts. Complete scope, dependencies and
+acceptance gates are recorded in [Web direction](docs/web/README.md).
+Product Owner conditionally authorized the phase. Voice purpose, local versus
+submitted audio, retention and deletion are required decisions explicitly left
+open by the product baseline/TASKS. Contract v1 supports speech activities but
+does not define private learner audio storage; current learning HTTP accepts JSON
+responses only. Do not invent a recording policy, change Contract v1 or silently
+replace the full speaking journey with a local-only implementation. Await the
+requested Product Owner decision before Phase 5 implementation.
+
+Deferred gates remain open: live SMTP/Google staging acceptance and SMTP
+at-least-once delivery verification; storage reconciliation/retention/GC; wider
+privacy/retention and future data export; administrator MFA/RBAC; explicit safe
+release-to-release progress migration; and Product Owner license selection.
+Phase 5 activates storage GC for asset delivery and browser session/CSRF review;
+live provider acceptance is required for any live-provider-dependent journey.
+No Phase 5 runtime, provider acceptance, storage GC or Phase 6 work is completed.

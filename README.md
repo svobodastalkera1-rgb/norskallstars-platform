@@ -4,13 +4,13 @@ NorskAllstars Platform is being built for learning Norwegian Bokmål through
 comprehensible input and the Natural Method. The production direction includes
 a responsive Web client and a native Android client backed by the same services.
 
-**Status: Phases 0–3 CLOSED/ACCEPTED; Phase 4 Learning Core authorized, implementation in progress.**
+**Status: Phases 0–4 CLOSED/ACCEPTED; Phase 5 Web scope reviewed, awaiting required voice policy.**
 The backend supplies infrastructure plus generic Course Package validation,
 immutable staged release import and explicit privileged publication transitions.
 Phase 3 adds shared accounts, email/password and Google proof validation,
 verification/recovery, revocable sessions, preferences and self-service deletion.
-Phase 4 feature work adds canonical learning, versioned policies, progress/review
-and advisory placement; validation is in progress. Web/Android clients and
+Accepted Phase 4 adds canonical learning, versioned policies, progress/review
+and advisory placement. Web/Android clients and
 production deployment remain unimplemented.
 [Learning Core scope and normative rules](docs/architecture/learning-core.md) records
 the approved implementation baseline. Production v1.0 remains the goal; see the [complete roadmap](ROADMAP.md).

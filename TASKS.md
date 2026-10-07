@@ -63,7 +63,7 @@ in public source/CI. Product identity/administration completion stays in its pha
 - [ ] Web/Android phases: secure token persistence and browser CSRF/cookie adapter
   review if introduced; Phase 10 separate administrator MFA/RBAC.
 
-## Phase 4 — Learning Core / AUTHORIZED, implementation in progress
+## Phase 4 — Learning Core / CLOSED / ACCEPTED
 
 - [x] Verify Phase 3 merge/acceptance and read all authoritative scope sources.
 - [x] Confirm scope agreement and record complete known capabilities/dependencies,
@@ -76,10 +76,31 @@ in public source/CI. Product identity/administration completion stays in its pha
 - [x] Design/implement Phase 4 feature work, including
   all deterministic components, user-owned attempts/progress/events, account-erasure
   interaction, bounded authenticated APIs and DB constraints/concurrency behavior.
-- [ ] Validate all previous regressions, new domain/API/ownership/race/security tests,
+- [x] Validate all previous regressions, new domain/API/ownership/race/security tests,
   migrations/OpenAPI, dependency/security/container and actual hosted required checks/CodeQL.
-- [ ] Product Owner reviews the Phase 4 implementation PR; never auto-merge.
-- [ ] Phase 5 remains NOT STARTED; no client implementation is authorized.
+- [x] Product Owner accepted PR #9, hosted required checks, Code Scanning and public
+  artifact review; merged implementation verified on main 9194c7c on 2026-10-07.
+- [x] Confirm merged main Backend CI, Phase 0 CI and Python CodeQL completed successfully.
+
+## Phase 5 — Web / conditional authorization; product decision pending
+
+- [x] Read authoritative scope; sources agree on Phase 5 Web. Record capabilities,
+  dependencies, privacy boundaries and acceptance gates in [Web scope](docs/web/README.md).
+- [ ] Product Owner defines voice purpose, local versus submitted recording behavior,
+  retention and deletion. Do not infer this policy from generic JSON responses or
+  invent a Course Package Contract extension; implementation is stopped pending decision.
+- [ ] Design reviewed browser session/token handling and stable backend API projections.
+- [ ] Implement complete responsive accessible Bokmål-first React/TypeScript client:
+  identity, learning/replay/review/placement, dashboard, preferences, localization,
+  course audio/images and the approved microphone workflow.
+- [ ] Implement and verify storage reconciliation/retention/orphan GC before serving
+  course assets. Preserve in-flight protection, grace, final reference checks and audit.
+- [ ] Verify provider staging gates for any live SMTP/Google-dependent journey;
+  mocks do not satisfy provider acceptance; SMTP remains at-least-once.
+- [ ] Add real Web quality, dependency/security, browser accessibility/E2E and code
+  scanning checks; run all accepted backend/Contract/receiving/confidentiality regressions.
+- [ ] Deliver feature PR with exact-head hosted evidence; await Product Owner review.
+- [ ] Phase 6 NOT STARTED; no Android implementation is authorized.
 
 ## Mandatory future production storage gate
 
