@@ -89,6 +89,9 @@ in public source/CI. Product identity/administration completion stays in its pha
 - [ ] Product Owner defines voice purpose, local versus submitted recording behavior,
   retention and deletion. Do not infer this policy from generic JSON responses or
   invent a Course Package Contract extension; implementation is stopped pending decision.
+  Owner clarified: local-only recordings apply when processing is unnecessary.
+  Resolve whether Phase 5 already retains audio for future processing and, if so,
+  the applicable purpose/retention/deletion rules. Future ML remains outside Phase 5.
 - [ ] Design reviewed browser session/token handling and stable backend API projections.
 - [ ] Implement complete responsive accessible Bokmål-first React/TypeScript client:
   identity, learning/replay/review/placement, dashboard, preferences, localization,

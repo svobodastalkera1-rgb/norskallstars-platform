@@ -183,6 +183,12 @@ responses only. Do not invent a recording policy, change Contract v1 or silently
 replace the full speaking journey with a local-only implementation. Await the
 requested Product Owner decision before Phase 5 implementation.
 
+Product Owner clarified on 2026-10-07 that recordings stay exclusively in the
+browser only when processing is not required, with a possible future Owner-developed
+ML evaluator. Remaining questions are whether Phase 5 must submit/retain audio
+before that processor exists, and its retention/deletion policy if so. No ML,
+audio collection or model-training purpose is implicitly authorized by this rule.
+
 Deferred gates remain open: live SMTP/Google staging acceptance and SMTP
 at-least-once delivery verification; storage reconciliation/retention/GC; wider
 privacy/retention and future data export; administrator MFA/RBAC; explicit safe

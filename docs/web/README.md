@@ -108,14 +108,22 @@ and before Phase 6.
 
 ## Required Product Owner decision — voice policy
 
+Product Owner clarification on 2026-10-07: a recording stays exclusively in the
+browser only when its processing is not required. Processing may later be provided
+by a Product Owner-developed ML evaluator. This is a conditional routing rule,
+not permission to collect all recordings or to implement ML in Phase 5.
+
 Product direction requires purpose, minimization, retention and deletion decisions
 for voice; TASKS leaves voice handling pending. Contract v1 identifies `speech`
 responses but does not define learner recordings or their storage. Existing learning
 submission accepts bounded JSON, with no binary upload or recording lifecycle.
 
-Product Owner must determine whether recordings remain local to the browser or
-are privately submitted as activity responses. For submission, define purpose,
-retention and deletion, including individual recording and account deletion.
+The remaining decision is whether Phase 5 already requires private submission
+and retention for future processing while no audio processor exists. Current
+rubric/external_future evaluators return pending results; they do not process audio.
+For submission, define purpose, retention and deletion, including individual
+recording and account deletion. Do not equate pending evaluation with an authorized
+audio-collection purpose or assume that future ML needs a training dataset.
 Generic account-lifetime JSON-response retention must not silently become an audio
 collection policy. Do not extend Contract v1 or substitute local-only speaking
 without approval. Implementation is stopped until this required decision is supplied.
