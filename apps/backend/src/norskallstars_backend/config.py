@@ -170,7 +170,7 @@ def load_settings() -> Settings:
     from pydantic import ValidationError
 
     try:
-        return Settings()  # type: ignore[call-arg]  # required fields come from environment
+        return Settings()  # required fields come from environment
     except ValidationError:
         # Uvicorn/CLI startup must not print raw environment values or validation inputs.
         raise RuntimeError("Invalid backend configuration; check documented settings") from None
