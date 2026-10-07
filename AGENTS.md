@@ -13,8 +13,13 @@ Do not invent contractual data structures or silently narrow release scope.
 ## Phase control
 
 Phase 0 is CLOSED and ACCEPTED. Phase 1 is CLOSED and ACCEPTED (PR #4 merged).
-Phase 2 is CLOSED and ACCEPTED (PR #7 merged and verified). Product Owner authorized
-Phase 3 Identity only. Phase 4 and later phases need separate authorization.
+Phase 2 is CLOSED and ACCEPTED (PR #7 merged and verified).
+Phase 3 Identity is CLOSED and ACCEPTED (PR #8 merged and verified).
+Product Owner authorized Phase 4 Learning Core, subject to authoritative scope.
+Public-safe normative Product Owner rules are recorded in
+docs/architecture/learning-core.md. Require explicit versioned learning policies;
+never invent numeric pedagogical defaults or infer rules from fixtures/arbitrary
+Contract extension objects. Phase 5 and later need separate authorization.
 Work through a feature PR; never merge without Product Owner review.
 Do not implement application runtime,
 identity, importers, learning, billing, administration, sync, or deployments

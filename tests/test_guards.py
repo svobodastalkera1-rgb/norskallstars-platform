@@ -25,7 +25,7 @@ class BoundaryTests(unittest.TestCase):
                      'norwegian-course/schema.json', 'backups/data.sql',
                      '.env.production', 'apps/backend/.env', 'signing/release.jks',
                      'exports/users.csv', 'production-assets/image.png', '.cache/prod.env',
-                     '.venv/credentials.json', 'mail/verification.eml']:
+                     '.venv/credentials.json', 'mail/verification.eml', 'learning-policies/answers.json', 'course.learning-policy.json']:
             with self.subTest(path=path):
                 self.assertTrue(forbidden_path(path))
                 self.assertTrue(validate(files(**{path: b'content'}), 'test'))
@@ -99,6 +99,12 @@ class IndexTests(unittest.TestCase):
         (self.root / '.gitignore').write_text('*.eml\n')
         (self.root / 'verification.eml').write_bytes(b'Synthetic private mail')
         subprocess.run(['git', '-C', str(self.root), 'add', '-f', 'verification.eml'], check=True)
+        self.assertTrue(validate(index_files(self.root), 'test'))
+
+    def test_runtime_learning_policy_rejected_even_when_force_indexed(self):
+        (self.root / '.gitignore').write_text('*.learning-policy.json\n')
+        (self.root / 'course.learning-policy.json').write_bytes(b'{"synthetic": true}')
+        subprocess.run(['git', '-C', str(self.root), 'add', '-f', 'course.learning-policy.json'], check=True)
         self.assertTrue(validate(index_files(self.root), 'test'))
 
     def test_symlink_rejected_before_materialization(self):

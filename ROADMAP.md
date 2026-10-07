@@ -1,7 +1,8 @@
 # Production roadmap
 
 NorskAllstars targets Production v1.0. An internal milestone is not a substitute
-for release acceptance. Phase 0 is CLOSED/ACCEPTED; Phase 1 is CLOSED/ACCEPTED; Phase 2 is CLOSED/ACCEPTED (PR #7 merged). Phase 3 Identity is authorized.
+for release acceptance. Phases 0–3 are CLOSED/ACCEPTED (Identity PR #8 merged).
+Phase 4 Learning Core is authorized; implementation follows approved public-safe normative rules.
 Every phase needs design, implementation, meaningful tests, security review,
 documentation, and a state update. Foundational failures block downstream work.
 
@@ -10,8 +11,8 @@ documentation, and a state update. Foundational failures block downstream work.
 | 0 — Bootstrap | Public monorepo boundaries, ADRs, project memory, developer setup, confidentiality controls and honest CI gates | CLOSED / ACCEPTED by Product Owner |
 | 1 — Core Infrastructure | Backend skeleton, validated configuration, PostgreSQL migrations, structured logging, health, test support, storage interface and basic security policies | CLOSED / ACCEPTED by Product Owner |
 | 2 — Course Integration | Integrate approved Contract v1 and synthetic fixture; validate untrusted packages, create versioned staged releases and authorized audited publication | CLOSED / ACCEPTED by Product Owner |
-| 3 — Identity | Shared accounts, email and Google sign-in, verification, recovery, session/device revocation, authorization and account deletion lifecycle | AUTHORIZED; implementation prepared for review |
-| 4 — Learning Core | Structured curriculum, versioned lessons/activities, deterministic placement/evaluation/mastery/review, attempts, progress and learning events | Not started |
+| 3 — Identity | Shared accounts, email and Google sign-in, verification, recovery, session/device revocation, authorization and account deletion lifecycle | CLOSED / ACCEPTED by Product Owner; PR #8 merged |
+| 4 — Learning Core | Structured curriculum, versioned lessons/activities, deterministic placement/evaluation/mastery/review, attempts, progress and learning events | AUTHORIZED; implementation in progress |
 | 5 — Web | Responsive accessible client with core learning, audio/images, microphone flows, dashboard, preferences and localized interface | Not started |
 | 6 — Android | Kotlin/Compose client, shared semantic learning behavior and online API integration with platform-specific UX | Not started |
 | 7 — Offline / Sync | Android cache/downloads, local persistence, offline media/attempts, version-aware idempotent sync and explicit conflict handling | Not started |
@@ -43,6 +44,13 @@ Android offline completion followed by reconciliation. Production cannot be
 announced without evidence for the full direction in
 [product direction](docs/architecture/product-direction.md).
 
+Phase 4 scope and normative policies are recorded in
+[Learning Core](docs/architecture/learning-core.md). This baseline preserves the entire
+phase; it does not defer placement/mastery/review to later phases or narrow scope.
+Identity acceptance does not close live SMTP/Google staging acceptance. Those checks
+remain mandatory before their respective production-readiness gates. SMTP delivery
+is at-least-once and must be verified with that delivery model.
+
 ML/LLM learning, adaptive curricula, generative production content, social feeds,
 and hearts/lives gating are outside v1.0. The roadmap is not an MVP cut-down.
 
@@ -52,4 +60,4 @@ storage or production imports, implement and verify orphan reconciliation/retent
 with in-flight protection, grace period, immediate reference re-check, auditable
 deletion, safe retry and race/failure tests. It belongs to the first phase that
 introduces these paths and must be satisfied by Production Hardening/Operations
-in all cases; current Identity work introduces none.
+in all cases; accepted Identity and current Phase 4 preparation introduce none.

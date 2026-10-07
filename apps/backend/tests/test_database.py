@@ -27,6 +27,14 @@ async def test_real_postgresql_and_session_commit_rollback(database):
         "identity_one_time_credentials",
         "identity_mail_outbox",
         "identity_rate_buckets",
+        "learning_rule_sets",
+        "learning_course_selections",
+        "learning_policy_audit",
+        "learning_enrollments",
+        "learning_attempts",
+        "learning_lesson_progress",
+        "learning_events",
+        "learning_placements",
     }
     async with database.transaction() as session:
         # Temporary table exists only on this isolated test session/connection.

@@ -19,4 +19,5 @@ choices on 2026-10-03; future changes follow the same review process.
 | [0008](0008-async-postgresql-migrations.md) | Async PostgreSQL lifecycle and baseline revision | Accepted; Phase 1 owner-accepted |
 | [0009](0009-object-storage-boundary.md) | Vendor-neutral object boundary and development adapter | Accepted; Phase 1 owner-accepted |
 | [0010](0010-course-release-import.md) | Immutable staged releases and privileged transitions | Accepted; Phase 2 owner-accepted |
-| [0011](0011-shared-identity.md) | Transactional shared identity and opaque sessions | Accepted engineering decision; Phase 3 owner review pending |
+| [0011](0011-shared-identity.md) | Transactional shared identity and opaque sessions | Accepted; Phase 3 owner-accepted, PR #8 merged |
+| [0012](0012-learning-policy-progress.md) | Versioned learning policies and release-pinned canonical progress | Accepted engineering decision; Phase 4 owner review pending |

@@ -75,3 +75,7 @@ local.properties
 .idea/
 .vscode/
 .DS_Store
+
+# Runtime learning policies may contain private answer rules; public schemas remain allowed.
+learning-policies/
+*.learning-policy.json

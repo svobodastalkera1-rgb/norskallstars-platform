@@ -1,6 +1,7 @@
 """Versioned identity API. Audit/operator assertions never grant HTTP privileges."""
 
 import json
+import math
 from collections.abc import Callable, Coroutine
 from dataclasses import asdict
 from typing import Annotated, Any, Literal, cast
@@ -102,6 +103,8 @@ def invalid_constant(value: str) -> None:
 
 
 class IdentityRoute(APIRoute):
+    json_nodes = 256
+
     def get_route_handler(self) -> Callable[[Request], Coroutine[Any, Any, Response]]:
         original = super().get_route_handler()
 
@@ -120,9 +123,14 @@ class IdentityRoute(APIRoute):
                     while queue:
                         item, depth = queue.pop()
                         nodes += 1
-                        if depth > 8 or nodes > 256:
+                        if depth > 8 or nodes > self.json_nodes:
                             raise ValueError("JSON resource limit")
+                        if isinstance(item, float) and not math.isfinite(item):
+                            raise ValueError("Non-finite JSON number")
+                        if isinstance(item, str) and (len(item) > 16384 or "\x00" in item):
+                            raise ValueError("JSON string resource limit")
                         if isinstance(item, dict):
+                            queue.extend((key, depth + 1) for key in item)
                             queue.extend((value, depth + 1) for value in item.values())
                         elif isinstance(item, list):
                             queue.extend((value, depth + 1) for value in item)

@@ -121,3 +121,29 @@ for endpoints, lifetimes, transaction behavior and exact limits.
 ```sh
 uv run --locked --project apps/backend python -m norskallstars_backend.identity.openapi contracts/api/identity-v1.openapi.json --check
 ```
+
+## Phase 4 learning development
+
+Apply Alembic head explicitly before readiness/learning checks. Learning uses the
+accepted Identity session model; every learner endpoint needs a verified account
+and bearer access token. Mutations require the existing client header/JSON boundary.
+The API inventory/semantics are in docs/architecture/learning-core.md and the
+reviewed contracts/api/learning-v1.openapi.json. No Web/Android client is implemented.
+
+An authorized OS/DB operator can select an already-published eligible release and
+bounded external policy (never a private policy checked into public Git):
+
+```sh
+python -m norskallstars_backend.learning.cli select <release-uuid> <external-policy-path> --actor <operator> --approval <approval-reference>
+```
+
+This changes only new-enrollment selection and immutable learning-policy audit;
+it never publishes/imports a package or migrates existing progress. Assertions
+are operator intent, not HTTP authentication/RBAC. Use synthetic test data locally;
+private corpus/pilot import and production operations are not authorized.
+No concrete/default pedagogical threshold or production policy is supplied.
+
+Run existing backend-test/backend-audit plus make check/security-check. Backend
+quality checks Identity/Learning OpenAPI and platform policy schema drift. To
+regenerate reviewed learning artifacts from typed code, use learning.openapi and
+learning.policy_schema modules with their destination paths; review compatibility.

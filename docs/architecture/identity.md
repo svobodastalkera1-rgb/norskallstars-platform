@@ -2,7 +2,8 @@
 
 Authority: [ROADMAP](../../ROADMAP.md), [public product direction](product-direction.md),
 [TASKS](../../TASKS.md), [ADR 0011](../adr/0011-shared-identity.md).
-Phase 0/1/2 are CLOSED/ACCEPTED; PR #7 merged into main at
+Phase 0/1/2/3 are now CLOSED/ACCEPTED; PR #8 merged into main at
+d03336a52559cf247e1fe3a7af3c33205d7c05ee. Before Identity implementation, PR #7 merged at
 fce1def7c805c59f4292fc20180c112c14bc2d61, verified before implementation.
 Historical phase review records remain dated evidence.
 
@@ -24,8 +25,10 @@ DoD: real startup/API flows and migrations; generic opaque errors; verified owne
 one-use tokens, replay/revocation, bounded inputs/work, transactional account/token/mail
 and deletion behavior; truthful locked dependencies/OpenAPI; all previous regression
 suites, identity unit/integration/security tests, quality/audit/container/safeguard/
-CodeQL hosted checks pass at the exact PR head. Owner reviews before merge; Phase 4
-is not authorized. This is phase acceptance, not production release acceptance.
+CodeQL hosted checks pass at the exact PR head. Owner accepted and merged PR #8;
+Phase 4 Learning Core is now authorized, with its approved normative policies documented
+in [Learning Core](learning-core.md). This is phase acceptance, not production
+release acceptance. Live staging SMTP/Google verification remains open.
 
 ## HTTP inventory
 

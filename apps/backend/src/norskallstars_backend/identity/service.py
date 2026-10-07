@@ -91,6 +91,25 @@ class Identity:
         if denied:
             raise IdentityError(429, "rate_limited")
 
+    async def rate_limit_account(self, operation: str, principal: Principal) -> None:
+        # Domain consumers use the accepted Identity rate store; no raw account IDs.
+        epoch = int(now().timestamp()) // 60
+        key = self.digest("account-rate", f"{operation}:{principal.account_id}:{epoch}")
+        async with self.database.transaction() as db:
+            await self.locked_principal(db, principal)
+            statement = insert(RateBucket).values(
+                digest=key, count=1, expires_at=datetime.fromtimestamp((epoch + 1) * 60, UTC)
+            )
+            count = (
+                await db.execute(
+                    statement.on_conflict_do_update(
+                        index_elements=[RateBucket.digest], set_={"count": RateBucket.count + 1}
+                    ).returning(RateBucket.count)
+                )
+            ).scalar_one()
+        if count > 120:
+            raise IdentityError(429, "rate_limited")
+
     async def email_lock(self, db: AsyncSession, email: str) -> None:
         # Serialize registration/federation against one canonical email, across instances.
         key = int(self.digest("email-lock", email)[:16], 16)
