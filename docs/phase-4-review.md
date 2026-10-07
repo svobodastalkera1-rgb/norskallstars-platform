@@ -40,6 +40,11 @@ current integration, so this evidence does not assert an empty alert inventory; 
 Product Owner should inspect the PR's Code Scanning view. Phase 4 remains unaccepted
 until review and acceptance of the current PR head.
 
+After these evidence updates, PR #9 head `17cc29bc3071e88d27385b744e8372d72fee72de`
+completed all required jobs successfully again: [Backend CI](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37589665923),
+[Phase 0 CI](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37589665940),
+and [CodeQL Python](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37589665946).
+
 Live SMTP/Google staging acceptance, SMTP at-least-once semantics, mandatory production
 orphan reconciliation/retention/GC and all later client/admin/privacy/operations gates
 remain open. Real courses require owner-approved explicit versioned learning policy;

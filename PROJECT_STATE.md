@@ -145,8 +145,10 @@ against a fresh isolated PostgreSQL database; the Contract v1 suite passed 19/19
 strict typing, lint, schema drift, dependency audit and repository confidentiality
 checks passed. All seven required hosted jobs and CodeQL analysis passed on
 implementation commit
-82188982e8ecbaab5b58cbde17114785bd3cb0f5 in PR #9; the current PR head still needs
-its final Actions run after evidence documentation updates and Product Owner review.
+82188982e8ecbaab5b58cbde17114785bd3cb0f5 in PR #9. The subsequent evidence-update
+head 17cc29bc3071e88d27385b744e8372d72fee72de also passed all seven required hosted
+jobs and CodeQL analysis. The current PR-head Code Scanning alert inventory remains
+for Product Owner review; acceptance is pending.
 Local Docker bridge routing blocks the containerized migrator in this workspace; the
 supported host migration and complete backend test path both passed. Phase 5 is NOT
 STARTED and remains unauthorized.
