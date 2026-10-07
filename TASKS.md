@@ -82,7 +82,7 @@ in public source/CI. Product identity/administration completion stays in its pha
   artifact review; merged implementation verified on main 9194c7c on 2026-10-07.
 - [x] Confirm merged main Backend CI, Phase 0 CI and Python CodeQL completed successfully.
 
-## Phase 5 — Web / AUTHORIZED; implementation in progress
+## Phase 5 — Web / IMPLEMENTED; awaiting Product Owner review
 
 - [x] Read authoritative scope; sources agree on Phase 5 Web. Record capabilities,
   dependencies, privacy boundaries and acceptance gates in [Web scope](docs/web/README.md).
@@ -104,14 +104,18 @@ in public source/CI. Product identity/administration completion stays in its pha
 - [ ] Verify provider staging gates for any live SMTP/Google-dependent journey;
   mocks do not satisfy provider acceptance; SMTP remains at-least-once.
 - [x] Add real Web quality/tests/dependency and CodeQL Web workflow definitions.
-- [ ] Verify actual hosted results and all accepted backend/Contract/receiving/
-  confidentiality regressions; preserve the seven required main checks.
+- [x] Verify all 23 implementation-head hosted checks, including the seven required
+  names and Backend/Web/Contract/receiving/confidentiality/CodeQL regressions.
+- [ ] Verify each final evidence-only head separately; Owner reviews Code Scanning UI
+  because alerts API is inaccessible (403).
 - [x] Restore environment capabilities for Docker/network and `.git` writes;
   2026-10-07 probes passed, including authenticated Compose-network PostgreSQL and
   Docker build. A scoped reversible local firewall repair preserves global DROP;
   reapply after host/network recreation if needed. Complete local application
   validation passed; feature commit/push/PR and hosted results remain separate gates.
-- [ ] Deliver feature PR with exact-head hosted evidence; await Product Owner review.
+- [x] Open [PR #10](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/10)
+  against protected main; implementation-head hosted results passed.
+- [ ] Product Owner reviews/accepts Phase 5 and makes an explicit merge decision.
 - [ ] Phase 6 NOT STARTED; no Android implementation is authorized.
 
 ## Mandatory future production storage gate
@@ -119,7 +123,8 @@ in public source/CI. Product identity/administration completion stays in its pha
 - [x] Phase 5 implements storage reconciliation/retention/GC with shared writer/
   exclusive GC locks, grace, final reference re-check, durable deletion intents and
   retry/idempotency; local PostgreSQL race/failure tests passed.
-- [ ] Verify exact-head hosted GC/media checks and obtain Owner Phase 5 acceptance.
+- [x] Implementation-head hosted GC/media regression passed.
+- [ ] Obtain Owner Phase 5 acceptance and verify any later evidence-only HEAD.
 - [ ] Before live production/remote storage/media/import: acceptance-test private
   unversioned S3 bucket, IAM/anonymous-denial/encryption and provider erasure; schedule
   monitored cleanup with retention SLA, failure alerts and backups erasure policy.

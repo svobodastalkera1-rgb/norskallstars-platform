@@ -31,9 +31,10 @@ on 2026-10-07. Historical review evidence remains unchanged.
 Phase 5 Web follows Owner-accepted selective voice/privacy policy: separate consent,
 explicit purpose, at most twelve months and account-deletion erasure.
 
-Phase 5 (uncommitted work, review pending): responsive Bokmål-first Web,
+Phase 5 (PR #10, review pending): responsive Bokmål-first Web,
 Identity/Learning API client, private media/consented selective recordings,
 coordinated retention/orphan cleanup, dashboard engagement evidence and real
 Web/CodeQL workflow definitions. Complete local backend/browser/container regression
-and locked dependency audits passed; hosted checks and Owner acceptance remain pending;
+and locked dependency audits passed; all implementation-head hosted checks passed,
+with Owner acceptance and later evidence-head verification remaining separate;
 no production release or Phase 6 implementation.

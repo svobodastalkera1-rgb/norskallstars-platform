@@ -3,8 +3,8 @@
 Date: 2026-10-07. Engineering implementation/review in progress, **not accepted**.
 Full local backend (243), Web unit/component (16) and browser E2E/accessibility (9)
 regressions passed, including cross-account/race/failure checks. Locked backend/npm
-audits found no known vulnerabilities. Final container smoke passed. Hosted checks
-and Owner review remain pending; live provider/operations acceptance is not claimed.
+audits found no known vulnerabilities. Final container smoke passed. Implementation-head hosted checks
+passed; later evidence revisions need separate checks, and Owner review remains pending; live provider/operations acceptance is not claimed.
 See [scope](../web/README.md), [ADR 0013](../adr/0013-web-media-privacy.md) and
 [current evidence](../phase-5-review.md).
 

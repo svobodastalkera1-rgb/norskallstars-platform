@@ -44,4 +44,6 @@ After actual successful Phase 5 PR runs, Owner should add exactly **Web quality*
 **Web tests**, **Web dependency audit**, **CodeQL Web** to Protect main if desired,
 preserving the existing seven checks and strict up-to-date branches. No settings
 were changed. Review both advanced CodeQL language categories in Code Scanning;
-no competing default-setup workflow is needed. Hosted Phase 5 runs are pending.
+no competing default-setup workflow is needed. All 23 implementation-head PR checks passed (PR #10, `1eb49b7`); later revisions
+need separate exact-head results. Alert API access returned 403; Owner UI review
+remains required. See [Phase 5 evidence](phase-5-review.md).

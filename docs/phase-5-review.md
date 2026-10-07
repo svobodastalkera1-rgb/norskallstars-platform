@@ -1,6 +1,6 @@
 # Phase 5 — Web: implementation and pending review evidence
 
-Updated 2026-10-07. **IN PROGRESS; not accepted, not ready for merge.**
+Updated 2026-10-07. **IMPLEMENTED / AWAITING PRODUCT OWNER REVIEW; not accepted.**
 Authoritative sources agree on Web: ROADMAP Phase 5, TASKS, public product direction,
 [Web scope](web/README.md), accepted Identity/Learning Core and Owner's voice policy.
 The complete phase includes responsive accessible learning/identity/media/preferences/
@@ -12,8 +12,10 @@ PR #9 is merged; current observed main is 9194c7c0ca8d67cb7936be8508ef6df029a033
 byte-identical to accepted Phase 4 head. Its merged Backend/Bootstrap/Python CodeQL
 runs succeeded. Historical Phase 0–4 review evidence is unchanged.
 Phases 0–4 are CLOSED / ACCEPTED. Feature branch: `feature/phase-5-web`.
-Last local commit is 1d83efa741205b41406911c7a3f124ac206e4fc2; runtime changes are
-uncommitted. **No Phase 5 PR or hosted runtime result exists yet.** Do not merge.
+[PR #10](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/10) is open against
+main; implementation commit is `1eb49b7571b8850a98f043dd52ae3e118eae7533`.
+Implementation push runs passed Backend/Web/safeguards and Python/Web CodeQL.
+Evidence-only revisions require their own exact-head checks. Do not merge.
 
 Earlier sandbox restrictions denied Docker, PostgreSQL/GitHub network and `.git`
 writes. On 2026-10-07, environment recovery verified Git metadata writes, Docker
@@ -23,7 +25,7 @@ legacy/nft bridge conflict while preserving global DROP. This repair is local an
 non-persistent. Complete local application regression subsequently passed; final
 index review still precedes commit/push/PR. Hosted checks and Owner review remain separate.
 
-## Implemented working-tree structure
+## Implemented structure
 
 - `apps/web`: React/TypeScript/Vite, Bokmål/English UI; typed generated client DTOs,
   memory session client, identity/account/session/fresh-proof/deletion and Google
@@ -92,8 +94,8 @@ effect. Physical erasure requires a scheduled, monitored worker/backups policy.
 | Web dependency audit | Current npm lock: zero known vulnerabilities |
 | Browser E2E/accessibility | **9/9 passed**, three cases each in Chromium (7.4s), Firefox (11.9s), WebKit (11.3s); canonical completion and lower-scoring replay, media/localization/keyboard/accessibility |
 | Container | Final image built; Compose migrator/readiness and non-root/read-only runtime smoke passed |
-| Hosted/required checks | No Phase 5 PR/runs yet; not passed or skipped-as-success |
-| CodeQL | Workflow ready for Python and Web; no Phase 5 analysis result yet; Owner UI review required |
+| Hosted/required checks | Implementation HEAD `1eb49b7`: **23/23 successful checks**, all seven required names passed for push and PR events; evidence-only revisions require their own result |
+| CodeQL | Python and Web analysis jobs and generated CodeQL results check succeeded; alert API returned 403, so absence of alerts is not asserted; Owner UI review required |
 
 The backend test DB retained an earlier development schema: its migration-drift check
 initially detected Numeric precision mismatch. Reset only guarded `norskallstars_test`
@@ -117,9 +119,9 @@ Once they genuinely pass on the Phase 5 PR, Owner can add: **Web quality**, **We
 **Web dependency audit**, **CodeQL Web**. No repository settings changed. Review both
 advanced CodeQL categories; do not add a competing default-setup workflow.
 
-Remaining before delivery: feature commit/push/PR
-and actual hosted exact-head results. All local backend/browser/container/locked audit
-gates above have passed. Raw ZIP/private corpus/real media/user data must stay absent.
+Implementation is published through PR #10; all implementation-head hosted workflows
+passed. Every evidence-only revision still requires actual exact-head results. Local
+backend/browser/container/locked audit gates above have passed. Raw ZIP/private corpus/real media/user data must stay absent.
 Stop before merge and Phase 6.
 
 Owner manual acceptance: review responsive desktop/mobile/keyboard journeys, published
@@ -133,3 +135,37 @@ Still deferred: SMTP/Google staging acceptance and SMTP at-least-once semantics;
 S3/provider/cleanup operations, future privacy export, administrator authorization,
 explicit release-progress migration, license and production release/operations gates.
 No later roadmap phase or external deployment is started.
+
+## Implementation-head hosted evidence
+
+At `1eb49b7571b8850a98f043dd52ae3e118eae7533`, all 23 PR checks succeeded,
+including duplicate push/PR jobs and the generated CodeQL results check. PR has
+no merge conflicts; no merge/auto-merge is authorized. Completed PR workflows:
+
+- [Safeguards](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37677242414)
+- [Backend](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37677242748)
+- [Web](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37677242453)
+- [Python and Web CodeQL](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37677242635)
+
+Hosted push logs independently confirm 243 backend tests, 19 upstream Contract tests
+and all three isolated browser projects passed. Final evidence-only HEAD results
+are reported in PR metadata and delivery; these implementation runs are not inherited
+acceptance for later revisions. No GitHub settings were changed. Read-only API confirms
+Protect main Active, seven required checks, strict up-to-date policy and no bypass actors.
+Code Scanning alerts API is inaccessible to this integration (403); Owner must inspect
+Python/Web results and blocking alerts in the GitHub UI.
+
+## Limitations and next step
+
+Tokens intentionally do not survive page reload. Audio remains opaque and is not
+server-decoded/evaluated; maximum bytes and container signatures do not establish
+safe decoder input. Inventory is bounded; versioned S3 buckets are unsupported and
+rejected. Physical erasure depends on monitored operator cleanup and provider/backups
+acceptance. The local Codespace firewall repair is reversible and non-persistent;
+it is not published as application infrastructure.
+
+Product Owner should review PR #10 and both CodeQL categories; verify the manual
+journeys above, then make an explicit acceptance/merge decision. Phase 6 remains
+NOT STARTED / NOT AUTHORIZED. No real corpus, pilot or inbound ZIP was read/imported
+for Phase 5. Account/privacy/export, live SMTP/Google, storage operations, administrator
+RBAC, release migration and license gates remain visible in TASKS and project state.

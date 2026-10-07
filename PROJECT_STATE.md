@@ -6,7 +6,7 @@ Phase 1: **CLOSED / ACCEPTED by Product Owner; PR #4 merged**.
 Phase 2: **CLOSED / ACCEPTED by Product Owner; PR #7 merged**.
 Phase 3: **CLOSED / ACCEPTED by Product Owner; PR #8 merged**.
 Phase 4: **CLOSED / ACCEPTED by Product Owner; PR #9 merged**.
-Phase 5: **Web AUTHORIZED; implementation IN PROGRESS under accepted voice/privacy policy**.
+Phase 5: **Web IMPLEMENTED / AWAITING PRODUCT OWNER REVIEW; NOT ACCEPTED**.
 Phase 6: **NOT STARTED / NOT AUTHORIZED**.
 Production readiness: **not achieved**.
 
@@ -23,8 +23,8 @@ Google cryptographic proof validation, interface-language preference, revocable
 opaque sessions and account/session ownership/deletion. Accepted Phase 4 adds
 versioned learning policies, pinned enrollments, attempts/evaluation/progress/review,
 advisory placement and authenticated curriculum/history/translation APIs.
-Phase 5 Web/media implementation has passed complete local validation; hosted PR
-verification and Product Owner review remain pending.
+Phase 5 Web/media implementation has passed complete local validation; initial implementation-head hosted PR
+verification passed; Product Owner review and exact evidence-head CI remain separate.
 Android, sync/billing, production infrastructure and Redis remain absent.
 
 Runtime and decisions: docs/architecture/backend-runtime.md and ADRs 0008/0009.
@@ -35,7 +35,7 @@ roles or privileged HTTP course operations. Required secret keys have no default
 configuration requires HTTPS identity links, explicit Google audiences and TLS SMTP.
 Verification evidence: docs/phase-1-review.md. Initial Phase 1 PR runs passed
 quality/tests/audit/container, Phase 0 safeguards and Python CodeQL. Each updated
-PR head is verified separately; historical evidence does not substitute for it. Web has real Phase 5 workflow definitions awaiting hosted verification; Android remains pending.
+PR head is verified separately; historical evidence does not substitute for it. Web has real Phase 5 workflow definitions and passing implementation-head hosted runs; Android remains pending.
 
 ## Repository governance
 
@@ -104,7 +104,8 @@ reference re-check, auditable deletion, safe retry and race/failure tests.
 Accepted Identity/Learning Core introduce no storage/media delivery interface.
 Phase 5 course audio/image delivery crosses this boundary: reconciliation,
 retention and orphan GC are required before accepting that capability. Delivery/GC implementation and PostgreSQL race/failure regressions passed locally.
-Hosted verification and Owner review remain pending; live provider privacy/erasure,
+Implementation-head hosted verification passed; later exact-head checks and Owner
+review remain separate. Live provider privacy/erasure,
 cleanup scheduling/monitoring and backups remain explicit production gates.
 
 ## Phase 3 acceptance and deferred identity gates
@@ -184,7 +185,9 @@ purpose, maximum twelve calendar months and account-deletion erasure. This super
 the earlier indefinite-retention request. ML implementation/training is not authorized.
 Accepted Identity/Learning Core erasure and pinned policy/release semantics remain intact.
 
-Feature branch: `feature/phase-5-web`, based on accepted main 9194c7c. Uncommitted
+Feature branch: `feature/phase-5-web`, based on accepted main 9194c7c.
+[PR #10](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/10) contains
+implementation commit `1eb49b7571b8850a98f043dd52ae3e118eae7533`.
 Phase 5 implementation includes a React/TypeScript client, memory-only bearer sessions,
 identity/fresh-proof/preferences/session/deletion journeys, learning/placement/replay/
 history/translation UI, private media/recordings, dashboard and engagement evidence.
@@ -198,7 +201,8 @@ Storage inventory, S3-compatible adapter and coordinated bounded GC are implemen
 in the working tree. Shared writer/exclusive cleanup PostgreSQL locks, final reference
 re-checks, grace, committed expiry and durable deletion intents protect reference
 integrity. Complete local PostgreSQL/race, browser and final container regressions
-passed. Hosted exact-head verification and Owner acceptance remain pending. Live
+passed locally and on the implementation-head hosted run. Later exact-head checks
+and Owner acceptance remain separate. Live
 provider/erasure and scheduled operations remain production gates; no production
 import, provider or deployment runs.
 
@@ -208,7 +212,8 @@ passes: the browser fetch receiver and downgrade naming defects have focused tes
 current-head tests cover both. Browser journeys also verify canonical completion
 survives lower-scoring replay. Independent browser projects use reset synthetic
 Web-test data, preserving ordinary runtime rate limits. See [Phase 5 evidence](docs/phase-5-review.md).
-Feature commit/PR and exact-head hosted results remain pending; Phase 5 is not accepted.
+Implementation commit/PR are published. All 23 implementation-head checks passed, including seven required checks; every later
+PR head requires separate hosted verification. Phase 5 is not accepted.
 
 Production gates remain: isolated live SMTP/Google acceptance (SMTP at-least-once),
 private S3/TLS/encryption/anonymous-denial and cleanup scheduling/monitoring/backups,
@@ -223,4 +228,6 @@ source files), generated API/policy drift and Web format/lint/build passed. Fina
 Compose image build, migration and non-root/read-only runtime smoke passed. Locked
 backend audit (91 packages) and npm audit reported no known vulnerabilities. Final
 staged index/history confidentiality and redacted secret checks passed before commit.
-Hosted Phase 5 verification is separate and remains pending.
+Implementation-head hosted verification passed all 23 checks. Evidence-only updates
+require separate exact-head verification; Owner review remains pending. CodeQL Python
+and Web analysis succeeded; alert API returned 403, so Owner must review scanning UI.
