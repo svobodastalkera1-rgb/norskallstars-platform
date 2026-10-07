@@ -108,6 +108,24 @@ and before Phase 6.
 
 ## Required Product Owner decision — voice policy
 
+Latest Product Owner request on 2026-10-07: retain user information, including
+audio, after account deletion indefinitely or until Owner storage cleanup;
+audio may be compressed/archived for a year or longer. Retain only a random
+subset of recordings for now, including during Owner service testing; learners
+are not intended to administer the backend audio store. No sampling probability
+or collection-purpose/notice policy has been specified. This request is recorded,
+not implemented or represented as production-approved privacy compliance.
+
+This changes the accepted Identity/Learning Core erasure semantics: current
+`DELETE /api/v1/identity/me` deletes the account and cascades private learning
+records. Reconciliation requires a reviewed replacement retention/deletion policy,
+explicit data categories/purpose and applicable privacy-rights handling, plus an
+ADR, migration and revised acceptance tests if behavior changes. Do not silently
+turn deletion into indefinite identifiable-data retention or remove erasure tests.
+Lack of direct backend storage access does not replace user-facing privacy rights.
+Sampling and compression are resource controls, not deletion or anonymization.
+No retained voice data is implicitly authorized for model training.
+
 Product Owner clarification on 2026-10-07: a recording stays exclusively in the
 browser only when its processing is not required. Processing may later be provided
 by a Product Owner-developed ML evaluator. This is a conditional routing rule,
@@ -118,12 +136,11 @@ for voice; TASKS leaves voice handling pending. Contract v1 identifies `speech`
 responses but does not define learner recordings or their storage. Existing learning
 submission accepts bounded JSON, with no binary upload or recording lifecycle.
 
-The remaining decision is whether Phase 5 already requires private submission
-and retention for future processing while no audio processor exists. Current
-rubric/external_future evaluators return pending results; they do not process audio.
-For submission, define purpose, retention and deletion, including individual
-recording and account deletion. Do not equate pending evaluation with an authorized
-audio-collection purpose or assume that future ML needs a training dataset.
+The Owner request now calls for selective server retention before the future
+processor exists. Current rubric/external_future evaluators return pending results;
+they do not process audio. Remaining gates are the collection purpose/notice and
+retention/deletion-policy reconciliation above. Do not equate pending evaluation
+with an authorized collection or training purpose.
 Generic account-lifetime JSON-response retention must not silently become an audio
 collection policy. Do not extend Contract v1 or substitute local-only speaking
 without approval. Implementation is stopped until this required decision is supplied.

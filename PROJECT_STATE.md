@@ -185,9 +185,14 @@ requested Product Owner decision before Phase 5 implementation.
 
 Product Owner clarified on 2026-10-07 that recordings stay exclusively in the
 browser only when processing is not required, with a possible future Owner-developed
-ML evaluator. Remaining questions are whether Phase 5 must submit/retain audio
-before that processor exists, and its retention/deletion policy if so. No ML,
-audio collection or model-training purpose is implicitly authorized by this rule.
+ML evaluator. The subsequent Owner request calls for random selective audio
+retention, possible long-term compression, and indefinite retention of user data
+after account deletion until optional Owner cleanup. This changes the accepted
+Identity/Learning Core erasure semantics and is not implemented. Reconcile the
+purpose/notice, retained data categories, applicable privacy rights and retention/
+deletion policy before changing migrations, endpoints or erasure regression tests.
+See Web direction for the exact requested change and remaining decision gate.
+No model-training use is implicitly authorized by the audio-retention request.
 
 Deferred gates remain open: live SMTP/Google staging acceptance and SMTP
 at-least-once delivery verification; storage reconciliation/retention/GC; wider
