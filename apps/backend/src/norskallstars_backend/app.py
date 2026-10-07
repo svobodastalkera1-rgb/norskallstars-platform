@@ -18,6 +18,9 @@ from norskallstars_backend.identity.google import GoogleVerificationError, Googl
 from norskallstars_backend.identity.routes import identity_error, router
 from norskallstars_backend.identity.security import PasswordCapacityError
 from norskallstars_backend.identity.service import Identity, IdentityError
+from norskallstars_backend.learning.routes import learning_error
+from norskallstars_backend.learning.routes import router as learning_router
+from norskallstars_backend.learning.service import Learning, LearningError
 from norskallstars_backend.logging import configure_logging, exception_fields, request_id
 from norskallstars_backend.middleware import RequestBoundary
 from norskallstars_backend.storage import LocalObjectStorage, ObjectStorage
@@ -55,7 +58,10 @@ def create_app(settings: Settings | None = None, database: Database | None = Non
     )
     app.state.database, app.state.storage = database, storage
     app.state.identity = Identity(settings, database, GoogleVerifier())
+    app.state.learning = Learning(database, app.state.identity)
     app.include_router(router)
+    app.include_router(learning_router)
+    app.add_exception_handler(LearningError, learning_error)
     app.add_exception_handler(IdentityError, identity_error)
 
     @app.exception_handler(PasswordCapacityError)

@@ -26,7 +26,9 @@ class RequestBoundary:
         if scope["type"] != "http":
             await self.app(scope, receive, send)
             return
-        identity_request = scope.get("path", "").startswith("/api/v1/identity/")
+        identity_request = scope.get("path", "").startswith(
+            ("/api/v1/identity/", "/api/v1/learning/")
+        )
         body_limit = (
             min(self.settings.max_request_bytes, 32768)
             if identity_request

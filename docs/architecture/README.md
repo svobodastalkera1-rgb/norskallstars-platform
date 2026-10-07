@@ -2,7 +2,9 @@
 
 The baseline is a monorepo with one modular backend and two clients. The
 boundaries were accepted in Phase 0. Phase 1 now implements backend infrastructure;
-Phase 2 adds curriculum release integration; Phase 3 adds [shared identity](identity.md); learning and clients remain unimplemented.
+Phase 2 adds curriculum release integration; accepted Phase 3 adds [shared identity](identity.md).
+[Phase 4 Learning Core](learning-core.md) is authorized under approved public-safe
+normative rules; learning feature work is being validated. Clients remain unimplemented.
 
 ```mermaid
 flowchart LR

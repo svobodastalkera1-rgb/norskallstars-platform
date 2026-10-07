@@ -783,7 +783,8 @@ async def test_no_http_course_import_publication_or_admin_authority(identity_run
     service, client = identity_runtime
     session = await verified(service, client, password)
     paths = client._transport.app.openapi()["paths"]
-    assert all(path.startswith("/api/v1/identity/") for path in paths)
+    assert all(path.startswith(("/api/v1/identity/", "/api/v1/learning/")) for path in paths)
+    assert not any("import" in path or "publish" in path or "admin" in path for path in paths)
     for path in ["/v1/course-packages/import", "/v1/releases/publish", "/admin"]:
         assert (
             await client.post(

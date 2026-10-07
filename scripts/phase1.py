@@ -120,7 +120,7 @@ def main() -> None:
             with urllib.request.urlopen("http://127.0.0.1:8000/health/" + endpoint, timeout=5) as response:
                 assert response.status == 200 and json.load(response) == {"status": expected}
                 assert response.headers.get("X-Request-ID")
-        for path, expected in [("/api/v1/identity/me", 401), ("/api/v1/identity/register", 422)]:
+        for path, expected in [("/api/v1/identity/me", 401), ("/api/v1/identity/register", 422), ("/api/v1/learning/courses", 401)]:
             payload = b"{}" if path.endswith("register") else None
             request = urllib.request.Request("http://127.0.0.1:8000" + path, data=payload,
                 headers={"Content-Type": "application/json", "X-NorskAllstars-Client": "operator"})
@@ -135,7 +135,7 @@ def main() -> None:
         uid = compose("exec", "-T", "backend", "id", "-u", capture=True).stdout.strip()
         assert uid == "10001"
         compose("exec", "-T", "backend", "python", "-c", "from norskallstars_backend.course_packages.validation import schema_registry; assert len(schema_registry()[0]) == 7")
-        print("PASS: real container liveness/readiness, correlation ID, non-root/read-only runtime and packaged contract schemas/identity boundary")
+        print("PASS: real container liveness/readiness, correlation ID, non-root/read-only runtime and packaged contract schemas/identity/learning boundaries")
 
 
 if __name__ == "__main__":

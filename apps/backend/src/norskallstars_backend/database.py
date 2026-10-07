@@ -9,7 +9,7 @@ from sqlalchemy.orm import DeclarativeBase
 
 from norskallstars_backend.config import Settings
 
-SCHEMA_REVISION = "0003_identity"
+SCHEMA_REVISION = "0004_learning"
 
 
 class Base(DeclarativeBase):

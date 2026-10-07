@@ -1,10 +1,12 @@
 # Project state
 
-Updated: 2026-10-04. Product: NorskAllstars. Platform: NorskAllstars Platform.
+Updated: 2026-10-06. Product: NorskAllstars. Platform: NorskAllstars Platform.
 Phase 0: **CLOSED / ACCEPTED by Product Owner**.
 Phase 1: **CLOSED / ACCEPTED by Product Owner; PR #4 merged**.
 Phase 2: **CLOSED / ACCEPTED by Product Owner; PR #7 merged**.
-Phase 3: **AUTHORIZED — Identity; implementation prepared for Product Owner review on a feature branch**. Production readiness: **not achieved**.
+Phase 3: **CLOSED / ACCEPTED by Product Owner; PR #8 merged**.
+Phase 4: **AUTHORIZED — Learning Core; implementation IN PROGRESS under approved public-safe normative rules**.
+Production readiness: **not achieved**.
 
 ## Actual implementation
 
@@ -16,14 +18,17 @@ runtime and real backend/CodeQL CI definitions. Phase 2 now adds bounded generic
 release persistence, idempotent staged import, asset references and audited
 privileged publication. Phase 3 implements the Identity module: shared accounts, verification/recovery,
 Google cryptographic proof validation, interface-language preference, revocable
-opaque sessions and account/session ownership/deletion. Learning engine, Web/Android,
-sync/billing, production infrastructure and Redis remain absent.
+opaque sessions and account/session ownership/deletion. Phase 4 feature work adds
+versioned learning policies, pinned enrollments, attempts/evaluation/progress/review,
+advisory placement and authenticated curriculum/history/translation APIs. Validation
+is in progress; Phase 4 is not accepted. Web/Android, sync/billing, production
+infrastructure and Redis remain absent.
 
 Runtime and decisions: docs/architecture/backend-runtime.md and ADRs 0008/0009.
 Identity: docs/architecture/identity.md, ADR 0011 and docs/security/phase-3-review.md.
 Migration 0003_identity adds seven identity tables without changing course tables.
 Phase 2 import/publication remains operator-side; identity grants no administrative
-roles or HTTP course operations. Required secret keys have no defaults; production
+roles or privileged HTTP course operations. Required secret keys have no defaults; production
 configuration requires HTTPS identity links, explicit Google audiences and TLS SMTP.
 Verification evidence: docs/phase-1-review.md. Initial Phase 1 PR runs passed
 quality/tests/audit/container, Phase 0 safeguards and Python CodeQL. Each updated
@@ -77,8 +82,7 @@ into main at fce1def7c805c59f4292fc20180c112c14bc2d61. Main backend, bootstrap
 and CodeQL workflows completed successfully. Owner accepted the receiving,
 contract, synthetic, confidentiality and clarification gates and confirmed healthy
 code scanning/no alerts at review. Historical review records remain unchanged.
-Phase 3 Identity is authorized; Phase 4 is not authorized. Never merge without
-Product Owner review. Future “Залил новый handoff,
+Never merge without Product Owner review. Future “Залил новый handoff,
 продолжай работу” follows docs/corpus-integration/receiving.md and only resumes
 already-authorized work. It grants no production/irreversible authorization.
 
@@ -91,18 +95,55 @@ Before production storage, remote persistent storage, media delivery, externally
 reachable assets or production imports: implement and verify reconciliation,
 retention and orphan GC, including in-flight protection, grace period, immediate
 reference re-check, auditable deletion, safe retry and race/failure tests.
-Phase 3 Identity introduces none of those paths; the gate remains mandatory.
+Phase 3 Identity introduces none of those paths. Phase 4 preparation adds no
+runtime or storage/media interface; the gate remains mandatory and becomes
+in-scope in the first phase that crosses any of these boundaries.
 
-## Phase 3 review and deferred identity gates
+## Phase 3 acceptance and deferred identity gates
 
-Phase 3 [PR #8](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/8)
-is open; not merged. Implementation 62b5a8a passed all 15 actual hosted checks,
-including standard Compose and CodeQL. Later heads need separate verification.
-Feature implementation is not owner acceptance or a production deployment. Exact
-local/hosted evidence is recorded in docs/phase-3-review.md and the PR. No real
-Google/SMTP credentials or users are used in public tests. Owner must configure and
-verify isolated staging providers/mail delivery before live operation. Client token
+Product Owner accepted Phase 3 and its clarification/deferred gates. GitHub confirms
+[PR #8](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/8) merged
+at 2026-10-04T23:00:27Z into main at
+d03336a52559cf247e1fe3a7af3c33205d7c05ee. Its tree is byte-identical to accepted PR
+head 0d731b9f661c922641ae1d714e5b17aa4a9ec091 (`git diff` is empty).
+All 15 final PR checks succeeded. All seven required jobs on merged main succeeded:
+[Backend](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37242146348),
+[Safeguards](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37242146391),
+[CodeQL](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37242146312).
+Owner reviewed Code Scanning/CodeQL UI and reported no blocking alerts at acceptance;
+this does not assert perpetual absence of alerts. Historical docs/phase-3-review.md
+remains unchanged, including its review-time status. No Phase 3 implementation is
+reopened. No real Google/SMTP credentials or users are used in public tests.
+
+Live SMTP delivery and live Google authentication have NOT been acceptance-tested
+against configured staging infrastructure/providers. Both are explicit production
+gates before their respective live capabilities. SMTP delivery remains at-least-once,
+not exactly-once; staging must verify the documented retry/duplicate-delivery behavior.
+Owner must configure and verify isolated staging providers/mail delivery. Client token
 persistence/CSRF and OS-protected storage belong to Web/Android phases; administrator
 MFA/RBAC to Phase 10. Wider privacy/unverified-account/financial retention decisions,
 later-domain erasure hooks, worker scheduling/monitoring and key rotation remain
-production gates. License remains pending. Phase 4 is NOT STARTED/awaiting authorization.
+production gates. License remains pending.
+
+## Phase 4 authority and normative rules
+
+ROADMAP Phase 4 is Learning Core; sources agree. Product Owner supplied public-safe
+normative rules after the scope review and authorized continuation. They are recorded
+in [Learning Core](docs/architecture/learning-core.md): optional advisory placement,
+evaluator-independent evidence, linear canonical mastery gates, release/policy-pinned
+progress and account-lifetime private learning data erased with account deletion.
+No default numeric pedagogical threshold is authorized; require explicit versioned
+platform policy. Contract v1 bytes/semantics remain unchanged. Phase 5 is NOT STARTED
+and not authorized. Phase 4 implementation is in progress, not accepted.
+
+Phase 4 implementation/review evidence: docs/phase-4-review.md and ADR 0012.
+Migration 0004_learning adds eight learning tables; account-owned learning rows
+cascade on account deletion. Ordinary Identity grants no import/publication/admin
+permission. Compatible learning-policy selection fails closed without explicit
+rules; there is no default pedagogical percentage. All 226 backend tests passed
+against a fresh isolated PostgreSQL database; the Contract v1 suite passed 19/19,
+strict typing, lint, schema drift, dependency audit and repository confidentiality
+checks passed. Hosted PR/container checks and Product Owner acceptance remain pending.
+Local Docker bridge routing blocks the containerized migrator in this workspace;
+the supported host migration and complete backend test path both passed. Phase 5 is
+NOT STARTED and remains unauthorized.

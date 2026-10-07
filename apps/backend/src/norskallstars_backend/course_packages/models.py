@@ -24,6 +24,7 @@ class CourseRelease(Base):
     __table_args__ = (
         UniqueConstraint("course_id", "course_version"),
         UniqueConstraint("package_digest"),
+        UniqueConstraint("id", "course_id"),
         CheckConstraint("state IN ('staged', 'published')", name="release_state"),
         CheckConstraint("state <> 'published' OR release_eligible", name="release_eligibility"),
     )

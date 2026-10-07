@@ -1,6 +1,6 @@
 # 0011 — Shared transactional identity and opaque sessions
 
-Status: Accepted engineering decision within authorized Phase 3; owner review pending
+Status: Accepted (Product Owner accepted Phase 3; PR #8 merged on 2026-10-04)
 Date: 2026-10-04
 
 ## Context

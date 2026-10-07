@@ -43,7 +43,7 @@ in public source/CI. Product identity/administration completion stays in its pha
 - [x] Owner reviewed/accepted PR #7, required checks, scanning and clarification.
 - [x] PR #7 merged; accepted implementation verified on current main.
 
-## Phase 3 — Identity / AUTHORIZED
+## Phase 3 — Identity / CLOSED / ACCEPTED
 
 - [x] Shared accounts, email/password and Google sign-in; verification/recovery.
 - [x] Preferences, revocable sessions/devices and account-owned authorization.
@@ -51,14 +51,35 @@ in public source/CI. Product identity/administration completion stays in its pha
 - [x] Typed secret/configuration, migrations, threat review and regression suites.
 - [x] PR #8 implementation 62b5a8a passed hosted required checks/CodeQL (15 successful).
   Every later head is verified separately; no inherited/fake green checks.
-- [ ] Product Owner reviews/accepts Phase 3 PR #8; never auto-merge.
-- [ ] Configure/verify real isolated staging Google/SMTP before live operation.
+- [x] Product Owner accepted PR #8, all 15 final checks and Code Scanning UI.
+- [x] PR #8 merged; accepted tree verified on main d03336a; seven required main jobs passed.
+- [ ] Acceptance-test live SMTP delivery against configured isolated staging,
+  including at-least-once retries/duplicate semantics, before production mail operation.
+- [ ] Acceptance-test live Google authentication against configured staging
+  credentials/provider before production Google authentication.
 - [ ] Before production: owner privacy/unverified-account/financial retention policy;
   later-domain erasure hooks; broader compromised-password/edge abuse review;
   mail/credential cleanup scheduling, monitoring and explicit key rotation.
 - [ ] Web/Android phases: secure token persistence and browser CSRF/cookie adapter
   review if introduced; Phase 10 separate administrator MFA/RBAC.
-- [ ] Phase 4 remains NOT STARTED / awaiting separate authorization.
+
+## Phase 4 — Learning Core / AUTHORIZED, implementation in progress
+
+- [x] Verify Phase 3 merge/acceptance and read all authoritative scope sources.
+- [x] Confirm scope agreement and record complete known capabilities/dependencies,
+  expected persistence/API/privacy boundaries and gates in
+  [Learning Core](docs/architecture/learning-core.md).
+- [x] Product Owner supplied public-safe placement, evaluator/normalization,
+  completion/unlock, mastery/review, content-version and learning-data policies.
+  Rules are recorded in Learning Core; numeric thresholds require explicit versioned
+  policy, with no application pedagogical defaults.
+- [x] Design/implement Phase 4 feature work, including
+  all deterministic components, user-owned attempts/progress/events, account-erasure
+  interaction, bounded authenticated APIs and DB constraints/concurrency behavior.
+- [ ] Validate all previous regressions, new domain/API/ownership/race/security tests,
+  migrations/OpenAPI, dependency/security/container and actual hosted required checks/CodeQL.
+- [ ] Product Owner reviews the Phase 4 implementation PR; never auto-merge.
+- [ ] Phase 5 remains NOT STARTED; no client implementation is authorized.
 
 ## Mandatory future production storage gate
 
