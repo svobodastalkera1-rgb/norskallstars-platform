@@ -50,3 +50,7 @@ safe diagnostic event fields deliberately rather than turning raw traces back on
 There is no authentication, resource authorization, rate-limit service, domain
 schema, import pipeline or production deployment. These controls must arrive
 with their authorized consumer phases. See the runtime security review.
+
+Subsequent accepted Identity/Learning boundaries supersede the Phase 1-only scope
+above. Phase 5 working-tree Web/media/storage additions and pending verification:
+[Web review](../phase-5-review.md) and [ADR 0013](../adr/0013-web-media-privacy.md).

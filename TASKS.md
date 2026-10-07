@@ -82,41 +82,49 @@ in public source/CI. Product identity/administration completion stays in its pha
   artifact review; merged implementation verified on main 9194c7c on 2026-10-07.
 - [x] Confirm merged main Backend CI, Phase 0 CI and Python CodeQL completed successfully.
 
-## Phase 5 — Web / conditional authorization; product decision pending
+## Phase 5 — Web / AUTHORIZED; implementation in progress
 
 - [x] Read authoritative scope; sources agree on Phase 5 Web. Record capabilities,
   dependencies, privacy boundaries and acceptance gates in [Web scope](docs/web/README.md).
-- [ ] Product Owner defines voice purpose, local versus submitted recording behavior,
-  retention and deletion. Do not infer this policy from generic JSON responses or
-  invent a Course Package Contract extension; implementation is stopped pending decision.
-  Owner clarified: local-only recordings apply when processing is unnecessary.
-  Owner now requests random selective server audio retention and indefinite
-  retention of all user data after account deletion until optional Owner cleanup.
-  Reconcile this explicit policy change with accepted erasure semantics, retained
-  categories/purpose/notice and applicable privacy rights before implementation;
-  preserve current erasure tests meanwhile. Future ML remains outside Phase 5.
-- [ ] Design reviewed browser session/token handling and stable backend API projections.
-- [ ] Implement complete responsive accessible Bokmål-first React/TypeScript client:
+- [x] Product Owner accepted selective voice collection with separate consent,
+  explicit purpose, at most twelve months and account-deletion erasure. The earlier
+  indefinite-retention request is superseded; ML remains outside Phase 5.
+- [x] Implement memory-only browser sessions and stable API projections; ADR 0013.
+- [x] Complete local security/runtime review; exact hosted head remains a separate gate.
+- [x] Implement responsive Bokmål-first React/TypeScript client in the working tree:
   identity, learning/replay/review/placement, dashboard, preferences, localization,
   course audio/images and the approved microphone workflow.
-- [ ] Implement and verify storage reconciliation/retention/orphan GC before serving
-  course assets. Preserve in-flight protection, grace, final reference checks and audit.
+- [x] Verify 9/9 Chromium/Firefox/WebKit journeys/accessibility and 243/243 backend
+  PostgreSQL/migration/media/security/race regressions after the latest fixes.
+- [x] Implement storage inventory, reference coordination, expiry/retention and GC.
+- [x] Complete local PostgreSQL/race/failure verification of course delivery/GC;
+  in-flight protection, grace, final reference checks and durable audit tested.
+- [x] Pass final container build/migration/runtime smoke, Web 16/16 component tests,
+  locked backend/npm audits and unchanged Contract 19/19 regressions.
 - [ ] Verify provider staging gates for any live SMTP/Google-dependent journey;
   mocks do not satisfy provider acceptance; SMTP remains at-least-once.
-- [ ] Add real Web quality, dependency/security, browser accessibility/E2E and code
-  scanning checks; run all accepted backend/Contract/receiving/confidentiality regressions.
+- [x] Add real Web quality/tests/dependency and CodeQL Web workflow definitions.
+- [ ] Verify actual hosted results and all accepted backend/Contract/receiving/
+  confidentiality regressions; preserve the seven required main checks.
+- [x] Restore environment capabilities for Docker/network and `.git` writes;
+  2026-10-07 probes passed, including authenticated Compose-network PostgreSQL and
+  Docker build. A scoped reversible local firewall repair preserves global DROP;
+  reapply after host/network recreation if needed. Complete local application
+  validation passed; feature commit/push/PR and hosted results remain separate gates.
 - [ ] Deliver feature PR with exact-head hosted evidence; await Product Owner review.
 - [ ] Phase 6 NOT STARTED; no Android implementation is authorized.
 
 ## Mandatory future production storage gate
 
-- [ ] Before production/remote persistent object storage, HTTP media delivery,
-  externally reachable assets or production imports: implement storage inventory
-  reconciliation against committed DB references, in-flight import protection,
-  grace period, reference re-check immediately before deletion, auditable deletion,
-  retention, safe retries/idempotency and race/failure tests. Accepted Phase 2
-  orphans are private/unmapped and DB rollback remains complete; this development
-  limitation must not silently become a production retention policy.
+- [x] Phase 5 implements storage reconciliation/retention/GC with shared writer/
+  exclusive GC locks, grace, final reference re-check, durable deletion intents and
+  retry/idempotency; local PostgreSQL race/failure tests passed.
+- [ ] Verify exact-head hosted GC/media checks and obtain Owner Phase 5 acceptance.
+- [ ] Before live production/remote storage/media/import: acceptance-test private
+  unversioned S3 bucket, IAM/anonymous-denial/encryption and provider erasure; schedule
+  monitored cleanup with retention SLA, failure alerts and backups erasure policy.
+  Unmapped orphans remain private; DB rollback is atomic. Functional test success
+  must not silently close live operational acceptance.
 
 ## Later owner decisions
 

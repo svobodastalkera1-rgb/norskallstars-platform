@@ -1,0 +1,521 @@
+{
+  "components": {
+    "schemas": {
+      "Accepted": {
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "const": "accepted",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "Accepted",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "OfferInput": {
+        "additionalProperties": false,
+        "properties": {
+          "activity_id": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{1,127}$",
+            "title": "Activity Id",
+            "type": "string"
+          },
+          "attempt_id": {
+            "format": "uuid",
+            "title": "Attempt Id",
+            "type": "string"
+          },
+          "consent": {
+            "title": "Consent",
+            "type": "boolean"
+          },
+          "policy_version": {
+            "const": "voice-1",
+            "title": "Policy Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "attempt_id",
+          "activity_id",
+          "consent",
+          "policy_version"
+        ],
+        "title": "OfferInput",
+        "type": "object"
+      },
+      "OfferView": {
+        "additionalProperties": false,
+        "properties": {
+          "expires_at": {
+            "format": "date-time",
+            "title": "Expires At",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "policy_version": {
+            "const": "voice-1",
+            "default": "voice-1",
+            "title": "Policy Version",
+            "type": "string"
+          },
+          "purpose": {
+            "const": "speaking_response_processing",
+            "default": "speaking_response_processing",
+            "title": "Purpose",
+            "type": "string"
+          },
+          "retention_until": {
+            "format": "date-time",
+            "title": "Retention Until",
+            "type": "string"
+          },
+          "selected": {
+            "title": "Selected",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "selected",
+          "expires_at",
+          "retention_until"
+        ],
+        "title": "OfferView",
+        "type": "object"
+      },
+      "RecordingView": {
+        "additionalProperties": false,
+        "properties": {
+          "consented_at": {
+            "format": "date-time",
+            "title": "Consented At",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "policy_version": {
+            "const": "voice-1",
+            "default": "voice-1",
+            "title": "Policy Version",
+            "type": "string"
+          },
+          "purpose": {
+            "const": "speaking_response_processing",
+            "default": "speaking_response_processing",
+            "title": "Purpose",
+            "type": "string"
+          },
+          "retention_until": {
+            "format": "date-time",
+            "title": "Retention Until",
+            "type": "string"
+          },
+          "uploaded": {
+            "title": "Uploaded",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "consented_at",
+          "retention_until",
+          "uploaded"
+        ],
+        "title": "RecordingView",
+        "type": "object"
+      },
+      "UploadInput": {
+        "additionalProperties": false,
+        "properties": {
+          "audio_base64": {
+            "maxLength": 350000,
+            "minLength": 1,
+            "title": "Audio Base64",
+            "type": "string"
+          },
+          "mime_type": {
+            "enum": [
+              "audio/webm",
+              "audio/ogg",
+              "audio/mp4",
+              "audio/wav"
+            ],
+            "title": "Mime Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "audio_base64",
+          "mime_type"
+        ],
+        "title": "UploadInput",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "scheme": "bearer",
+        "type": "http"
+      }
+    }
+  },
+  "info": {
+    "title": "NorskAllstars Platform",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/media/enrollments/{enrollment_id}/lessons/{lesson_id}/assets/{asset_id}": {
+      "get": {
+        "operationId": "asset_api_v1_media_enrollments__enrollment_id__lessons__lesson_id__assets__asset_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "enrollment_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Enrollment Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "lesson_id",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{1,127}$",
+              "title": "Lesson Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "asset_id",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{1,127}$",
+              "title": "Asset Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Asset",
+        "tags": [
+          "media"
+        ]
+      }
+    },
+    "/api/v1/media/recording-offers": {
+      "post": {
+        "operationId": "offer_api_v1_media_recording_offers_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OfferInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfferView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Offer",
+        "tags": [
+          "media"
+        ]
+      }
+    },
+    "/api/v1/media/recordings": {
+      "get": {
+        "operationId": "recordings_api_v1_media_recordings_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/RecordingView"
+                  },
+                  "title": "Response Recordings Api V1 Media Recordings Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Recordings",
+        "tags": [
+          "media"
+        ]
+      }
+    },
+    "/api/v1/media/recordings/{recording_id}": {
+      "delete": {
+        "operationId": "erase_api_v1_media_recordings__recording_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "recording_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Recording Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Accepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Erase",
+        "tags": [
+          "media"
+        ]
+      },
+      "post": {
+        "operationId": "upload_api_v1_media_recordings__recording_id__post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "recording_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Recording Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-NorskAllstars-Client",
+            "required": true,
+            "schema": {
+              "enum": [
+                "web",
+                "android",
+                "operator"
+              ],
+              "title": "X-Norskallstars-Client",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Accepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Upload",
+        "tags": [
+          "media"
+        ]
+      }
+    }
+  }
+}

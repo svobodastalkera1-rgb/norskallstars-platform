@@ -63,7 +63,7 @@ def uv(*args: str) -> list[str]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("init", "up", "down", "test", "migrate", "smoke", "audit", "mail", "identity-cleanup"))
+    parser.add_argument("command", choices=("init", "up", "down", "test", "migrate", "smoke", "audit", "mail", "identity-cleanup", "storage-cleanup"))
     args = parser.parse_args()
     if args.command == "init":
         ENV_FILE.parent.mkdir(exist_ok=True)
@@ -108,6 +108,9 @@ def main() -> None:
         else:
             command.append("cleanup")
         run(uv(*command), env=environment())
+    elif args.command == "storage-cleanup":
+        compose("run", "--rm", "--no-deps", "backend", "python", "-m",
+                "norskallstars_backend.media.cleanup")
     elif args.command == "audit":
         requirements = ROOT / ".cache" / "backend-audit.txt"
         requirements.parent.mkdir(exist_ok=True)

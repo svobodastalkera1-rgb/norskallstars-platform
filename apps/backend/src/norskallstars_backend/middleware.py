@@ -64,6 +64,19 @@ class RequestBoundary:
                     (b"cache-control", b"no-store"),
                     (b"x-content-type-options", b"nosniff"),
                     (b"referrer-policy", b"no-referrer"),
+                    (b"permissions-policy", b"camera=(), geolocation=(), microphone=(self)"),
+                    (
+                        b"content-security-policy",
+                        (
+                            b"default-src 'none'; script-src 'self' https://accounts.google.com; "
+                            b"style-src 'self' 'unsafe-inline'; "
+                            b"connect-src 'self' https://accounts.google.com; "
+                            b"frame-src https://accounts.google.com; "
+                            b"img-src 'self' blob:; media-src 'self' blob:; "
+                            b"font-src 'self'; base-uri 'none'; object-src 'none'; "
+                            b"frame-ancestors 'none'; form-action 'self'"
+                        ),
+                    ),
                 ]
                 if self.settings.env in (Environment.STAGING, Environment.PRODUCTION):
                     headers.append((b"strict-transport-security", b"max-age=31536000"))

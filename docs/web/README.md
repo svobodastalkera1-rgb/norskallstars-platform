@@ -1,7 +1,7 @@
-# Phase 5 — Web: authoritative scope and decision gate
+# Phase 5 — Web: authoritative scope and accepted voice policy
 
-Scope reviewed on 2026-10-07; implementation awaits required Product Owner voice
-policy. This document consolidates existing requirements; it introduces no new
+Scope reviewed on 2026-10-07; voice policy accepted by Product Owner; Phase 5
+implementation is authorized. This document consolidates existing requirements; it introduces no new
 product rule. Sources agree:
 
 - [ROADMAP Phase 5](../../ROADMAP.md): responsive accessible client, core learning,
@@ -59,12 +59,12 @@ No private corpus repository, real pilot, raw handoff ZIP or private policy is u
 Expected external interfaces are the Web UI, existing versioned Identity/Learning
 APIs, and bounded authenticated course-media delivery. Any necessary API projection
 must preserve compatibility, ownership and backend domain authority. Exact new
-endpoint paths require design and OpenAPI drift tests; none are implemented here.
+endpoint paths require design and OpenAPI drift tests; the implemented inventory is documented in [Phase 5 evidence](../phase-5-review.md).
 No privileged import/publication/policy selection is exposed to ordinary accounts.
 
 Expected backend changes include safe media access and transactional storage
 reference/reconciliation support, with migrations where persistence is needed.
-Private audio storage and its persistence model depend on the pending voice policy.
+Private audio storage follows the accepted bounded-consent policy below.
 Avoid new learner state that merely duplicates canonical backend progress.
 
 Review authentication, object ownership, cross-account/session isolation, resource
@@ -106,41 +106,23 @@ browser storage/network behavior. Do not weaken old tests or claim synthetic/moc
 provider tests prove production acceptance. Deliver a feature PR; stop before merge
 and before Phase 6.
 
-## Required Product Owner decision — voice policy
+## Resolved policy history
 
-Latest Product Owner request on 2026-10-07: retain user information, including
-audio, after account deletion indefinitely or until Owner storage cleanup;
-audio may be compressed/archived for a year or longer. Retain only a random
-subset of recordings for now, including during Owner service testing; learners
-are not intended to administer the backend audio store. No sampling probability
-or collection-purpose/notice policy has been specified. This request is recorded,
-not implemented or represented as production-approved privacy compliance.
+An earlier request proposed indefinite identifiable retention after account deletion.
+Owner subsequently accepted the bounded policy below; it supersedes that request.
+Existing account erasure is preserved. Contract v1 remains unchanged: recordings are
+platform-owned private learner state, not a new Course Package field. Pending future
+speech evaluation does not authorize model training or claim present audio processing.
 
-This changes the accepted Identity/Learning Core erasure semantics: current
-`DELETE /api/v1/identity/me` deletes the account and cascades private learning
-records. Reconciliation requires a reviewed replacement retention/deletion policy,
-explicit data categories/purpose and applicable privacy-rights handling, plus an
-ADR, migration and revised acceptance tests if behavior changes. Do not silently
-turn deletion into indefinite identifiable-data retention or remove erasure tests.
-Lack of direct backend storage access does not replace user-facing privacy rights.
-Sampling and compression are resource controls, not deletion or anonymization.
-No retained voice data is implicitly authorized for model training.
+## Current normative voice policy — Owner accepted 2026-10-07
 
-Product Owner clarification on 2026-10-07: a recording stays exclusively in the
-browser only when its processing is not required. Processing may later be provided
-by a Product Owner-developed ML evaluator. This is a conditional routing rule,
-not permission to collect all recordings or to implement ML in Phase 5.
-
-Product direction requires purpose, minimization, retention and deletion decisions
-for voice; TASKS leaves voice handling pending. Contract v1 identifies `speech`
-responses but does not define learner recordings or their storage. Existing learning
-submission accepts bounded JSON, with no binary upload or recording lifecycle.
-
-The Owner request now calls for selective server retention before the future
-processor exists. Current rubric/external_future evaluators return pending results;
-they do not process audio. Remaining gates are the collection purpose/notice and
-retention/deletion-policy reconciliation above. Do not equate pending evaluation
-with an authorized collection or training purpose.
-Generic account-lifetime JSON-response retention must not silently become an audio
-collection policy. Do not extend Contract v1 or substitute local-only speaking
-without approval. Implementation is stopped until this required decision is supplied.
+This supersedes the earlier indefinite-retention request recorded above. Collection
+is selective and requires separate explicit consent for processing speaking responses.
+Maximum retention is twelve calendar months; account deletion erases related personal
+data and audio. Withdrawal/erasure requests must be supported. Truly anonymous
+statistics may be retained; no anonymous-statistics pipeline is required here.
+ML training is not an implied purpose. Sampling probability is explicit operational
+configuration, not a pedagogical default; disabled collection is safe when unset.
+The browser records/plays/deletes locally; only consented server-selected recordings
+are submitted. Future evaluator integration is a separate authorized task.
+Design and security consequences: [ADR 0013](../adr/0013-web-media-privacy.md).

@@ -9,7 +9,7 @@ adds runtime guards, dependency audit and a Python CodeQL workflow.
 | --- | --- | --- |
 | Confidential content | Index/history path rules and public handoff manifest | Human approval for every imported artifact |
 | Secrets | Redacted Gitleaks in index/history and pre-commit | Owner confirmed alerts/push protection enabled |
-| Dependencies | Weekly GitHub Actions update config | uv lock/audit and update config now exist; npm/Gradle remain deferred |
+| Dependencies | Weekly GitHub Actions update config | uv lock/audit and update config now exist; Phase 5 adds npm audit/update configuration; Gradle remains deferred |
 | SAST | Ruff security lint and prepared Python CodeQL | Verify hosted Python analysis; client languages wait for runtime |
 | Main protection | Active Protect main ruleset | Seven real checks active with strict up-to-date branches; no bypass/automatic merge |
 | Vulnerability reporting | Private vulnerability reporting enabled by owner | Private triage, supported versions and remediation policy before release |
@@ -32,3 +32,6 @@ Primary references:
 Phase 3 adds [identity threat review](phase-3-review.md): ownership, Google/token
 verification, session replay, input/abuse bounds, account deletion and private mail.
 No course HTTP publication/admin authority or production storage is added.
+
+Phase 5 working-tree boundaries and outstanding verification are documented in
+[Web/media threat review](phase-5-review.md). Hosted results remain pending.

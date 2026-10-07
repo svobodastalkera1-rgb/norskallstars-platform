@@ -22,8 +22,10 @@ from norskallstars_backend.learning.routes import learning_error
 from norskallstars_backend.learning.routes import router as learning_router
 from norskallstars_backend.learning.service import Learning, LearningError
 from norskallstars_backend.logging import configure_logging, exception_fields, request_id
+from norskallstars_backend.media.routes import router as media_router
+from norskallstars_backend.media.service import Media
 from norskallstars_backend.middleware import RequestBoundary
-from norskallstars_backend.storage import LocalObjectStorage, ObjectStorage
+from norskallstars_backend.storage import create_storage
 
 logger = logging.getLogger("norskallstars.runtime")
 
@@ -32,11 +34,7 @@ def create_app(settings: Settings | None = None, database: Database | None = Non
     settings = settings or load_settings()
     configure_logging(settings.log_level)
     database = database or Database(settings)
-    storage: ObjectStorage | None = None
-    if settings.storage_backend == "local":
-        if settings.storage_root is None:
-            raise RuntimeError("Invalid local storage configuration")
-        storage = LocalObjectStorage(settings.storage_root, settings.storage_max_bytes)
+    storage = create_storage(settings)
 
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
@@ -59,6 +57,8 @@ def create_app(settings: Settings | None = None, database: Database | None = Non
     app.state.database, app.state.storage = database, storage
     app.state.identity = Identity(settings, database, GoogleVerifier())
     app.state.learning = Learning(database, app.state.identity)
+    app.state.media = Media(app.state.learning, storage)
+    app.include_router(media_router)
     app.include_router(router)
     app.include_router(learning_router)
     app.add_exception_handler(LearningError, learning_error)
@@ -116,5 +116,10 @@ def create_app(settings: Settings | None = None, database: Database | None = Non
         return JSONResponse(
             {"status": "ready" if ready else "not_ready"}, status_code=200 if ready else 503
         )
+
+    if settings.web_root:
+        from norskallstars_backend.web import WebFiles
+
+        app.mount("/", WebFiles(directory=settings.web_root, html=True), name="web")
 
     return app

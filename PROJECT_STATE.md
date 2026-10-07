@@ -6,7 +6,7 @@ Phase 1: **CLOSED / ACCEPTED by Product Owner; PR #4 merged**.
 Phase 2: **CLOSED / ACCEPTED by Product Owner; PR #7 merged**.
 Phase 3: **CLOSED / ACCEPTED by Product Owner; PR #8 merged**.
 Phase 4: **CLOSED / ACCEPTED by Product Owner; PR #9 merged**.
-Phase 5: **Web scope reviewed; conditional authorization, implementation stopped pending required voice/privacy policy**.
+Phase 5: **Web AUTHORIZED; implementation IN PROGRESS under accepted voice/privacy policy**.
 Phase 6: **NOT STARTED / NOT AUTHORIZED**.
 Production readiness: **not achieved**.
 
@@ -23,8 +23,9 @@ Google cryptographic proof validation, interface-language preference, revocable
 opaque sessions and account/session ownership/deletion. Accepted Phase 4 adds
 versioned learning policies, pinned enrollments, attempts/evaluation/progress/review,
 advisory placement and authenticated curriculum/history/translation APIs.
-Web/Android, sync/billing, production
-infrastructure and Redis remain absent.
+Phase 5 Web/media implementation has passed complete local validation; hosted PR
+verification and Product Owner review remain pending.
+Android, sync/billing, production infrastructure and Redis remain absent.
 
 Runtime and decisions: docs/architecture/backend-runtime.md and ADRs 0008/0009.
 Identity: docs/architecture/identity.md, ADR 0011 and docs/security/phase-3-review.md.
@@ -34,7 +35,7 @@ roles or privileged HTTP course operations. Required secret keys have no default
 configuration requires HTTPS identity links, explicit Google audiences and TLS SMTP.
 Verification evidence: docs/phase-1-review.md. Initial Phase 1 PR runs passed
 quality/tests/audit/container, Phase 0 safeguards and Python CodeQL. Each updated
-PR head is verified separately; historical evidence does not substitute for it. Web/Android gates remain pending.
+PR head is verified separately; historical evidence does not substitute for it. Web has real Phase 5 workflow definitions awaiting hosted verification; Android remains pending.
 
 ## Repository governance
 
@@ -67,10 +68,13 @@ here. Do not recover removed private input or publish incident object identifier
 
 ## Known limitations / next step
 
-This workspace's conflicting legacy/nft firewall rules block normal Compose
-bridge traffic. Firewall protections were not changed; the built image was
-validated using a loopback-only diagnostic container and host PostgreSQL.
-Hosted Backend container checks exercise standard Compose independently.
+The Codespace previously blocked normal Compose bridge traffic through conflicting
+legacy/nft firewall rules. On 2026-10-07, two reversible local rules restored only
+same-project PostgreSQL forwarding; the global legacy DROP policy remains intact.
+Authenticated SELECT 1 now passes both from the host and from the Compose network.
+The local repair is not persistent across host/network recreation; ignored repair
+and rollback tooling records the exact rules. This is environment recovery, not
+application/container acceptance. Hosted Backend container checks remain separate.
 Live deployed TLS/roles, production storage/delivery, release image scanning and
 later domain security remain future work, not production-readiness claims.
 
@@ -99,8 +103,9 @@ retention and orphan GC, including in-flight protection, grace period, immediate
 reference re-check, auditable deletion, safe retry and race/failure tests.
 Accepted Identity/Learning Core introduce no storage/media delivery interface.
 Phase 5 course audio/image delivery crosses this boundary: reconciliation,
-retention and orphan GC are required before accepting that capability. No such
-delivery/GC has been implemented or verified yet.
+retention and orphan GC are required before accepting that capability. Delivery/GC implementation and PostgreSQL race/failure regressions passed locally.
+Hosted verification and Owner review remain pending; live provider privacy/erasure,
+cleanup scheduling/monitoring and backups remain explicit production gates.
 
 ## Phase 3 acceptance and deferred identity gates
 
@@ -170,34 +175,52 @@ artifact review, and reported no blocking Code Scanning alerts at acceptance.
 This is a dated observation, not a guarantee about later alerts. Historical
 docs/phase-4-review.md and docs/security/phase-4-review.md remain unchanged.
 
-## Phase 5 scope and decision gate
+## Phase 5 current implementation and validation state
 
-Sources agree on Phase 5 **Web**: ROADMAP, public product direction, Web direction
-and accepted Identity/Learning Core contracts. Complete scope, dependencies and
-acceptance gates are recorded in [Web direction](docs/web/README.md).
-Product Owner conditionally authorized the phase. Voice purpose, local versus
-submitted audio, retention and deletion are required decisions explicitly left
-open by the product baseline/TASKS. Contract v1 supports speech activities but
-does not define private learner audio storage; current learning HTTP accepts JSON
-responses only. Do not invent a recording policy, change Contract v1 or silently
-replace the full speaking journey with a local-only implementation. Await the
-requested Product Owner decision before Phase 5 implementation.
+Authoritative scope: **Web**, defined by ROADMAP, public product direction and
+[Web requirements](docs/web/README.md). Owner authorized implementation and accepted
+selective speaking-recording collection with separate consent, an explicit processing
+purpose, maximum twelve calendar months and account-deletion erasure. This supersedes
+the earlier indefinite-retention request. ML implementation/training is not authorized.
+Accepted Identity/Learning Core erasure and pinned policy/release semantics remain intact.
 
-Product Owner clarified on 2026-10-07 that recordings stay exclusively in the
-browser only when processing is not required, with a possible future Owner-developed
-ML evaluator. The subsequent Owner request calls for random selective audio
-retention, possible long-term compression, and indefinite retention of user data
-after account deletion until optional Owner cleanup. This changes the accepted
-Identity/Learning Core erasure semantics and is not implemented. Reconcile the
-purpose/notice, retained data categories, applicable privacy rights and retention/
-deletion policy before changing migrations, endpoints or erasure regression tests.
-See Web direction for the exact requested change and remaining decision gate.
-No model-training use is implicitly authorized by the audio-retention request.
+Feature branch: `feature/phase-5-web`, based on accepted main 9194c7c. Uncommitted
+Phase 5 implementation includes a React/TypeScript client, memory-only bearer sessions,
+identity/fresh-proof/preferences/session/deletion journeys, learning/placement/replay/
+history/translation UI, private media/recordings, dashboard and engagement evidence.
+ADR 0013 records the consequential session/media/storage decisions.
+Migration 0005_media adds recording mappings and hashed-object deletion audit;
+0006_learning_engagement adds nullable attempt engagement evidence without reinterpreting
+legacy attempts. Platform presentation bindings are optional explicit versioned rules;
+legacy policy digests are preserved. Upstream Contract v1 artifacts are unchanged.
 
-Deferred gates remain open: live SMTP/Google staging acceptance and SMTP
-at-least-once delivery verification; storage reconciliation/retention/GC; wider
-privacy/retention and future data export; administrator MFA/RBAC; explicit safe
-release-to-release progress migration; and Product Owner license selection.
-Phase 5 activates storage GC for asset delivery and browser session/CSRF review;
-live provider acceptance is required for any live-provider-dependent journey.
-No Phase 5 runtime, provider acceptance, storage GC or Phase 6 work is completed.
+Storage inventory, S3-compatible adapter and coordinated bounded GC are implemented
+in the working tree. Shared writer/exclusive cleanup PostgreSQL locks, final reference
+re-checks, grace, committed expiry and durable deletion intents protect reference
+integrity. Complete local PostgreSQL/race, browser and final container regressions
+passed. Hosted exact-head verification and Owner acceptance remain pending. Live
+provider/erasure and scheduled operations remain production gates; no production
+import, provider or deployment runs.
+
+Earlier environment restrictions interrupted application checks. Recovery on
+2026-10-07 restored Git/Docker/network/threads/PostgreSQL. Complete regression now
+passes: the browser fetch receiver and downgrade naming defects have focused tests;
+current-head tests cover both. Browser journeys also verify canonical completion
+survives lower-scoring replay. Independent browser projects use reset synthetic
+Web-test data, preserving ordinary runtime rate limits. See [Phase 5 evidence](docs/phase-5-review.md).
+Feature commit/PR and exact-head hosted results remain pending; Phase 5 is not accepted.
+
+Production gates remain: isolated live SMTP/Google acceptance (SMTP at-least-once),
+private S3/TLS/encryption/anonymous-denial and cleanup scheduling/monitoring/backups,
+future privacy/export, administrator authorization, deterministic release migration,
+license/market/retention/recovery decisions. No earlier gate is silently closed.
+Phase 6 is NOT STARTED / NOT AUTHORIZED. Never merge without Owner review.
+
+Latest completed local evidence: **243/243 backend**, **16/16 Web unit/component**,
+**9/9 browser E2E/accessibility** across Chromium/Firefox/WebKit, **19/19 upstream
+Contract v1** and **25/25 repository/receiving** tests passed. Ruff, strict mypy (45
+source files), generated API/policy drift and Web format/lint/build passed. Final
+Compose image build, migration and non-root/read-only runtime smoke passed. Locked
+backend audit (91 packages) and npm audit reported no known vulnerabilities. Final
+staged index/history confidentiality and redacted secret checks passed before commit.
+Hosted Phase 5 verification is separate and remains pending.

@@ -28,5 +28,12 @@ attempts/history/events, account-deletion cascade and authenticated curriculum A
 Contract v1 is unchanged; owner acceptance and merged main verification completed
 on 2026-10-07. Historical review evidence remains unchanged.
 
-Phase 5 Web scope reviewed; implementation awaits Product Owner voice/privacy
-policy. Course media delivery requires storage reconciliation/retention/GC.
+Phase 5 Web follows Owner-accepted selective voice/privacy policy: separate consent,
+explicit purpose, at most twelve months and account-deletion erasure.
+
+Phase 5 (uncommitted work, review pending): responsive Bokmål-first Web,
+Identity/Learning API client, private media/consented selective recordings,
+coordinated retention/orphan cleanup, dashboard engagement evidence and real
+Web/CodeQL workflow definitions. Complete local backend/browser/container regression
+and locked dependency audits passed; hosted checks and Owner acceptance remain pending;
+no production release or Phase 6 implementation.

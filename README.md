@@ -4,14 +4,13 @@ NorskAllstars Platform is being built for learning Norwegian Bokmål through
 comprehensible input and the Natural Method. The production direction includes
 a responsive Web client and a native Android client backed by the same services.
 
-**Status: Phases 0–4 CLOSED/ACCEPTED; Phase 5 Web scope reviewed, awaiting required voice policy.**
+**Status: Phases 0–4 CLOSED/ACCEPTED; Phase 5 Web locally validated; hosted checks and Product Owner review pending.**
 The backend supplies infrastructure plus generic Course Package validation,
 immutable staged release import and explicit privileged publication transitions.
 Phase 3 adds shared accounts, email/password and Google proof validation,
 verification/recovery, revocable sessions, preferences and self-service deletion.
 Accepted Phase 4 adds canonical learning, versioned policies, progress/review
-and advisory placement. Web/Android clients and
-production deployment remain unimplemented.
+and advisory placement. Phase 5 adds the Web client/media boundary on its feature branch, with local validation passed and hosted/Owner review pending. Android and production deployment remain unimplemented.
 [Learning Core scope and normative rules](docs/architecture/learning-core.md) records
 the approved implementation baseline. Production v1.0 remains the goal; see the [complete roadmap](ROADMAP.md).
 
@@ -25,8 +24,8 @@ infrastructure is provisioned.
 
 | Location | Responsibility | Current state |
 | --- | --- | --- |
-| apps/backend/ | Backend infrastructure; later domain modules | Infrastructure, course integration, identity and learning/tests |
-| apps/web/ | Responsive learning client | Boundary documentation |
+| apps/backend/ | Infrastructure and domain modules | Accepted infrastructure/course/identity/learning; Phase 5 media under validation |
+| apps/web/ | Responsive learning client | React/TypeScript implementation in feature branch; local validation passed, hosted/Owner review pending |
 | apps/android/ | Native client and later offline capability | Boundary documentation |
 | contracts/ | Public API and Course Package interfaces | Reviewed Contract v1 and synthetic-only fixture |
 | infra/ | Local runtime; future deployment definitions | Local Docker Compose |

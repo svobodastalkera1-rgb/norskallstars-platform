@@ -86,6 +86,7 @@ class Attempt(Base):
     __tablename__ = "learning_attempts"
     __table_args__ = (
         UniqueConstraint("enrollment_id", "operation_id"),
+        CheckConstraint("active_seconds IS NULL OR active_seconds >= 0", name="engagement_seconds"),
         CheckConstraint("kind IN ('canonical', 'practice')", name="attempt_kind"),
         CheckConstraint(
             "(submitted_at IS NULL AND results IS NULL AND request_digest IS NULL) OR "
@@ -97,6 +98,9 @@ class Attempt(Base):
     enrollment_id: Mapped[UUID] = mapped_column(
         ForeignKey("learning_enrollments.id", ondelete="CASCADE"), index=True
     )
+    active_seconds: Mapped[int | None] = mapped_column(Integer)
+    engagement_sequence: Mapped[int | None] = mapped_column(Integer)
+    last_engaged_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     operation_id: Mapped[UUID] = mapped_column()
     lesson_id: Mapped[str] = mapped_column(String(128))
     lesson_version: Mapped[str] = mapped_column(String(64))

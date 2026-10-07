@@ -20,9 +20,10 @@ Public-safe normative Product Owner rules are recorded in
 docs/architecture/learning-core.md. Require explicit versioned learning policies;
 never invent numeric pedagogical defaults or infer rules from fixtures/arbitrary
 Contract extension objects. Product Owner authorized Phase 5 Web subject to its
-authoritative scope and required product decisions. Read docs/web/README.md:
-voice purpose/retention/deletion policy is pending; stop implementation until
-Product Owner resolves it. Phase 6 and later need separate authorization.
+authoritative scope. Read docs/web/README.md: Owner accepted selective voice
+retention with separate consent, an explicit processing purpose, at most twelve
+months and erasure with account deletion. Phase 5 implementation is authorized;
+ML implementation/training is not. Phase 6 and later need separate authorization.
 Work through a feature PR; never merge without Product Owner review.
 Do not implement application runtime,
 identity, importers, learning, billing, administration, sync, or deployments

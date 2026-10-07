@@ -79,3 +79,8 @@ local.properties
 # Runtime learning policies may contain private answer rules; public schemas remain allowed.
 learning-policies/
 *.learning-policy.json
+
+# Browser tooling can contain private UI state and proofs.
+playwright-report/
+test-results/
+*.tsbuildinfo

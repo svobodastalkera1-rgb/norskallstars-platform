@@ -62,6 +62,17 @@
           "maxItems": 8,
           "title": "Normalization",
           "type": "array"
+        },
+        "presentation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Presentation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         }
       },
       "required": [
@@ -271,6 +282,69 @@
         "recommendations"
       ],
       "title": "PlacementRule",
+      "type": "object"
+    },
+    "Presentation": {
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "default": [],
+          "items": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 200,
+          "title": "Fields",
+          "type": "array"
+        },
+        "kind": {
+          "enum": [
+            "text",
+            "single_choice",
+            "multiple_choice",
+            "ordering",
+            "matching",
+            "speech",
+            "acknowledgement"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "options": {
+          "items": {
+            "$ref": "#/$defs/ResponseOption"
+          },
+          "maxItems": 200,
+          "title": "Options",
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "options"
+      ],
+      "title": "Presentation",
+      "type": "object"
+    },
+    "ResponseOption": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "maxLength": 1024,
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/JsonValue"
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ],
+      "title": "ResponseOption",
       "type": "object"
     },
     "ReviewRule": {

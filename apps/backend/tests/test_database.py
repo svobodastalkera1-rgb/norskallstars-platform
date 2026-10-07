@@ -17,6 +17,8 @@ CONFIG = str(Path(__file__).resolve().parents[1] / "alembic.ini")
 async def test_real_postgresql_and_session_commit_rollback(database):
     assert await database.ready()
     assert set(Base.metadata.tables) == {
+        "media_recordings",
+        "storage_deletions",
         "course_releases",
         "release_assets",
         "release_events",

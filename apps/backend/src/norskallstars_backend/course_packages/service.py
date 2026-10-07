@@ -12,6 +12,7 @@ from norskallstars_backend.course_packages.models import CourseRelease, ReleaseA
 from norskallstars_backend.course_packages.validation import contract_root, validate_archive
 from norskallstars_backend.database import Database
 from norskallstars_backend.storage import ObjectStorage
+from norskallstars_backend.storage_coordination import storage_lock
 
 
 def actor_valid(actor: str, approval: str) -> None:
@@ -33,6 +34,7 @@ async def import_package(
         hashlib.sha256((course_id + "\0" + version).encode()).digest()[:8], signed=True
     )
     async with database.transaction() as session:
+        await storage_lock(session)
         await session.execute(text("SELECT pg_advisory_xact_lock(:key)"), {"key": lock})
         existing = await session.scalar(
             select(CourseRelease).where(

@@ -5,7 +5,8 @@ boundaries were accepted in Phase 0. Phase 1 now implements backend infrastructu
 Phase 2 adds curriculum release integration; accepted Phase 3 adds [shared identity](identity.md).
 [Phase 4 Learning Core](learning-core.md) is accepted and merged under approved
 public-safe normative rules. [Phase 5 Web](../web/README.md) scope is reviewed;
-implementation awaits required voice policy. Clients remain unimplemented.
+implementation is authorized under the accepted voice/privacy policy and exists
+in the feature working tree. Validation remains incomplete; Android is unimplemented.
 
 ```mermaid
 flowchart LR

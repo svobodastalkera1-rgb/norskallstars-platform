@@ -942,7 +942,7 @@ def test_learning_openapi_has_explicit_identity_and_no_privileged_surface():
     committed = Path(__file__).resolve().parents[3] / "contracts/api/learning-v1.openapi.json"
     assert committed.read_bytes() == generated
     schema = json.loads(generated)
-    assert len(schema["paths"]) == 11
+    assert len(schema["paths"]) == 13
     for path, methods in schema["paths"].items():
         assert (
             "publish" not in path

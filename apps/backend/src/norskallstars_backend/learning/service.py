@@ -362,6 +362,7 @@ class Learning:
         rule = policy.activities[aid]
         return dto.ActivityView(
             activity_id=aid,
+            presentation=rule.presentation,
             type=activity["type"],
             response_mode=activity["response_mode"],
             evaluation_type=activity["evaluation"]["type"],
@@ -493,6 +494,7 @@ class Learning:
             lesson_id=attempt.lesson_id,
             lesson_version=attempt.lesson_version,
             kind=cast(Literal["canonical", "practice"], attempt.kind),
+            active_seconds=attempt.active_seconds,
             started_at=attempt.started_at,
             submitted_at=attempt.submitted_at,
             evaluations=attempt.results["evaluations"] if attempt.results else None,
@@ -820,3 +822,35 @@ class Learning:
                     data.block_id,
                 )
             return dto.TranslationView(reference_text=block["reference_text"])
+
+    async def engage(self, principal: Principal, attempt_id: UUID, sequence: int) -> dict[str, int]:
+        async with self.database.transaction() as db:
+            await self.identity.locked_principal(db, principal)
+            attempt = await db.scalar(
+                select(Attempt)
+                .join(Enrollment)
+                .where(
+                    Attempt.id == attempt_id,
+                    Enrollment.account_id == principal.account_id,
+                )
+                .with_for_update(of=Attempt)
+            )
+            if attempt is None:
+                raise LearningError()
+            previous = attempt.engagement_sequence or 0
+            if sequence <= previous:
+                return {"active_seconds": attempt.active_seconds or 0, "sequence": previous}
+            if sequence != previous + 1 or attempt.submitted_at:
+                raise LearningError(409, "engagement_conflict")
+            timestamp = now()
+            elapsed = (
+                (timestamp - attempt.last_engaged_at).total_seconds()
+                if attempt.last_engaged_at
+                else 0
+            )
+            # Only adjacent bounded heartbeats count. Gaps/idle time are not learning evidence.
+            attempt.active_seconds = (attempt.active_seconds or 0) + (
+                int(elapsed) if 0 <= elapsed <= 20 else 0
+            )
+            attempt.last_engaged_at, attempt.engagement_sequence = timestamp, sequence
+            return {"active_seconds": attempt.active_seconds, "sequence": sequence}

@@ -1,0 +1,7 @@
+name: NorskAllstars Web
+paths:
+  - apps/web/src
+paths-ignore:
+  - apps/web/src/*.generated.ts
+queries:
+  - uses: security-extended

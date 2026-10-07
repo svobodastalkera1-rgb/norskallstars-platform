@@ -21,3 +21,4 @@ choices on 2026-10-03; future changes follow the same review process.
 | [0010](0010-course-release-import.md) | Immutable staged releases and privileged transitions | Accepted; Phase 2 owner-accepted |
 | [0011](0011-shared-identity.md) | Transactional shared identity and opaque sessions | Accepted; Phase 3 owner-accepted, PR #8 merged |
 | [0012](0012-learning-policy-progress.md) | Versioned learning policies and release-pinned canonical progress | Accepted; Phase 4 owner-accepted, PR #9 merged |
+| [0013](0013-web-media-privacy.md) | Memory-only Web sessions, private media, coordinated GC and consented selective voice | Accepted engineering decision; Phase 5 review pending |
