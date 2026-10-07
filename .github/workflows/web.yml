@@ -40,10 +40,26 @@ jobs:
         with:
           version: 0.12.23
           enable-cache: false
-      - run: npm ci --ignore-scripts && npm run test && npm run build && npx playwright install --with-deps chromium firefox webkit
+      - name: Install locked Web dependencies
+        run: npm ci --ignore-scripts
+        timeout-minutes: 5
+        working-directory: apps/web
+      - name: Run Web unit and component tests
+        run: npm run test
+        timeout-minutes: 3
+        working-directory: apps/web
+      - name: Build browser test client
+        run: npm run build
+        timeout-minutes: 3
+        working-directory: apps/web
+      - name: Install browser engines and system dependencies
+        run: npx playwright install --with-deps chromium firefox webkit
+        timeout-minutes: 8
         working-directory: apps/web
       - run: python3 scripts/phase1.py init
-      - run: make web-e2e
+      - name: Run all isolated browser integration projects
+        run: make web-e2e
+        timeout-minutes: 5
       - if: always()
         run: python3 scripts/phase1.py down
       # No private browser trace, video, screenshot, credential or report artifacts.
