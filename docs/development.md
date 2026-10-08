@@ -33,11 +33,15 @@ local data requires an explicit developer action, not an implicit script cleanup
 Do not use this Compose definition for staging/production. The local database
 role is privileged for disposable development/test provisioning only.
 
-A Docker host must permit normal inter-container bridge traffic. This workspace
-has conflicting legacy/nft forwarding rules; its bridge timeout was diagnosed
-without altering the firewall. The runtime image was validated through a
-loopback-only diagnostic path here, and CI exercises standard Compose. Fix host
-Docker networking administratively rather than changing application security.
+A Docker host must permit normal inter-container bridge traffic. This Codespace
+previously had conflicting legacy/nft forwarding rules. Environment recovery on
+2026-10-07 added two reversible, project-scoped PostgreSQL rules without changing
+the global DROP policy or Docker-owned nft rules; authenticated Compose-network
+queries now pass. Local ignored repair/rollback tooling is under
+`.cache/environment-diagnostics/`; it is specific to this workspace, not a
+project dependency or production configuration. After host/network recreation,
+recheck connectivity and the host firewall before rerunning container validation.
+Do not disable firewall protections or change application security to fix routing.
 
 ## Backend checks
 
@@ -104,7 +108,7 @@ python3 scripts/phase1.py identity-cleanup
 ```
 
 Read local `.eml` files privately; the one-use token is in a URL fragment and must
-be submitted as JSON to verification/reset API. There is no Web account UI yet.
+be submitted through the Web account UI or as JSON to verification/reset API.
 Delete local mailbox files after testing; they are mode 600 and never CI artifacts.
 The helper always targets the generated local environment, not inherited production
 settings. The command manages only expired identity tokens/mail/rate/session rows;
@@ -128,7 +132,8 @@ Apply Alembic head explicitly before readiness/learning checks. Learning uses th
 accepted Identity session model; every learner endpoint needs a verified account
 and bearer access token. Mutations require the existing client header/JSON boundary.
 The API inventory/semantics are in docs/architecture/learning-core.md and the
-reviewed contracts/api/learning-v1.openapi.json. No Web/Android client is implemented.
+reviewed contracts/api/learning-v1.openapi.json. Phase 5 Web consumes these contracts;
+Android remains a future phase.
 
 An authorized OS/DB operator can select an already-published eligible release and
 bounded external policy (never a private policy checked into public Git):
@@ -147,3 +152,72 @@ Run existing backend-test/backend-audit plus make check/security-check. Backend
 quality checks Identity/Learning OpenAPI and platform policy schema drift. To
 regenerate reviewed learning artifacts from typed code, use learning.openapi and
 learning.policy_schema modules with their destination paths; review compatibility.
+
+## Phase 5 Web and media development
+
+Node **24.21.0**, npm lock and uv **0.12.23** are pinned. Complete local runtime:
+
+```sh
+python3 scripts/phase1.py init
+python3 scripts/phase1.py up
+```
+
+Visit http://127.0.0.1:8000. The built client is included in the read-only non-root
+backend image. The empty local database contains no users/corpus; registration
+and verification use the existing private outbox workflow. Publishing real/private
+packages into this public checkout is never part of local setup.
+
+For frontend hot reload, start `npm ci --ignore-scripts && npm run dev` in apps/web
+with backend running. The API proxy stays on loopback; Compose explicitly permits
+127.0.0.1:3000 and serves 127.0.0.1:8000. Use matching hostnames in browser and
+configured origins. Credentials are tab-memory only; reload signs out deliberately.
+
+```sh
+make web-check
+make web-test
+cd apps/web && npm run contracts && npm audit --audit-level=low
+```
+
+From root, install browsers with `cd apps/web && npx playwright install --with-deps
+chromium firefox webkit`, then run `make web-e2e`. Browser setup creates and resets
+ONLY `norskallstars_web_test` before each independent browser project, with the
+guarded approved synthetic derivative. This isolates learner/rate-bucket state while
+retaining ordinary runtime rate limits. Stop the Compose backend before E2E because
+the test server binds the same local port; the database can remain running.
+Generated mode-600 `.cache/web-e2e/login.json` is ignored; never publish it, browser
+error contexts, screenshots, videos or traces. Integration testing requires Docker
+and network access; mocks do not close this gate. `scripts/phase1.py test` still runs
+all backend/PostgreSQL/Contract regressions against the separate backend test DB.
+
+Local storage maintenance: `make storage-cleanup` uses the same Compose backend
+volume/configuration. It is a private operator command, never HTTP. For a separately
+configured source/staging worker run `python -m norskallstars_backend.media.cleanup`
+with that environment's injected configuration. Do not mix buckets/databases.
+
+Voice sampling defaults to **0**; operational rate must be explicitly configured
+(0..0.25), with consent still required per speaking activity. Client recording is
+bounded to 60 seconds and 256 KiB; server enforces 256 KiB, container signature and
+checksum, stores opaque bytes and does not decode/train/evaluate speech. Recorded
+containers do not prove decoder safety; any future processor needs separate review.
+An offer expires in one hour; retained mappings expire by twelve calendar months.
+Account erasure/withdrawal removes mappings immediately; physical erasure requires
+scheduled cleanup. GC scans only owned namespaces, refuses >100,000 inventory/
+references, handles at most 100 objects per run and honors 300..86,400-second grace
+(default 3,600). Hash-only deletion audit is retained up to 365 days; no learner
+response/account ID is stored in it. Schedule, monitor and verify erasure/backups
+against production policy before operating remote storage.
+
+S3 requires explicit HTTPS endpoint, bucket/region and externally injected keys.
+No credential discovery or signed URL is used; requests use verified TLS, bounded
+timeouts/retries and AES256 server-side encryption. Verify private bucket ACL/policy,
+least privilege, inventory/deletion semantics and anonymous denial in isolated staging.
+The adapter/stub tests do not prove live provider acceptance. Enabled or suspended bucket versioning is rejected before reads/writes/deletes/
+inventory because delete markers do not erase historical objects. This adapter
+requires an unversioned bucket and permission to inspect versioning. A future
+version-aware adapter/lifecycle needs separate verified erasure semantics.
+
+Google browser build uses a public client identifier only: `docker build --build-arg
+VITE_GOOGLE_CLIENT_ID=your-public-web-client-id.apps.googleusercontent.com ...`.
+Never pass secrets through VITE variables/build args. Configure matching backend
+Google audiences and live SMTP privately, then perform staging acceptance; unconfigured
+providers are shown as unavailable. No deployment/provider registration is performed.

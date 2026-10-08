@@ -37,9 +37,18 @@ class Settings(BaseSettings):
     max_request_bytes: int = Field(default=1_048_576, ge=1024, le=10_485_760)
     allowed_hosts: list[str] = ["localhost", "127.0.0.1", "testserver"]
     cors_origins: list[str] = []
-    storage_backend: Literal["disabled", "local"] = "disabled"
+    web_root: Path | None = None
+    storage_backend: Literal["disabled", "local", "s3"] = "disabled"
     storage_root: Path | None = None
     storage_max_bytes: int = Field(default=10_485_760, ge=1, le=104_857_600)
+
+    voice_sample_rate: float = Field(default=0, ge=0, le=0.25)
+    storage_gc_grace_seconds: int = Field(default=3600, ge=300, le=86400)
+    s3_endpoint: str | None = None
+    s3_bucket: str | None = Field(default=None, pattern=r"^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$")
+    s3_region: str | None = None
+    s3_access_key: SecretStr | None = None
+    s3_secret_key: SecretStr | None = None
 
     identity_pepper: SecretStr
     identity_mail_key: SecretStr
@@ -84,6 +93,10 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def validate_boundaries(self) -> Self:
+        if self.web_root is not None and (
+            not self.web_root.is_absolute() or not self.web_root.is_dir()
+        ):
+            raise ValueError("Web root must be an existing absolute build directory")
         if not self.allowed_hosts or any(
             "*" in host or "/" in host or "\n" in host or "\r" in host
             for host in self.allowed_hosts
@@ -132,6 +145,27 @@ class Settings(BaseSettings):
             self.storage_root is None or not self.storage_root.is_absolute()
         ):
             raise ValueError("Local storage requires an explicit absolute root")
+        if self.storage_backend == "s3":
+            from urllib.parse import urlsplit
+
+            parsed = urlsplit(self.s3_endpoint or "")
+            if (
+                parsed.scheme != "https"
+                or not parsed.hostname
+                or parsed.username
+                or parsed.password
+                or parsed.query
+                or parsed.fragment
+                or parsed.path not in ("", "/")
+                or not all((self.s3_bucket, self.s3_region, self.s3_access_key, self.s3_secret_key))
+                or not self.s3_access_key
+                or not self.s3_access_key.get_secret_value().strip()
+                or not self.s3_secret_key
+                or not self.s3_secret_key.get_secret_value().strip()
+            ):
+                raise ValueError(
+                    "Explicit private S3 bucket, credentials and HTTPS endpoint required"
+                )
         if self.env in (Environment.STAGING, Environment.PRODUCTION):
             if self.database_sslmode != "verify-full":
                 raise ValueError("Staging/production require verified PostgreSQL TLS")

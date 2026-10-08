@@ -104,6 +104,7 @@ def invalid_constant(value: str) -> None:
 
 class IdentityRoute(APIRoute):
     json_nodes = 256
+    json_string_limit = 16384
 
     def get_route_handler(self) -> Callable[[Request], Coroutine[Any, Any, Response]]:
         original = super().get_route_handler()
@@ -127,7 +128,9 @@ class IdentityRoute(APIRoute):
                             raise ValueError("JSON resource limit")
                         if isinstance(item, float) and not math.isfinite(item):
                             raise ValueError("Non-finite JSON number")
-                        if isinstance(item, str) and (len(item) > 16384 or "\x00" in item):
+                        if isinstance(item, str) and (
+                            len(item) > self.json_string_limit or "\x00" in item
+                        ):
                             raise ValueError("JSON string resource limit")
                         if isinstance(item, dict):
                             queue.extend((key, depth + 1) for key in item)

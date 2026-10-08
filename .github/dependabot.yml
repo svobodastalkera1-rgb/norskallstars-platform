@@ -10,4 +10,9 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
-# Add npm/Gradle updates only when their runtimes exist.
+  - package-ecosystem: npm
+    directory: /apps/web
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+# Add Gradle updates when Android runtime exists.

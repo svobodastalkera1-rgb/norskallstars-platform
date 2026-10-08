@@ -29,3 +29,13 @@ local-up:
 
 local-down:
 	$(PYTHON) scripts/phase1.py down
+
+.PHONY: web-check web-test web-e2e storage-cleanup
+web-check:
+	cd apps/web && npm run format && npm run lint && npm run build
+web-test:
+	cd apps/web && npm test
+web-e2e:
+	$(PYTHON) scripts/web_e2e.py run
+storage-cleanup:
+	$(PYTHON) scripts/phase1.py storage-cleanup

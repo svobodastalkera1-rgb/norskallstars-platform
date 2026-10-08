@@ -31,6 +31,7 @@ jobs:
       - run: uv run --locked --project apps/backend mypy --config-file apps/backend/pyproject.toml apps/backend/src
       - run: uv run --locked --project apps/backend python -m norskallstars_backend.identity.openapi contracts/api/identity-v1.openapi.json --check
       - run: uv run --locked --project apps/backend python -m norskallstars_backend.learning.openapi contracts/api/learning-v1.openapi.json --check
+      - run: uv run --locked --project apps/backend python -m norskallstars_backend.media.openapi contracts/api/media-v1.openapi.json --check
       - run: uv run --locked --project apps/backend python -m norskallstars_backend.learning.policy_schema contracts/learning/policy-v1.schema.json --check
 
   tests:

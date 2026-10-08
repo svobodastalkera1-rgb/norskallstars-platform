@@ -63,7 +63,7 @@ in public source/CI. Product identity/administration completion stays in its pha
 - [ ] Web/Android phases: secure token persistence and browser CSRF/cookie adapter
   review if introduced; Phase 10 separate administrator MFA/RBAC.
 
-## Phase 4 — Learning Core / AUTHORIZED, implementation in progress
+## Phase 4 — Learning Core / CLOSED / ACCEPTED
 
 - [x] Verify Phase 3 merge/acceptance and read all authoritative scope sources.
 - [x] Confirm scope agreement and record complete known capabilities/dependencies,
@@ -76,20 +76,66 @@ in public source/CI. Product identity/administration completion stays in its pha
 - [x] Design/implement Phase 4 feature work, including
   all deterministic components, user-owned attempts/progress/events, account-erasure
   interaction, bounded authenticated APIs and DB constraints/concurrency behavior.
-- [ ] Validate all previous regressions, new domain/API/ownership/race/security tests,
+- [x] Validate all previous regressions, new domain/API/ownership/race/security tests,
   migrations/OpenAPI, dependency/security/container and actual hosted required checks/CodeQL.
-- [ ] Product Owner reviews the Phase 4 implementation PR; never auto-merge.
-- [ ] Phase 5 remains NOT STARTED; no client implementation is authorized.
+- [x] Product Owner accepted PR #9, hosted required checks, Code Scanning and public
+  artifact review; merged implementation verified on main 9194c7c on 2026-10-07.
+- [x] Confirm merged main Backend CI, Phase 0 CI and Python CodeQL completed successfully.
+
+## Phase 5 — Web / IMPLEMENTED; awaiting Product Owner review
+
+- [x] Read authoritative scope; sources agree on Phase 5 Web. Record capabilities,
+  dependencies, privacy boundaries and acceptance gates in [Web scope](docs/web/README.md).
+- [x] Product Owner accepted selective voice collection with separate consent,
+  explicit purpose, at most twelve months and account-deletion erasure. The earlier
+  indefinite-retention request is superseded; ML remains outside Phase 5.
+- [x] Implement memory-only browser sessions and stable API projections; ADR 0013.
+- [x] Complete local security/runtime review; exact hosted head remains a separate gate.
+- [x] Implement responsive Bokmål-first React/TypeScript client in the working tree:
+  identity, learning/replay/review/placement, dashboard, preferences, localization,
+  course audio/images and the approved microphone workflow.
+- [x] Verify 9/9 Chromium/Firefox/WebKit journeys/accessibility and 243/243 backend
+  PostgreSQL/migration/media/security/race regressions after the latest fixes.
+- [x] Implement storage inventory, reference coordination, expiry/retention and GC.
+- [x] Complete local PostgreSQL/race/failure verification of course delivery/GC;
+  in-flight protection, grace, final reference checks and durable audit tested.
+- [x] Pass final container build/migration/runtime smoke, Web 16/16 component tests,
+  locked backend/npm audits and unchanged Contract 19/19 regressions.
+- [ ] Verify provider staging gates for any live SMTP/Google-dependent journey;
+  mocks do not satisfy provider acceptance; SMTP remains at-least-once.
+- [x] Add real Web quality/tests/dependency and CodeQL Web workflow definitions.
+- [x] Verify all 23 implementation-head hosted checks, including the seven required
+  names and Backend/Web/Contract/receiving/confidentiality/CodeQL regressions.
+- [ ] Verify each final evidence-only head separately; Owner reviews Code Scanning UI
+  because alerts API is inaccessible (403).
+- [x] Restore environment capabilities for Docker/network and `.git` writes;
+  2026-10-07 probes passed, including authenticated Compose-network PostgreSQL and
+  Docker build. A scoped reversible local firewall repair preserves global DROP;
+  reapply after host/network recreation if needed. Complete local application
+  validation passed; feature commit/push/PR and hosted results remain separate gates.
+- [x] Open [PR #10](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/10)
+  against protected main; implementation-head hosted results passed.
+- [x] Investigate manual-review time semantics and missing smoke-course matching
+  binding; clarify submitted-only time and add explicit versioned synthetic binding.
+- [x] Pass correction regressions: 245 backend, 24 Web unit/component, 9 cross-browser
+  E2E, 19 Contract and 25 repository/receiving tests, quality/audits/container gates.
+- [ ] Owner reviews correction-head hosted evidence in PR #10 and rechecks both
+  completed lessons/time; existing enrollments retain their immutable old policy.
+- [ ] Product Owner reviews/accepts Phase 5 and makes an explicit merge decision.
+- [ ] Phase 6 NOT STARTED; no Android implementation is authorized.
 
 ## Mandatory future production storage gate
 
-- [ ] Before production/remote persistent object storage, HTTP media delivery,
-  externally reachable assets or production imports: implement storage inventory
-  reconciliation against committed DB references, in-flight import protection,
-  grace period, reference re-check immediately before deletion, auditable deletion,
-  retention, safe retries/idempotency and race/failure tests. Accepted Phase 2
-  orphans are private/unmapped and DB rollback remains complete; this development
-  limitation must not silently become a production retention policy.
+- [x] Phase 5 implements storage reconciliation/retention/GC with shared writer/
+  exclusive GC locks, grace, final reference re-check, durable deletion intents and
+  retry/idempotency; local PostgreSQL race/failure tests passed.
+- [x] Implementation-head hosted GC/media regression passed.
+- [ ] Obtain Owner Phase 5 acceptance and verify any later evidence-only HEAD.
+- [ ] Before live production/remote storage/media/import: acceptance-test private
+  unversioned S3 bucket, IAM/anonymous-denial/encryption and provider erasure; schedule
+  monitored cleanup with retention SLA, failure alerts and backups erasure policy.
+  Unmapped orphans remain private; DB rollback is atomic. Functional test success
+  must not silently close live operational acceptance.
 
 ## Later owner decisions
 

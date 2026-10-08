@@ -1,6 +1,6 @@
 # 0012 — Versioned learning policies and release-pinned canonical progress
 
-Status: Accepted engineering decision within authorized Phase 4; owner review pending
+Status: Accepted; Phase 4 owner-accepted, PR #9 merged and verified on 2026-10-07
 Date: 2026-10-06
 
 ## Context

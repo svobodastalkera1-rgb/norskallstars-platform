@@ -12,6 +12,7 @@ from norskallstars_backend.database import Database
 from norskallstars_backend.identity.models import Account  # noqa: F401 -- register metadata
 from norskallstars_backend.learning.models import Enrollment  # noqa: F401 -- register metadata
 from norskallstars_backend.logging import configure_logging, exception_fields
+from norskallstars_backend.media.models import Recording  # noqa: F401 -- register metadata
 
 
 def run(connection: Connection) -> None:

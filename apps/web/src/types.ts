@@ -1,0 +1,14 @@
+import type { components as Learning } from "./learning.generated";
+import type { components as Identity } from "./identity.generated";
+export type Account = Identity["schemas"]["AccountView"];
+export type Session = Identity["schemas"]["SessionView"];
+export type Course = Learning["schemas"]["CourseView"];
+export type Enrollment = Learning["schemas"]["EnrollmentView"];
+export type EnrollmentSummary = Learning["schemas"]["EnrollmentSummary"];
+export type Lesson = Learning["schemas"]["LessonView"];
+export type Activity = Learning["schemas"]["ActivityView"];
+export type Attempt = Learning["schemas"]["AttemptView"];
+export type Placement = Learning["schemas"]["PlacementView"];
+export type Assessment = Learning["schemas"]["AssessmentView"];
+export type History = Learning["schemas"]["HistoryView"];
+export type Evaluation = Learning["schemas"]["EvaluationView"];

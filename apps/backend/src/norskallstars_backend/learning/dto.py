@@ -7,7 +7,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, JsonValue, StrictBool, model_validator
 
-from norskallstars_backend.learning.policy import Id
+from norskallstars_backend.learning.policy import Id, Presentation
 
 
 class LearningDTO(BaseModel):
@@ -114,6 +114,7 @@ class EnrollmentView(LearningDTO):
 
 
 class ActivityView(LearningDTO):
+    presentation: Presentation | None = None
     activity_id: str
     type: str
     response_mode: str
@@ -154,11 +155,16 @@ class EvaluationView(LearningDTO):
     evaluator_version: str
 
 
+class EngagementInput(LearningDTO):
+    sequence: Annotated[int, Field(strict=True, ge=1, le=10000)]
+
+
 class AttemptView(LearningDTO):
     id: UUID
     lesson_id: str
     lesson_version: str
     kind: Literal["canonical", "practice"]
+    active_seconds: int | None = None
     started_at: datetime
     submitted_at: datetime | None
     evaluations: list[EvaluationView] | None

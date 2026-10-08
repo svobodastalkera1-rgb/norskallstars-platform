@@ -21,7 +21,48 @@ class Normalizer(Rule):
     operation: Literal["trim", "case_fold", "unicode_nfc"]
 
 
+class ResponseOption(Rule):
+    label: Annotated[str, Field(min_length=1, max_length=1024)]
+    value: JsonValue
+
+
+class Presentation(Rule):
+    kind: Literal[
+        "text",
+        "single_choice",
+        "multiple_choice",
+        "ordering",
+        "matching",
+        "speech",
+        "acknowledgement",
+    ]
+    options: Annotated[list[ResponseOption], Field(max_length=200)]
+    # Matching has explicit ordered public fields; answer is the corresponding value array.
+    fields: Annotated[
+        list[Annotated[str, Field(min_length=1, max_length=1024)]], Field(max_length=200)
+    ] = []
+
+    @model_validator(mode="after")
+    def bounded_binding(self) -> "Presentation":
+        values = [json.dumps(o.value, sort_keys=True, ensure_ascii=False) for o in self.options]
+        if any(o.value is None for o in self.options) or any(
+            len(v.encode()) > 4096 for v in values
+        ):
+            raise ValueError("Presentation options need bounded nonnull values")
+        if len(set(values)) != len(values) or len(set(self.fields)) != len(self.fields):
+            raise ValueError("Duplicate presentation values or fields")
+        if self.kind in ("single_choice", "multiple_choice", "ordering", "matching"):
+            if not self.options:
+                raise ValueError("Selectable presentation needs explicit options")
+        elif self.options:
+            raise ValueError("This presentation does not accept options")
+        if (self.kind == "matching") != bool(self.fields):
+            raise ValueError("Only matching requires explicit fields")
+        return self
+
+
 class ActivityRule(Rule):
+    presentation: Presentation | None = None
     comparison: Literal["exact", "unordered"]
     # null means use Contract scalar accepted_answers. Structured answers need explicit rules.
     accepted_responses: Annotated[list[JsonValue], Field(min_length=1, max_length=200)] | None
@@ -84,7 +125,12 @@ class LearningPolicy(Rule):
     package_policy_inputs: dict[str, str]
 
     def document(self) -> dict[str, Any]:
-        return self.model_dump(mode="json")
+        result = self.model_dump(mode="json")
+        # Preserve existing policy identities when no optional presentation is supplied.
+        for rule in result["activities"].values():
+            if rule.get("presentation") is None:
+                rule.pop("presentation", None)
+        return result
 
     def digest(self) -> str:
         return hashlib.sha256(
@@ -144,6 +190,18 @@ def validate_policy(policy: LearningPolicy, documents: dict[str, Any]) -> None:
         raise ValueError("Opaque package policies need exact explicit acknowledgment")
     for aid, activity_rule in policy.activities.items():
         activity = activities[aid]
+        if activity_rule.presentation:
+            modes = {
+                "text": ("text", "reflection"),
+                "single_choice": ("choice",),
+                "multiple_choice": ("choice",),
+                "matching": ("matching",),
+                "ordering": ("ordering",),
+                "speech": ("speech",),
+                "acknowledgement": ("action",),
+            }
+            if activity["response_mode"] not in modes[activity_rule.presentation.kind]:
+                raise ValueError("Presentation contradicts Contract response mode")
         flags = activity.get("normalization", {})
         bindings = [b.flag for b in activity_rule.normalization]
         if len(set(bindings)) != len(bindings) or set(bindings) != set(flags):

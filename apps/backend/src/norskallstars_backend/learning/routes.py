@@ -160,3 +160,21 @@ async def learning_error(request: Request, exc: Exception) -> JSONResponse:
     if not isinstance(exc, LearningError):
         raise TypeError("Invalid learning handler invocation")
     return await identity_error(request, IdentityError(exc.status, exc.code))
+
+
+@router.get("/dashboard", response_model=dict[str, int])
+async def dashboard_view(request: Request, actor: PrincipalDependency) -> dict[str, int]:
+    from norskallstars_backend.learning.dashboard import dashboard
+
+    return await dashboard(await learning(request, actor), actor)
+
+
+@router.post("/attempts/{attempt_id}/engagement", response_model=dict[str, int])
+async def engagement(
+    client: ClientHeader,
+    attempt_id: UUID,
+    data: dto.EngagementInput,
+    request: Request,
+    actor: PrincipalDependency,
+) -> dict[str, int]:
+    return await (await learning(request, actor)).engage(actor, attempt_id, data.sequence)
