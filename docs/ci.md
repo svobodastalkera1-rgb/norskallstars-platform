@@ -47,3 +47,10 @@ were changed. Review both advanced CodeQL language categories in Code Scanning;
 no competing default-setup workflow is needed. All 23 implementation-head PR checks passed (PR #10, `1eb49b7`); later revisions
 need separate exact-head results. Alert API access returned 403; Owner UI review
 remains required. See [Phase 5 evidence](phase-5-review.md).
+
+Web test setup uses separate bounded install/unit/build/browser steps. Temporary
+Ubuntu runners use official HTTPS Ubuntu package mirrors with bounded APT timeouts
+and retries; repository signatures/TLS verification remain enabled. This avoids
+stalls observed on the runner's Azure HTTP mirror. Browser tests remain mandatory;
+failed installs fail the job. Compose cleanup runs only after local configuration
+initialization succeeded, and still runs if later integration tests fail.

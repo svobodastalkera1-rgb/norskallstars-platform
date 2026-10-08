@@ -56,15 +56,41 @@ jobs:
         run: |
           printf '%s\n' 'Acquire::Retries "2";' 'Acquire::http::Timeout "30";' 'Acquire::https::Timeout "30";' \
             | sudo tee /etc/apt/apt.conf.d/99-norskallstars-ci-network > /dev/null
+      - name: Use official HTTPS Ubuntu package mirrors
+        run: |
+          sudo python3 - <<'PY'
+          from pathlib import Path
+
+          sources = [Path("/etc/apt/sources.list")]
+          sources += list(Path("/etc/apt/sources.list.d").glob("*.list"))
+          sources += list(Path("/etc/apt/sources.list.d").glob("*.sources"))
+          for source in sources:
+              if not source.is_file():
+                  continue
+              original = source.read_text()
+              updated = original.replace(
+                  "http://azure.archive.ubuntu.com/ubuntu",
+                  "https://archive.ubuntu.com/ubuntu",
+              ).replace(
+                  "http://archive.ubuntu.com/ubuntu",
+                  "https://archive.ubuntu.com/ubuntu",
+              ).replace(
+                  "http://security.ubuntu.com/ubuntu",
+                  "https://security.ubuntu.com/ubuntu",
+              )
+              if updated != original:
+                  source.write_text(updated)
+          PY
       - name: Install browser engines and system dependencies
         run: npx playwright install --with-deps chromium firefox webkit
         timeout-minutes: 8
         working-directory: apps/web
-      - run: python3 scripts/phase1.py init
+      - id: local_runtime
+        run: python3 scripts/phase1.py init
       - name: Run all isolated browser integration projects
         run: make web-e2e
         timeout-minutes: 5
-      - if: always()
+      - if: ${{ always() && steps.local_runtime.outcome == 'success' }}
         run: python3 scripts/phase1.py down
       # No private browser trace, video, screenshot, credential or report artifacts.
   dependencies:
