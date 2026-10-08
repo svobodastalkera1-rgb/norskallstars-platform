@@ -15,8 +15,25 @@ from norskallstars_backend.app import create_app
 from norskallstars_backend.config import Environment, load_settings
 from norskallstars_backend.course_packages.service import import_package, publish_release
 from norskallstars_backend.database import Database
+from norskallstars_backend.learning.policy import Presentation, ResponseOption, validate_policy
 from norskallstars_backend.learning.service import select_learning_release
 from norskallstars_backend.storage import create_storage
+
+
+def browser_policy(docs):
+    """Explicit binding for the approved synthetic fixture, never runtime inference."""
+    policy = synthetic_policy(docs)
+    policy.policy_version = "synthetic-browser-policy-2"
+    policy.activities["fixture.activity.match"].presentation = Presentation(
+        kind="matching",
+        fields=["yellow square", "blue circle"],
+        options=[
+            ResponseOption(label="water", value="synthetic-one"),
+            ResponseOption(label="shade", value="synthetic-two"),
+        ],
+    )
+    validate_policy(policy, docs)
+    return policy
 
 
 async def main():
@@ -37,7 +54,7 @@ async def main():
             raise RuntimeError("Explicit synthetic local storage required")
         files = payload()
         docs = documents(files)
-        policy = synthetic_policy(docs)
+        policy = browser_policy(docs)
         first_chapter = docs["course.json"]["chapters"][0]
         first_lesson = docs[f"chapters/{first_chapter}.json"]["lesson_refs"][0]
         lesson = docs[f"lessons/{first_lesson}.json"]

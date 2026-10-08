@@ -65,7 +65,7 @@ const nb = {
   time: "Aktiv læringstid (anslag)",
   accuracy: "Riktige vurderte svar",
   timeNote:
-    "Basert på aktiv fanebruk i innsendte forsøk. Eldre forsøk kan mangle tidsdata.",
+    "Oppdateres etter innsending, i hele minutter avrundet ned. Pauser og inaktive faner teller ikke. Eldre forsøk kan mangle tidsdata.",
   noScores: "Ingen vurderte svar ennå",
   replayNote: "Øving endrer ikke tidligere fullføring.",
   mastery: "Mestring",
@@ -169,7 +169,7 @@ const en: typeof nb = {
   time: "Active learning time (estimate)",
   accuracy: "Correct scored answers",
   timeNote:
-    "Based on active tab engagement in submitted attempts. Older attempts may have no timing data.",
+    "Updates after submission, in whole minutes rounded down. Pauses and inactive tabs do not count. Older attempts may have no timing data.",
   noScores: "No scored answers yet",
   replayNote: "Practice does not change previous completion.",
   mastery: "Mastery",

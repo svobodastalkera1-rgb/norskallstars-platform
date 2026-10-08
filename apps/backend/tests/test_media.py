@@ -386,6 +386,78 @@ def test_presentation_binding_preserves_legacy_policy_identity():
     assert LearningPolicy.model_validate(serialized).digest() == policy.digest()
 
 
+@pytest.mark.integration
+async def test_dashboard_counts_only_submitted_active_time_and_excludes_gaps(
+    media_runtime, monkeypatch
+):
+    app, client, enrollment, attempt, *_ = media_runtime
+    timestamp = datetime.now(UTC)
+    monkeypatch.setattr("norskallstars_backend.learning.service.now", lambda: timestamp)
+    path = "/api/v1/learning/attempts/" + attempt["id"] + "/engagement"
+    assert (await client.post(path, json={"sequence": 1})).json()["active_seconds"] == 0
+    # Real server-time intervals, not client duration assertions; fractions round down.
+    for sequence in range(2, 8):
+        timestamp += timedelta(seconds=10.25)
+        assert (await client.post(path, json={"sequence": sequence})).json()["active_seconds"] == (
+            sequence - 1
+        ) * 10
+    before = (await client.get("/api/v1/learning/dashboard")).json()
+    assert before["active_learning_seconds"] == before["timed_attempts"] == 0
+    timestamp += timedelta(seconds=60)
+    after_gap = await client.post(path, json={"sequence": 8})
+    assert after_gap.json()["active_seconds"] == 60
+    assert (await client.post(path, json={"sequence": 8})).json() == after_gap.json()
+    lesson = (
+        await client.get(
+            f"/api/v1/learning/enrollments/{enrollment['id']}/lessons/{attempt['lesson_id']}"
+        )
+    ).json()
+    result = await client.post(
+        f"/api/v1/learning/attempts/{attempt['id']}/submit",
+        json={
+            "acknowledged": True,
+            "responses": [
+                {
+                    "activity_id": activity["activity_id"],
+                    "response": ["synthetic-one", "synthetic-two"]
+                    if activity["response_mode"] == "matching"
+                    else {"recorded": False},
+                    "acknowledged": True,
+                    "self_assessment": True
+                    if activity["evaluation_type"] == "self_assessment"
+                    else None,
+                }
+                for activity in lesson["activities"]
+            ],
+        },
+    )
+    assert result.status_code == 200, result.text
+    summary = (await client.get("/api/v1/learning/dashboard")).json()
+    assert summary["active_learning_seconds"] == 60
+    assert summary["timed_attempts"] == summary["submitted_attempts"] == 1
+    timestamp += timedelta(seconds=10)
+    assert (await client.post(path, json={"sequence": 9})).status_code == 409
+    assert (await client.get("/api/v1/learning/dashboard")).json() == summary
+
+
+def test_browser_smoke_policy_explicitly_binds_matching_without_changing_contract():
+    from browser_seed import browser_policy
+
+    from norskallstars_backend.learning.evaluation import LocalEvaluator
+
+    files = payload()
+    docs = documents(files)
+    policy = browser_policy(docs)
+    aid = "fixture.activity.match"
+    rule = policy.activities[aid]
+    assert rule.presentation.kind == "matching"
+    assert rule.presentation.fields == ["yellow square", "blue circle"]
+    response = [option.value for option in rule.presentation.options]
+    result = LocalEvaluator().evaluate(docs[f"activities/{aid}.json"], rule, response, None)
+    assert result.correct is True
+    assert files == payload()
+
+
 def test_s3_boundary_explicit_config_and_bounded_calls(settings):
     from botocore.stub import Stubber
 

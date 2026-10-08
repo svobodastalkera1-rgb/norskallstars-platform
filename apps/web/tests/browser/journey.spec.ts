@@ -115,6 +115,35 @@ test("real backend identity, pinned enrollment, placement, history and logout", 
     "value",
     canonicalCredit!,
   );
+  // The primary synthetic course must be fully completable. Missing bindings
+  // remain separate negative component tests, never an implicit happy-path gate.
+  await page.getByRole("button", { name: "Fortsett", exact: true }).click();
+  await page.getByRole("button", { name: "Begynn", exact: true }).click();
+  await page
+    .getByRole("combobox", { name: "yellow square", exact: true })
+    .selectOption({ label: "water" });
+  await page
+    .getByRole("combobox", { name: "blue circle", exact: true })
+    .selectOption({ label: "shade" });
+  await page
+    .getByLabel("Svar", { exact: true })
+    .fill("An invented square signals water.");
+  for (const checkbox of await page
+    .getByLabel("Jeg har gjennomført oppgaven", { exact: true })
+    .all())
+    await checkbox.check();
+  await page.getByRole("button", { name: "Send svar", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "Resultat", exact: true }),
+  ).toBeVisible();
+  await expect(page.locator(".results")).toContainText("Riktig");
+  await expect(page.locator(".results")).toContainText("Venter");
+  await page.getByRole("button", { name: "Fortsett", exact: true }).click();
+  await expect(page.getByRole("progressbar")).toHaveAttribute("value", "2");
+  await expect(page.getByRole("progressbar")).toHaveAttribute("max", "2");
+  await expect(
+    page.getByRole("button", { name: "Øv igjen", exact: true }),
+  ).toHaveCount(2);
   await page.getByRole("button", { name: "Logg ut", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Logg inn", exact: true }),

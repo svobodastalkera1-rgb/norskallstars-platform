@@ -106,6 +106,35 @@ browser storage/network behavior. Do not weaken old tests or claim synthetic/moc
 provider tests prove production acceptance. Deliver a feature PR; stop before merge
 and before Phase 6.
 
+## Manual-review timing and synthetic course
+
+The dashboard time is approximate **active time in submitted attempts**, not elapsed
+page/lesson time or a live stopwatch. Timing starts only after starting an attempt.
+The visible tab sends an initial heartbeat and then one every ten seconds while a
+pointer/key interaction occurred within the previous thirty seconds. Each successful
+sequential heartbeat persists server time; the first adds zero. Only adjacent gaps
+of at most twenty seconds count, each rounded down to whole seconds; longer gaps
+add nothing. Idle/hidden tabs do not continue sending. Failed requests retry their
+sequence, so retries do not double-count. Leaving without submitting preserves the
+attempt evidence but excludes it from dashboard totals. The dashboard refreshes
+after submission or a new data load/sign-in, not on a periodic timer. Its minutes
+round the aggregate down: 59 recorded seconds show 0 min, 60 show 1 min. More than
+sixty wall-clock seconds need not produce a minute when idle, unsubmitted, or subject
+to heartbeat/fractional rounding; active interaction over approximately seventy
+seconds followed by submission should normally do so. Telemetry never grants
+completion/mastery or financial/gamification credit.
+
+The primary browser/manual-review synthetic course must be completable end to end.
+`apps/backend/tests/browser_seed.py` supplies an explicit versioned **test-only**
+matching presentation binding for the approved fixture. Contract v1 bytes and the
+runtime's generic interpretation remain unchanged. The rubric response can complete
+under that fixture's explicit acknowledgment policy while its evaluation remains
+pending; no grade/mastery is fabricated. Missing bindings/media remain isolated
+negative tests. Existing enrollments retain their immutable old policy; use a fresh
+enrollment/account after selecting a corrected seed policy rather than silently
+rewriting progress. E2E verifies both lessons, matching, the pending rubric result,
+and replay preserving canonical completion across all three browser engines.
+
 ## Resolved policy history
 
 An earlier request proposed indefinite identifiable retention after account deletion.

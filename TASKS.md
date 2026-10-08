@@ -115,6 +115,12 @@ in public source/CI. Product identity/administration completion stays in its pha
   validation passed; feature commit/push/PR and hosted results remain separate gates.
 - [x] Open [PR #10](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/10)
   against protected main; implementation-head hosted results passed.
+- [x] Investigate manual-review time semantics and missing smoke-course matching
+  binding; clarify submitted-only time and add explicit versioned synthetic binding.
+- [x] Pass correction regressions: 245 backend, 24 Web unit/component, 9 cross-browser
+  E2E, 19 Contract and 25 repository/receiving tests, quality/audits/container gates.
+- [ ] Owner reviews correction-head hosted evidence in PR #10 and rechecks both
+  completed lessons/time; existing enrollments retain their immutable old policy.
 - [ ] Product Owner reviews/accepts Phase 5 and makes an explicit merge decision.
 - [ ] Phase 6 NOT STARTED; no Android implementation is authorized.
 

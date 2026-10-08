@@ -1,6 +1,6 @@
 # Project state
 
-Updated: 2026-10-07. Product: NorskAllstars. Platform: NorskAllstars Platform.
+Updated: 2026-10-08. Product: NorskAllstars. Platform: NorskAllstars Platform.
 Phase 0: **CLOSED / ACCEPTED by Product Owner**.
 Phase 1: **CLOSED / ACCEPTED by Product Owner; PR #4 merged**.
 Phase 2: **CLOSED / ACCEPTED by Product Owner; PR #7 merged**.
@@ -221,7 +221,7 @@ future privacy/export, administrator authorization, deterministic release migrat
 license/market/retention/recovery decisions. No earlier gate is silently closed.
 Phase 6 is NOT STARTED / NOT AUTHORIZED. Never merge without Owner review.
 
-Latest completed local evidence: **243/243 backend**, **16/16 Web unit/component**,
+Initial completed local evidence: **243/243 backend**, **16/16 Web unit/component**,
 **9/9 browser E2E/accessibility** across Chromium/Firefox/WebKit, **19/19 upstream
 Contract v1** and **25/25 repository/receiving** tests passed. Ruff, strict mypy (45
 source files), generated API/policy drift and Web format/lint/build passed. Final
@@ -231,3 +231,22 @@ staged index/history confidentiality and redacted secret checks passed before co
 Implementation-head hosted verification passed all 23 checks. Evidence-only updates
 require separate exact-head verification; Owner review remains pending. CodeQL Python
 and Web analysis succeeded; alert API returned 403, so Owner must review scanning UI.
+
+## Phase 5 manual-review follow-up — 2026-10-08
+
+Owner reported a usable Web/learning UI and accepted the artificial synthetic
+content boundary; Phase 5 remains NOT ACCEPTED pending the follow-up. The displayed
+time intentionally includes only submitted active attempts, rounded down to minutes;
+idle/hidden/unsubmitted time is excluded. The notice now states update/rounding
+semantics. The primary smoke seed omitted the explicit matching presentation binding,
+so the client correctly failed closed but the course could not finish. Corrected
+versioned test-only browser policy adds that binding; upstream Contract artifacts,
+production runtime learning rules and immutable existing enrollments are unchanged.
+New regressions cover heartbeat activity/idle/hidden/retry behavior, dashboard
+submission/rounding and completion of both synthetic lessons. Correction validation:
+245/245 backend, 24/24 Web component/unit, 9/9 E2E across Chromium/Firefox/WebKit,
+19/19 Contract and 25/25 repository/receiving regressions passed. Ruff/strict mypy,
+API/policy drift, Web format/lint/build, locked dependency audits and container
+build/migration/runtime smoke passed. Exact correction-head hosted evidence belongs
+to PR #10 metadata/delivery and must not be inferred from historical runs.
+All existing deferred production gates above remain open; no merge or Phase 6.

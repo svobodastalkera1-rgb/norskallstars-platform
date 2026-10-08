@@ -169,3 +169,38 @@ journeys above, then make an explicit acceptance/merge decision. Phase 6 remains
 NOT STARTED / NOT AUTHORIZED. No real corpus, pilot or inbound ZIP was read/imported
 for Phase 5. Account/privacy/export, live SMTP/Google, storage operations, administrator
 RBAC, release migration and license gates remain visible in TASKS and project state.
+
+## Manual-review corrections — 2026-10-08
+
+The approximate time observation is expected under the submitted-attempt metric:
+only server-recorded active heartbeat time of submitted attempts enters the dashboard,
+with whole-minute floor rounding. Unsubmitted/idle/hidden time is excluded and the
+summary refreshes after submission/data load. Each heartbeat interval also rounds
+down to seconds. A minute of page-open time does not imply a displayed minute.
+The UI notice now explains submission/rounding; timing rules and learning credit
+are unchanged. Detailed cadence/resource bounds are in docs/web/README.md.
+
+The second lesson's matching activity had no explicit presentation binding in the
+primary browser seed. This was a smoke-data preparation defect, not an intentional
+missing-media fixture. Fail-closed unsupported-binding behavior remains covered by
+a separate negative component test. The corrected test-only versioned platform
+policy supplies matching fields/options; backend behavior and upstream Contract
+artifacts are unchanged. Rubric evidence remains pending while the explicit synthetic
+acknowledgment policy permits completion; no evaluator/grade/mastery is invented.
+Existing enrollments are not rewritten; a new enrollment uses the corrected policy.
+
+Added eight Web tests for activity/idle/visibility/lifecycle/retry heartbeat behavior
+and dashboard unknown/subminute/minute presentation; two backend tests cover persisted
+submitted-only aggregates, gap/retry/closed-attempt behavior and the matching binding.
+Extended the existing learning E2E through both lessons, deterministic matching,
+pending rubric evaluation, 2/2 canonical completion and replay invariance on all
+three engines. Local final results: **245 backend**, **24 Web unit/component**,
+**9 E2E**, **19 Contract** and **25 repository/receiving** passed. Ruff/strict mypy,
+API/policy/generated TypeScript drift, Web format/lint/build, locked audits and
+container build/migration/non-root/read-only smoke passed. Upstream deprecation
+warnings remain visible; no checks/tests were suppressed or removed. Initial browser
+locator mismatch was corrected; a run overlapping container compilation timed out
+in WebKit, then the complete isolated browser run passed without increasing timeouts.
+Exact correction HEAD/hosted run results are recorded in PR metadata/delivery,
+separately from earlier evidence. Phase 5 still needs Owner acceptance; no merge,
+Phase 6, private corpus access or production/provider operation is performed.
