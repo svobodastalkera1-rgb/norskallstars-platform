@@ -70,7 +70,16 @@ The next hosted run installed/verified the JDK but revealed setup-android
 requesting the removed legacy `tools` package by default; it now requests only
 `platform-tools`, with the already pinned API/build-tools installed explicitly.
 These infrastructure failures are not claimed as successful Android checks.
-Hosted checks and Kotlin CodeQL extraction remain pending. The merged-main workflow results above cover the accepted base only.
+At revision `aec1c5a`, all 35 GitHub checks reported success, including compiled
+CodeQL Android and release assembly. Independent log review nevertheless found
+the device jobs never executed tests: prebuilt/debug APK signatures differed at
+Gradle installation, and AGP returned success after the installation error.
+Those device checks are explicitly **not accepted**. Device APK preparation now
+runs after emulator setup through the same sanitized wrapper as instrumentation.
+The gate removes old reports before running and independently requires fresh
+JUnit results for all three native journeys with no failures/errors/skips.
+Regression tests reject missing, incomplete, failed, skipped and duplicate results.
+The corrected exact-head hosted device gate remains pending. The merged-main workflow results above cover the accepted base only.
 See [CI names](ci.md) and [security review](security/phase-6-review.md).
 
 Owner review must cover a debug-device account/complete synthetic lesson/replay/

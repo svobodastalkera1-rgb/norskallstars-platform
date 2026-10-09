@@ -96,6 +96,11 @@ python3 scripts/android_e2e.py device-input
 python3 scripts/android.py device
 ```
 
+The device wrapper removes old reports and requires fresh successful JUnit results
+for every required native journey, even when Gradle returns a misleading zero status.
+In hosted CI, APK preparation runs after emulator setup with the same sanitized
+build environment as instrumentation to preserve debug signing consistency.
+
 Connected tests may uninstall the app when finished. If the debug app remains
 installed, clear its data after testing with `adb shell pm clear
 com.norskallstars.platform.dev`.

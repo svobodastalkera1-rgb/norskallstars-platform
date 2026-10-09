@@ -11,10 +11,32 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from android_audit import inventory
 from android import environment
+from android import REQUIRED_DEVICE_TESTS, verify_device_results
 import android_jdk
 
 
 class AndroidAuditTests(unittest.TestCase):
+    def test_device_install_failure_cannot_pass_without_junit_reports(self):
+        with tempfile.TemporaryDirectory() as folder:
+            with self.assertRaisesRegex(SystemExit, "no fresh JUnit reports"):
+                verify_device_results(Path(folder))
+
+    def test_device_reports_require_all_journeys_and_no_skips_or_failures(self):
+        cases = ''.join(f'<testcase classname="{cls}" name="{name}" />' for cls, name in REQUIRED_DEVICE_TESTS)
+        with tempfile.TemporaryDirectory() as folder:
+            report = Path(folder) / "TEST-synthetic.xml"
+            report.write_text(f'<testsuites tests="3">{cases}</testsuites>')
+            verify_device_results(Path(folder))
+            for bad in ('<testsuites tests="0" />',
+                        f'<testsuites failures="1">{cases}</testsuites>',
+                        f'<testsuites skipped="1">{cases}</testsuites>',
+                        f'<testsuites>{cases}<skipped /></testsuites>',
+                        f'<testsuites>{cases}{cases}</testsuites>'):
+                with self.subTest(report=bad):
+                    report.write_text(bad)
+                    with self.assertRaises(SystemExit):
+                        verify_device_results(Path(folder))
+
     def test_corrupt_jdk_is_not_installed_and_temporary_download_is_removed(self):
         with tempfile.TemporaryDirectory() as folder:
             destination = Path(folder) / android_jdk.FILENAME

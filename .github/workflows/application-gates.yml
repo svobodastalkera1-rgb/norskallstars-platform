@@ -106,9 +106,6 @@ jobs:
             sleep 1
           done
           exit 1
-      - name: Prepare device test APKs
-        run: ./gradlew :app:assembleDebug :app:assembleDebugAndroidTest -PdevelopmentOrigin=http://10.0.2.2:8001 --no-daemon
-        working-directory: apps/android
       - name: Allow runner access to its KVM device
         run: sudo chown "$USER" /dev/kvm
       - uses: ReactiveCircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d
@@ -119,6 +116,7 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect -idle-grpc-timeout 3600 -memory 1536 -cores 2
           script: |
+            python3 scripts/android.py device-build
             adb install -r apps/android/app/build/outputs/apk/debug/app-debug.apk
             python3 scripts/android_e2e.py device-input
             python3 scripts/android.py device
