@@ -66,6 +66,9 @@ failed before compilation because setup-java rejects `17.0.20.1` as SemVer.
 CI installation now downloads the exact Microsoft JDK archive with a pinned
 SHA-256, uses the supported jdkfile provider and verifies the installed vendor/
 version. Cleanup also requires successful local-environment initialization.
+The next hosted run installed/verified the JDK but revealed setup-android
+requesting the removed legacy `tools` package by default; it now requests only
+`platform-tools`, with the already pinned API/build-tools installed explicitly.
 These infrastructure failures are not claimed as successful Android checks.
 Hosted checks and Kotlin CodeQL extraction remain pending. The merged-main workflow results above cover the accepted base only.
 See [CI names](ci.md) and [security review](security/phase-6-review.md).

@@ -115,3 +115,6 @@ provider registration/signing fingerprint and live Google/SMTP acceptance remain
 Owner staging actions. These identifiers are public configuration, never secrets.
 
 See [scope](../../docs/android/README.md) and [ADR 0014](../../docs/adr/0014-native-android-online.md).
+The [Product Owner manual-review guide](../../docs/android/manual-review.md) gives
+the complete private Codespace-to-device installation, account/course walkthrough,
+Android-specific development mailbox command and explicit coverage limits.

@@ -70,6 +70,9 @@ jobs:
           jdkFile: ${{ runner.temp }}/microsoft-jdk-17.0.20.1-linux-x64.tar.gz
       - run: python3 scripts/android_jdk.py --verify
       - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
+        with:
+          # The removed legacy tools package must not be requested.
+          packages: platform-tools
       - run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
       - uses: github/codeql-action/init@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2
         with:

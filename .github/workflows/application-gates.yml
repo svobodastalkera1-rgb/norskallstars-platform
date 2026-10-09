@@ -26,6 +26,9 @@ jobs:
           jdkFile: ${{ runner.temp }}/microsoft-jdk-17.0.20.1-linux-x64.tar.gz
       - run: python3 scripts/android_jdk.py --verify
       - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
+        with:
+          # The removed legacy tools package must not be requested.
+          packages: platform-tools
       - run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
       - run: python3 scripts/android.py wrapper
       - run: python3 scripts/android_contract.py --check
@@ -47,6 +50,9 @@ jobs:
           jdkFile: ${{ runner.temp }}/microsoft-jdk-17.0.20.1-linux-x64.tar.gz
       - run: python3 scripts/android_jdk.py --verify
       - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
+        with:
+          # The removed legacy tools package must not be requested.
+          packages: platform-tools
       - run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
       - run: python3 scripts/android.py build
       # No APK, signing credentials, screenshots or private reports are published.
@@ -80,6 +86,9 @@ jobs:
           jdkFile: ${{ runner.temp }}/microsoft-jdk-17.0.20.1-linux-x64.tar.gz
       - run: python3 scripts/android_jdk.py --verify
       - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
+        with:
+          # The removed legacy tools package must not be requested.
+          packages: platform-tools
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
         with:
           version: 0.12.23
