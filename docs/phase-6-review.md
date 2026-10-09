@@ -79,7 +79,13 @@ runs after emulator setup through the same sanitized wrapper as instrumentation.
 The gate removes old reports before running and independently requires fresh
 JUnit results for all three native journeys with no failures/errors/skips.
 Regression tests reject missing, incomplete, failed, skipped and duplicate results.
-The corrected exact-head hosted device gate remains pending. The merged-main workflow results above cover the accepted base only.
+At `0e8b7fe`, the push API 35 device job verified three actual tests with no
+failures/errors/skips. API 26 was correctly rejected by the new gate: its runner
+attempted to reinstall the preprovisioned APK without replacement permission.
+Explicit `installation.installOptions += "-r"` preserves the app-private synthetic
+input during test-runner installation on older devices; normal signature checks
+remain enforced. The corrected exact-head hosted matrix remains pending.
+The merged-main workflow results above cover the accepted base only.
 See [CI names](ci.md) and [security review](security/phase-6-review.md).
 
 Owner review must cover a debug-device account/complete synthetic lesson/replay/

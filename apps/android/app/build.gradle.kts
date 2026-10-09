@@ -58,6 +58,9 @@ android {
     testOptions {
         animationsDisabled = true
     }
+    // The harness preinstalls the debuggable APK to provision app-private input.
+    // Preserve it when the runner installs again, including on API 26.
+    installation.installOptions += "-r"
 }
 
 kotlin {

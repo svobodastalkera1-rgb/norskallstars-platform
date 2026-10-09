@@ -22,6 +22,9 @@ do not run it while retaining a previous Android review session. Ordinary local,
 Web and manual-review databases are not reset. The backend binds to loopback port
 **8001**; PostgreSQL remains loopback-only on **5433**. The health URL is
 `http://127.0.0.1:8001/health/ready` and must return `{"status":"ready"}`.
+If an existing `android_e2e.py serve` instance already owns port 8001, reuse that
+instance or stop it before starting a replacement; do not run two servers on the
+same port or substitute the ordinary development database.
 
 In desktop VS Code connected to this Codespace, forward **8001** in the Ports tab,
 keep visibility **Private**, and confirm its local forwarded port is also **8001**.
@@ -61,6 +64,11 @@ For a USB phone, run `adb reverse tcp:8001 tcp:8001` before starting the app. Us
 For the desktop emulator, `10.0.2.2` reaches your computer's privately forwarded
 port; no `adb reverse` is needed. Open the installed **NorskAllstars** debug app.
 Check the private forwarding tunnel/backend if sign-in reports a network failure.
+If installation reports `INSTALL_FAILED_UPDATE_INCOMPATIBLE` from a previous debug
+build signed on another machine, uninstall **only this debug app** with
+`adb uninstall com.norskallstars.platform.dev`, then install again. This clears its
+local session and temporary files, not the backend account; do not uninstall the
+production app or disable Android signature verification.
 
 ## Account and course walkthrough
 
