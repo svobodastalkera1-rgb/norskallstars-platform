@@ -1,6 +1,7 @@
 """Native tooling must not silently omit the buildscript security boundary."""
 
 import os
+import io
 import sys
 import tempfile
 import unittest
@@ -10,9 +11,24 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from android_audit import inventory
 from android import environment
+import android_jdk
 
 
 class AndroidAuditTests(unittest.TestCase):
+    def test_corrupt_jdk_is_not_installed_and_temporary_download_is_removed(self):
+        with tempfile.TemporaryDirectory() as folder:
+            destination = Path(folder) / android_jdk.FILENAME
+            with self.assertRaisesRegex(SystemExit, "checksum mismatch"):
+                android_jdk.download(destination, lambda *args, **kwargs: io.BytesIO(b"corrupt archive"))
+            self.assertEqual(list(Path(folder).iterdir()), [])
+
+    def test_oversized_jdk_is_not_installed(self):
+        with tempfile.TemporaryDirectory() as folder, patch.object(android_jdk, "MAX_BYTES", 4):
+            destination = Path(folder) / android_jdk.FILENAME
+            with self.assertRaisesRegex(SystemExit, "size limit"):
+                android_jdk.download(destination, lambda *args, **kwargs: io.BytesIO(b"oversized"))
+            self.assertEqual(list(Path(folder).iterdir()), [])
+
     def test_build_environment_excludes_ambient_provider_credentials(self):
         with patch.dict(os.environ, {
             "JAVA_HOME": "/synthetic/jdk", "ANDROID_HOME": "/synthetic/sdk",

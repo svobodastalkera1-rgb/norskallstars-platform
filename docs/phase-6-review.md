@@ -61,9 +61,13 @@ completion/replay/pinning/erasure assertions. Final repository/receiving tests p
 29/29; staged confidentiality and reachable-history guards plus redacted index/
 history secret scans passed. APKs, raw device reports and generated login values
 remain ignored/local.
-Real Android workflow definitions replace the pending gate. Hosted Android checks,
-Kotlin CodeQL extraction and PR publication have not run yet and are not claimed
-successful. The merged-main workflow results above cover the accepted base only.
+Real Android workflow definitions replace the pending gate. PR #17 is published with explicit Owner authorization. The first hosted run
+failed before compilation because setup-java rejects `17.0.20.1` as SemVer.
+CI installation now downloads the exact Microsoft JDK archive with a pinned
+SHA-256, uses the supported jdkfile provider and verifies the installed vendor/
+version. Cleanup also requires successful local-environment initialization.
+These infrastructure failures are not claimed as successful Android checks.
+Hosted checks and Kotlin CodeQL extraction remain pending. The merged-main workflow results above cover the accepted base only.
 See [CI names](ci.md) and [security review](security/phase-6-review.md).
 
 Owner review must cover a debug-device account/complete synthetic lesson/replay/

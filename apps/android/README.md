@@ -7,6 +7,10 @@ No Course Package interpretation, offline queue, private content or signing keys
 
 Toolchain: JDK 17 (local/CI Microsoft 17.0.20.1), Gradle 9.6.0 with distribution
 and wrapper SHA-256 verification, AGP 9.4.1 and Kotlin/Compose compiler 2.4.20.
+CI installs the exact Microsoft archive with a pinned SHA-256; `setup-java` uses
+`jdkfile` with SemVer cache label `17.0.20`, then verifies the actual installed
+Microsoft `17.0.20.1` identity. The vendor resolver cannot handle its fourth
+version component. No floating Java version or older patch is substituted.
 Compile/target API 36, build tools 36.0.0, minimum API 26. Final supported-device
 and store requirements need later release acceptance; no store publication occurs.
 Dependency locks/checksums cover resolved artifacts; audit findings must be resolved

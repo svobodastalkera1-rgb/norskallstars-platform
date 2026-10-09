@@ -138,7 +138,7 @@ in public source/CI. Product identity/administration completion stays in its pha
   and local builds are not hosted acceptance.
 - [x] Run accepted backend/PostgreSQL/Web/Contract/receiving/container regressions.
 - [x] Inspect staged public changes; exact index/history confidentiality and secret gates pass.
-- [ ] Publish the prepared feature branch/PR only with explicit authorization;
+- [x] Publish feature branch and PR #17 with explicit Product Owner authorization;
   never merge automatically.
 - [ ] Product Owner reviews Phase 6; Phase 7 remains NOT AUTHORIZED.
 

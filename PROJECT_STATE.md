@@ -7,7 +7,7 @@ Phase 2: **CLOSED / ACCEPTED by Product Owner; PR #7 merged**.
 Phase 3: **CLOSED / ACCEPTED by Product Owner; PR #8 merged**.
 Phase 4: **CLOSED / ACCEPTED by Product Owner; PR #9 merged**.
 Phase 5: **CLOSED / ACCEPTED by Product Owner; PR #10 merged**.
-Phase 6: **Android IMPLEMENTED locally / awaiting publication, hosted checks and Owner review**.
+Phase 6: **Android IMPLEMENTED / PR #17 published, hosted checks and Owner review pending**.
 Production readiness: **not achieved**.
 
 ## Actual implementation
@@ -291,8 +291,13 @@ Contract v1 upstream files are unchanged. The final real-backend API 35 device g
 Activity recreation, canonical/replay/placement and account/session/media erasure.
 Final repository/receiving regressions passed 29/29; index/reachable-history
 confidentiality and redacted secret scans passed. API 26 and hosted Android/CodeQL
-checks remain pending; Phase 6 is not accepted. No feature branch
-publication or PR has occurred yet. Phase 7 is NOT STARTED / NOT AUTHORIZED.
+checks remain pending; Phase 6 is not accepted. Product Owner explicitly authorized
+normal feature-branch publication and CI defect corrections. PR #17 is open against
+main: https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/17.
+The first hosted run exposed setup-java rejecting the four-component vendor version.
+CI now downloads the same Microsoft 17.0.20.1 archive with pinned SHA-256, uses
+a SemVer-compatible tool-cache label and verifies the installed vendor/version.
+No dependency, JDK patch version or required security check was downgraded. Phase 7 is NOT STARTED / NOT AUTHORIZED.
 
 The Codespace restart removed temporary SDK/JDK caches. Verified official toolchain
 archives restored local builds. The existing named PostgreSQL volume was preserved
