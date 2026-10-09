@@ -19,11 +19,12 @@ Phase 4 Learning Core is CLOSED and ACCEPTED (PR #9 merged and verified).
 Public-safe normative Product Owner rules are recorded in
 docs/architecture/learning-core.md. Require explicit versioned learning policies;
 never invent numeric pedagogical defaults or infer rules from fixtures/arbitrary
-Contract extension objects. Product Owner authorized Phase 5 Web subject to its
-authoritative scope. Read docs/web/README.md: Owner accepted selective voice
+Contract extension objects. Phase 5 Web is CLOSED/ACCEPTED (PR #10 merged and verified).
+Phase 6 Android is authorized; read docs/android/README.md before implementation.
+Read docs/web/README.md: Owner accepted selective voice
 retention with separate consent, an explicit processing purpose, at most twelve
-months and erasure with account deletion. Phase 5 implementation is authorized;
-ML implementation/training is not. Phase 6 and later need separate authorization.
+months and erasure with account deletion. The same voice policy applies to Android;
+ML implementation/training is not authorized. Phase 7 and later need separate authorization.
 Work through a feature PR; never merge without Product Owner review.
 Do not implement application runtime,
 identity, importers, learning, billing, administration, sync, or deployments
@@ -39,7 +40,7 @@ logs. Read private inputs only with authorization. Keep them outside this
 checkout. Do not reconstruct removed confidential documents from Git history.
 Do not access the private corpus repository without separate owner permission.
 Course integration accepts only an explicitly approved public handoff; the
-pending manifest under contracts/course-package records that dependency.
+manifest under contracts/course-package records the accepted public handoff provenance.
 Do not place private material in issues, PRs, job logs, or CI artifacts.
 
 ## Engineering workflow

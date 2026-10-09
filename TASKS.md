@@ -82,7 +82,7 @@ in public source/CI. Product identity/administration completion stays in its pha
   artifact review; merged implementation verified on main 9194c7c on 2026-10-07.
 - [x] Confirm merged main Backend CI, Phase 0 CI and Python CodeQL completed successfully.
 
-## Phase 5 — Web / IMPLEMENTED; awaiting Product Owner review
+## Phase 5 — Web / CLOSED / ACCEPTED
 
 - [x] Read authoritative scope; sources agree on Phase 5 Web. Record capabilities,
   dependencies, privacy boundaries and acceptance gates in [Web scope](docs/web/README.md).
@@ -106,8 +106,8 @@ in public source/CI. Product identity/administration completion stays in its pha
 - [x] Add real Web quality/tests/dependency and CodeQL Web workflow definitions.
 - [x] Verify all 23 implementation-head hosted checks, including the seven required
   names and Backend/Web/Contract/receiving/confidentiality/CodeQL regressions.
-- [ ] Verify each final evidence-only head separately; Owner reviews Code Scanning UI
-  because alerts API is inaccessible (403).
+- [x] Final correction-head hosted checks passed; Owner completed review and merged PR #10.
+  Alert API access remains distinct from Owner Code Scanning UI review.
 - [x] Restore environment capabilities for Docker/network and `.git` writes;
   2026-10-07 probes passed, including authenticated Compose-network PostgreSQL and
   Docker build. A scoped reversible local firewall repair preserves global DROP;
@@ -119,10 +119,29 @@ in public source/CI. Product identity/administration completion stays in its pha
   binding; clarify submitted-only time and add explicit versioned synthetic binding.
 - [x] Pass correction regressions: 245 backend, 24 Web unit/component, 9 cross-browser
   E2E, 19 Contract and 25 repository/receiving tests, quality/audits/container gates.
-- [ ] Owner reviews correction-head hosted evidence in PR #10 and rechecks both
-  completed lessons/time; existing enrollments retain their immutable old policy.
-- [ ] Product Owner reviews/accepts Phase 5 and makes an explicit merge decision.
-- [ ] Phase 6 NOT STARTED; no Android implementation is authorized.
+- [x] Owner completed the corrected synthetic manual journey and accepted existing
+  submitted-active-time semantics; immutable enrollment policies remain intact.
+- [x] Product Owner accepted Phase 5 and merged PR #10; tree and merged-main CI verified.
+
+## Phase 6 — Android / AUTHORIZED
+
+- [x] Verify PR #10 merge/tree and successful merged-main Backend/Web/Safeguards/CodeQL.
+- [x] Reconcile Phase 5 acceptance without rewriting dated evidence.
+- [x] Establish authoritative online native scope in [Android](docs/android/README.md).
+- [x] Implement native Kotlin/Compose account, learning, dashboard, media and microphone journeys.
+- [x] Review native credential storage, lifecycle, permissions and account isolation.
+- [x] Pin/verify toolchain and dependency locks/checksums; implement real lint,
+  JVM/build/OSV/device/compiled CodeQL workflow definitions.
+- [x] Final native 19/19 JVM tests, Lint, debug/test APK and R8 release builds;
+  API 35 real-backend device 3/3. Failures/repeats recorded in docs/phase-6-review.md.
+- [ ] Verify exact-head hosted Android/CodeQL and API 26/35 matrix; definitions
+  and local builds are not hosted acceptance.
+- [x] Run accepted backend/PostgreSQL/Web/Contract/receiving/container regressions.
+- [x] Inspect staged public changes; exact index/history confidentiality and secret gates pass.
+- [ ] Publish the prepared feature branch/PR only with explicit authorization;
+  never merge automatically.
+- [ ] Product Owner reviews Phase 6; Phase 7 remains NOT AUTHORIZED.
+
 
 ## Mandatory future production storage gate
 
@@ -130,7 +149,7 @@ in public source/CI. Product identity/administration completion stays in its pha
   exclusive GC locks, grace, final reference re-check, durable deletion intents and
   retry/idempotency; local PostgreSQL race/failure tests passed.
 - [x] Implementation-head hosted GC/media regression passed.
-- [ ] Obtain Owner Phase 5 acceptance and verify any later evidence-only HEAD.
+- [x] Owner accepted Phase 5; PR #10 merged tree and merged-main checks verified.
 - [ ] Before live production/remote storage/media/import: acceptance-test private
   unversioned S3 bucket, IAM/anonymous-denial/encryption and provider erasure; schedule
   monitored cleanup with retention SLA, failure alerts and backups erasure policy.

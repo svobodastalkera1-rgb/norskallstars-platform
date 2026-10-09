@@ -38,3 +38,15 @@ Web/CodeQL workflow definitions. Complete local backend/browser/container regres
 and locked dependency audits passed; all implementation-head hosted checks passed,
 with Owner acceptance and later evidence-head verification remaining separate;
 no production release or Phase 6 implementation.
+
+Phase 5 closure: Product Owner accepted the corrected synthetic Web journey and
+merged PR #10 at `8100927`; merged-main workflows passed. Earlier evidence above
+remains historical. Phase 6 Android is now authorized; native implementation and
+validation proceed on a feature branch. No Phase 7 or production release.
+
+Phase 6: native Kotlin/Compose online account/learning/dashboard/media client,
+protected device sessions and lifecycle/permission controls, generated API DTOs,
+pinned/checksummed toolchain, genuine Android CI and Java/Kotlin CodeQL definitions.
+Local unit/lint/debug/release evidence is recorded in docs/phase-6-review.md;
+API 35 device gate passed 3/3. API 26 and hosted/Owner acceptance remain pending. No migration,
+privileged HTTP, private content, offline sync, signing or deployment is added.

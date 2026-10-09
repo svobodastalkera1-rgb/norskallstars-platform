@@ -132,8 +132,8 @@ Apply Alembic head explicitly before readiness/learning checks. Learning uses th
 accepted Identity session model; every learner endpoint needs a verified account
 and bearer access token. Mutations require the existing client header/JSON boundary.
 The API inventory/semantics are in docs/architecture/learning-core.md and the
-reviewed contracts/api/learning-v1.openapi.json. Phase 5 Web consumes these contracts;
-Android remains a future phase.
+reviewed contracts/api/learning-v1.openapi.json. Accepted Phase 5 Web and the
+authorized Phase 6 native Android client consume these same contracts.
 
 An authorized OS/DB operator can select an already-published eligible release and
 bounded external policy (never a private policy checked into public Git):
@@ -221,3 +221,9 @@ VITE_GOOGLE_CLIENT_ID=your-public-web-client-id.apps.googleusercontent.com ...`.
 Never pass secrets through VITE variables/build args. Configure matching backend
 Google audiences and live SMTP privately, then perform staging acceptance; unconfigured
 providers are shown as unavailable. No deployment/provider registration is performed.
+
+## Phase 6 native online development
+
+See [Android setup and synthetic device tests](../apps/android/README.md).
+Android tests use their own guarded database and port 8001; Web manual-review data
+is preserved. Phase 7 content caching/downloads/offline queues remain unauthorized.
