@@ -16,6 +16,17 @@ import android_jdk
 
 
 class AndroidAuditTests(unittest.TestCase):
+    def test_device_options_are_constant_and_never_inherit_ambient_jvm_arguments(self):
+        with patch.dict(os.environ, {
+            "JAVA_TOOL_OPTIONS": "-Dsynthetic-secret=must-not-reach-tools",
+            "GITHUB_TOKEN": "synthetic-marker",
+        }, clear=True):
+            self.assertEqual(environment(), {})
+            self.assertEqual(environment("check"), {})
+            self.assertEqual(environment("device"), {
+                "JAVA_TOOL_OPTIONS": "-Dandroid-test.apk-install-options=-r",
+            })
+
     def test_device_install_failure_cannot_pass_without_junit_reports(self):
         with tempfile.TemporaryDirectory() as folder:
             with self.assertRaisesRegex(SystemExit, "no fresh JUnit reports"):

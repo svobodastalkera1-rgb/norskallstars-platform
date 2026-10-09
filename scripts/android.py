@@ -44,7 +44,7 @@ def verify_device_results(directory):
         print(f"Device report verified: {len(cases)} tests; no failures/errors/skips")
 
 
-def environment():
+def environment(command=None):
     # Build tools need platform/toolchain configuration, not ambient provider
     # credentials. An allowlist also covers unknown future secret variable names.
     allowed = {
@@ -55,7 +55,13 @@ def environment():
         "LOCALAPPDATA", "USERPROFILE", "SYSTEMDRIVE", "NUMBER_OF_PROCESSORS",
         "PROCESSOR_ARCHITECTURE", "TERM", "COLORTERM", "NO_COLOR", "CI",
     }
-    return {key: value for key, value in os.environ.items() if key in allowed}
+    result = {key: value for key, value in os.environ.items() if key in allowed}
+    if command == "device":
+        # AGP 9.4.1 sends install options with a device suffix; engine 1.0.1
+        # reads only the base key. Inject one constant into its forked JVM.
+        # Ambient JAVA_TOOL_OPTIONS is deliberately never inherited.
+        result["JAVA_TOOL_OPTIONS"] = "-Dandroid-test.apk-install-options=-r"
+    return result
 
 
 def main():
@@ -85,7 +91,7 @@ def main():
             shutil.rmtree(DEVICE_RESULTS)
     command = [str(ANDROID / "gradlew"), *jobs[args.command], "--no-daemon"]
     private = ROOT / ".cache/android-e2e/login.json"
-    result = subprocess.run(command, cwd=ANDROID, env=environment(), stdout=subprocess.PIPE,
+    result = subprocess.run(command, cwd=ANDROID, env=environment(args.command), stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT, timeout=1800)
     output = result.stdout.decode(errors="replace")
     if args.command == "device" and private.exists():

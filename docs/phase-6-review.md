@@ -85,6 +85,17 @@ attempted to reinstall the preprovisioned APK without replacement permission.
 Explicit `installation.installOptions += "-r"` preserves the app-private synthetic
 input during test-runner installation on older devices; normal signature checks
 remain enforced. The corrected exact-head hosted matrix remains pending.
+At `355961c`, independent report verification again rejected API 26. Source
+inspection identified the exact pinned-tool mismatch: AGP's UtpTestUtils passes
+`android-test.apk-install-options[deviceSerial]`, but engine 1.0.1 requests only
+the unsuffixed key. The ordinary connected task also does not consume custom-suite
+JUnitEngineSpec inputs. The ineffective legacy setting was removed. The device
+wrapper now injects only the constant unsuffixed `-r` property into the test JVM
+via JAVA_TOOL_OPTIONS, after discarding all ambient JVM options/provider secrets.
+A regression verifies that build/quality never inherit it and device mode can
+receive only this constant. No signature bypass, engine downgrade, dependency
+change or test assertion removal is involved. Fresh complete JUnit reports remain
+mandatory; the corrected hosted matrix is pending.
 The merged-main workflow results above cover the accepted base only.
 See [CI names](ci.md) and [security review](security/phase-6-review.md).
 
