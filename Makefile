@@ -39,3 +39,13 @@ web-e2e:
 	$(PYTHON) scripts/web_e2e.py run
 storage-cleanup:
 	$(PYTHON) scripts/phase1.py storage-cleanup
+
+.PHONY: android-check android-build android-audit
+android-check:
+	$(PYTHON) scripts/android_contract.py --check
+	$(PYTHON) scripts/android.py wrapper
+	$(PYTHON) scripts/android.py check
+android-build:
+	$(PYTHON) scripts/android.py build
+android-audit:
+	$(PYTHON) scripts/android_audit.py

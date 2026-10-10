@@ -4,13 +4,15 @@ NorskAllstars Platform is being built for learning Norwegian Bokmål through
 comprehensible input and the Natural Method. The production direction includes
 a responsive Web client and a native Android client backed by the same services.
 
-**Status: Phases 0–4 CLOSED/ACCEPTED; Phase 5 Web implemented with passing implementation-head local/hosted checks; Product Owner review pending.**
+**Status: Phases 0–5 CLOSED/ACCEPTED; Phase 6 Android implemented, hosted checks passed; Owner review pending.**
 The backend supplies infrastructure plus generic Course Package validation,
 immutable staged release import and explicit privileged publication transitions.
 Phase 3 adds shared accounts, email/password and Google proof validation,
 verification/recovery, revocable sessions, preferences and self-service deletion.
 Accepted Phase 4 adds canonical learning, versioned policies, progress/review
-and advisory placement. Phase 5 adds the Web client/media boundary on its feature branch, with local and implementation-head hosted validation passed; Owner review pending. Android and production deployment remain unimplemented.
+and advisory placement. Accepted Phase 5 adds the Web client/media boundary (PR #10 merged). Phase 6
+adds the native online client; validation/review is in progress. Production
+deployment and Phase 7 offline/sync are not implemented.
 [Learning Core scope and normative rules](docs/architecture/learning-core.md) records
 the approved implementation baseline. Production v1.0 remains the goal; see the [complete roadmap](ROADMAP.md).
 
@@ -24,9 +26,9 @@ infrastructure is provisioned.
 
 | Location | Responsibility | Current state |
 | --- | --- | --- |
-| apps/backend/ | Infrastructure and domain modules | Accepted infrastructure/course/identity/learning; Phase 5 media under validation |
-| apps/web/ | Responsive learning client | React/TypeScript implementation in feature branch; local/implementation-head hosted validation passed; Owner review pending |
-| apps/android/ | Native client and later offline capability | Boundary documentation |
+| apps/backend/ | Infrastructure and domain modules | Accepted infrastructure/course/identity/learning/media |
+| apps/web/ | Responsive learning client | Accepted React/TypeScript implementation; PR #10 merged |
+| apps/android/ | Native online client; later offline capability | Implemented; hosted checks passed, Owner review pending |
 | contracts/ | Public API and Course Package interfaces | Reviewed Contract v1 and synthetic-only fixture |
 | infra/ | Local runtime; future deployment definitions | Local Docker Compose |
 | docs/ | Engineering, ADRs, security and delivery guidance | Implemented |
@@ -95,3 +97,5 @@ and [integration architecture](docs/architecture/course-integration.md).
 
 Learning API/policy/security: [Learning Core](docs/architecture/learning-core.md),
 [platform policy](contracts/learning/README.md) and [Phase 4 evidence](docs/phase-4-review.md).
+
+Native Android setup and isolated synthetic device tests: [Android development](apps/android/README.md).

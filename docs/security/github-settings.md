@@ -16,8 +16,10 @@ Completed owner actions:
 Product Owner configured seven required Actions checks after Phase 1 (verified
 via ruleset API on 2026-10-04): Bootstrap checks, Security checks, Backend quality,
 Backend tests, Backend dependency audit, Backend container, CodeQL Python. Strict
-up-to-date branches are required. Generated CodeQL remains advisory, not a required
-ruleset entry. No Web/Android pending checks are required. Zero required approvals
+up-to-date branches are required. A new read-only branch-rules audit on 2026-10-08
+confirms Owner also added Web quality, Web tests, Web dependency audit and CodeQL Web
+(eleven required checks total). Generated CodeQL remains advisory, not a required
+ruleset entry. No pending checks or new Android checks are required yet. Zero required approvals
 does not override explicit Product Owner review/merge requirements.
 
 Phase 1 PR #4 was merged by the approved workflow. All three main engineering

@@ -53,7 +53,8 @@ def main() -> int:
         print('\n'.join(errors), file=sys.stderr)
         return 1
     print(f'Bootstrap checks passed: tooling syntax, local links, {len(adrs)} ADRs, '
-          'required files and Action pins. Android gate remains pending; Web has real Phase 5 checks.')
+          'required files and Action pins. Application workflows contain real checks; '
+          'exact-head hosted results remain separate acceptance evidence.')
     return 0
 
 
