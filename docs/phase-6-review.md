@@ -123,3 +123,10 @@ The Web push run at this revision timed out downloading browser dependencies fro
 the hosted image's indirect HTTP Azure mirror list, before E2E. The existing
 HTTPS mirror setup now also updates the referenced local mirror-list files.
 Exact-head hosted validation of these corrections remains pending.
+
+The native microphone test also called UiAutomation.grantRuntimePermission, an
+API 28 method on the API 26 compatibility floor. Its isolated permission setup
+now uses UiAutomation.executeShellCommand (`pm grant`) and closes the command
+output descriptor; the actual permission/recording/playback/privacy/lifecycle
+assertions remain unchanged. This is a test API compatibility correction, not
+a production permission bypass. Both hosted API levels must execute it.

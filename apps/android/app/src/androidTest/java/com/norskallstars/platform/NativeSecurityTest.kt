@@ -2,6 +2,7 @@ package com.norskallstars.platform
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.ParcelFileDescriptor
 import androidx.test.platform.app.InstrumentationRegistry
 import com.norskallstars.platform.data.*
 import java.io.File
@@ -24,7 +25,11 @@ class NativeSecurityTest {
     @Test fun microphoneIsBoundedPrivateAndStoppedWithLifecycle() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         val context = instrumentation.targetContext
-        instrumentation.uiAutomation.grantRuntimePermission(context.packageName, Manifest.permission.RECORD_AUDIO)
+        // UiAutomation.grantRuntimePermission requires API 28. Shell permission
+        // provisioning supports the same isolated test on our API 26 floor.
+        ParcelFileDescriptor.AutoCloseInputStream(instrumentation.uiAutomation.executeShellCommand(
+            "pm grant ${context.packageName} ${Manifest.permission.RECORD_AUDIO}"
+        )).use { it.readBytes() }
         assertEquals(PackageManager.PERMISSION_GRANTED, context.checkSelfPermission(Manifest.permission.RECORD_AUDIO))
         val media = NativeMedia(context)
         var recorded = false
