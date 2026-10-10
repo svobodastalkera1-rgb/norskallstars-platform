@@ -130,3 +130,36 @@ now uses UiAutomation.executeShellCommand (`pm grant`) and closes the command
 output descriptor; the actual permission/recording/playback/privacy/lifecycle
 assertions remain unchanged. This is a test API compatibility correction, not
 a production permission bypass. Both hosted API levels must execute it.
+
+### Successful hosted implementation evidence — 2026-10-10
+
+Implementation/correction head `54f83ac96763b0bfa21d5b7150d19956175eb15b` in
+[PR #17](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/17)
+passed **35/35 checks** across push/PR events. No skipped/pending result is included.
+All eleven existing required checks succeeded; main remains `8100927` and PR was
+MERGEABLE/CLEAN. No merge, force push or settings change occurred.
+
+| PR workflow | Verified result |
+| --- | --- |
+| [Safeguards](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/38062574303) | Bootstrap, 36 repository/receiving tests, exact-index/history confidentiality and secret checks |
+| [Backend](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/38062574318) | 248 tests, 124 existing dependency warnings; 19 unchanged Contract tests; Ruff/strict mypy (45 files), drift, audit and container checks |
+| [Web](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/38062574279) | 25 component/unit tests; three E2E each in Chromium, Firefox, WebKit; quality/build/drift and dependency audit |
+| [Android](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/38062574299) | JVM/Lint, debug/unsigned R8 release builds, 312-coordinate OSV audit; API 26 and API 35 each independently verified 3 native tests, no failures/errors/skips |
+| [CodeQL](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/38062574280) | Python, Web and compiled Java/Kotlin Android analysis/upload succeeded |
+
+Earlier false-green/installation results above do not count as acceptance. The
+new adb harness executed the complete unchanged native test package on both OS
+levels and its protocol/JUnit proof passed. Local restored-toolchain JVM tests
+19/19 and Lint also passed on 2026-10-10; fresh debug/test APK assembly is checked
+separately. Repository/receiving regressions passed 36/36 and staged security gates
+passed. Raw reports, test credentials and APKs remain ignored, never CI artifacts.
+
+Code Scanning alerts API returned 403; successful analysis is not a claim of no
+alerts. Owner must inspect the UI. The six new Android names in [CI](ci.md) are
+not required yet; no protection was changed.
+
+Phase 6 is ready for Owner review, **not accepted**. Use the
+[manual review procedure](android/manual-review.md); live SMTP/Google, physical
+device/TalkBack review and production storage/operations/store gates remain open.
+Later documentation/fix heads require their own hosted results, reported through
+PR/check metadata. Do not merge or begin Phase 7 without Owner authorization.

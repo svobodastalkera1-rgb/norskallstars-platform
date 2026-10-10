@@ -1,7 +1,7 @@
 # NorskAllstars Android
 
 Native Kotlin/Jetpack Compose online client against existing versioned backend
-APIs. Phase 6 is implemented locally; hosted/Owner acceptance is not claimed.
+APIs. Phase 6 is implemented with passing hosted checks; Owner acceptance is pending.
 Presentation/ViewModel/network/platform boundaries live under `app/src/main`.
 No Course Package interpretation, offline queue, private content or signing keys.
 

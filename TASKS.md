@@ -134,8 +134,9 @@ in public source/CI. Product identity/administration completion stays in its pha
   JVM/build/OSV/device/compiled CodeQL workflow definitions.
 - [x] Final native 19/19 JVM tests, Lint, debug/test APK and R8 release builds;
   API 35 real-backend device 3/3. Failures/repeats recorded in docs/phase-6-review.md.
-- [ ] Verify exact-head hosted Android/CodeQL and API 26/35 matrix; definitions
-  and local builds are not hosted acceptance.
+- [x] Verify all 35 hosted checks at implementation/correction head `54f83ac`;
+  API 26/35 each executed 3/3 native tests, compiled Android CodeQL passed.
+  Later heads require separate verification; Owner acceptance is still pending.
 - [x] Run accepted backend/PostgreSQL/Web/Contract/receiving/container regressions.
 - [x] Inspect staged public changes; exact index/history confidentiality and secret gates pass.
 - [x] Publish feature branch and PR #17 with explicit Product Owner authorization;

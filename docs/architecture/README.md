@@ -6,7 +6,7 @@ Phase 2 adds curriculum release integration; accepted Phase 3 adds [shared ident
 [Phase 4 Learning Core](learning-core.md) is accepted and merged under approved
 public-safe normative rules. [Phase 5 Web](../web/README.md) is accepted and merged
 through PR #10. [Phase 6 Android](../android/README.md) is implemented on a dedicated feature branch;
-hosted/Owner review remains pending. Offline/sync remains Phase 7.
+hosted implementation checks passed; Owner review remains pending. Offline/sync remains Phase 7.
 
 ```mermaid
 flowchart LR

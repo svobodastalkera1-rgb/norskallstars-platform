@@ -44,7 +44,9 @@ Review evidence and outstanding acceptance gates are in [Phase 6](../phase-6-rev
   account erasure and GC protections are preserved. No ML processing/training is
   implemented. Local files are temporary interaction state, not offline support.
 - Test credentials stay in ignored mode-600 files and enter only a debuggable
-  app's private files through stdin. Device test logs redact generated credentials;
+  app's private files through stdin. Device tooling never prints raw
+  instrumentation stacks/responses; only validated case identities/results are
+  persisted locally, and generated input is not printed;
   no APK, screenshot, recording, private reports or job artifacts are published.
   Synthetic database guards reject ordinary/manual-review databases before reset.
 
@@ -80,3 +82,10 @@ SMTP at-least-once behavior, private S3/IAM/provider erasure, monitored GC/reten
 backups erasure, future privacy/export, admin MFA/RBAC, explicit release migration,
 license and signing/store policy gates remain open in TASKS/ROADMAP. Phase 7 offline
 persistence/sync and all production deployment/publication remain unauthorized.
+
+Hosted verification on 2026-10-10 at PR #17 implementation/correction head `54f83ac`
+passed all backend/Web/Android dependency audits, confidentiality/secret guards and
+Python/Web and compiled Android CodeQL checks. Both API 26/35 executed the real native
+security/learning journeys (three tests each, no skips). This is dated evidence,
+not live provider acceptance. Alert API access remains 403; Owner UI review is
+required. Existing eleven required checks/protections were only read, not changed.

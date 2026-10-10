@@ -48,5 +48,6 @@ Phase 6: native Kotlin/Compose online account/learning/dashboard/media client,
 protected device sessions and lifecycle/permission controls, generated API DTOs,
 pinned/checksummed toolchain, genuine Android CI and Java/Kotlin CodeQL definitions.
 Local unit/lint/debug/release evidence is recorded in docs/phase-6-review.md;
-API 35 device gate passed 3/3. API 26 and hosted/Owner acceptance remain pending. No migration,
+API 26/35 hosted device gates each passed 3/3; all 35 implementation-head hosted
+checks passed. Owner acceptance remains pending. No migration,
 privileged HTTP, private content, offline sync, signing or deployment is added.

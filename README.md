@@ -4,7 +4,7 @@ NorskAllstars Platform is being built for learning Norwegian Bokmål through
 comprehensible input and the Natural Method. The production direction includes
 a responsive Web client and a native Android client backed by the same services.
 
-**Status: Phases 0–5 CLOSED/ACCEPTED; Phase 6 Android implemented locally; hosted/Owner review pending.**
+**Status: Phases 0–5 CLOSED/ACCEPTED; Phase 6 Android implemented, hosted checks passed; Owner review pending.**
 The backend supplies infrastructure plus generic Course Package validation,
 immutable staged release import and explicit privileged publication transitions.
 Phase 3 adds shared accounts, email/password and Google proof validation,
@@ -28,7 +28,7 @@ infrastructure is provisioned.
 | --- | --- | --- |
 | apps/backend/ | Infrastructure and domain modules | Accepted infrastructure/course/identity/learning/media |
 | apps/web/ | Responsive learning client | Accepted React/TypeScript implementation; PR #10 merged |
-| apps/android/ | Native online client; later offline capability | Implemented locally; hosted/Owner review pending |
+| apps/android/ | Native online client; later offline capability | Implemented; hosted checks passed, Owner review pending |
 | contracts/ | Public API and Course Package interfaces | Reviewed Contract v1 and synthetic-only fixture |
 | infra/ | Local runtime; future deployment definitions | Local Docker Compose |
 | docs/ | Engineering, ADRs, security and delivery guidance | Implemented |

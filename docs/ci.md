@@ -55,7 +55,8 @@ stalls observed on the runner's Azure HTTP mirror. Browser tests remain mandator
 failed installs fail the job. Compose cleanup runs only after local configuration
 initialization succeeded, and still runs if later integration tests fail.
 
-Phase 6 introduces these exact names (definitions are not yet hosted evidence):
+Phase 6 introduces these exact names. All succeeded at implementation/correction
+head `54f83ac` in PR #17; later heads require independent hosted verification:
 
 | Exact status-check name | Coverage |
 | --- | --- |
@@ -73,3 +74,10 @@ Only add the Android names above after exact-head hosted success and Owner revie
 Keep all existing protections/checks. Device inputs/reports, APKs, screenshots, logs
 and recordings are not uploaded as public artifacts. Gradle runs do not enable build
 scans. No private provider credentials enter client or CI configuration.
+
+On 2026-10-10 the branch-rules API still lists the same eleven required checks
+with strict up-to-date branches. The six Android names above are successful but
+**not yet required**. Product Owner can add exactly those names after manual
+Phase 6 review, preserving all existing checks/protections. No settings changed.
+CodeQL Python/Web/Android analysis and upload succeeded. Alert API returned 403;
+Owner must inspect all three categories in Code Scanning for blocking alerts.

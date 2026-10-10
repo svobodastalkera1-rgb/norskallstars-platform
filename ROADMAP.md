@@ -14,7 +14,7 @@ documentation, and a state update. Foundational failures block downstream work.
 | 3 — Identity | Shared accounts, email and Google sign-in, verification, recovery, session/device revocation, authorization and account deletion lifecycle | CLOSED / ACCEPTED by Product Owner; PR #8 merged |
 | 4 — Learning Core | Structured curriculum, versioned lessons/activities, deterministic placement/evaluation/mastery/review, attempts, progress and learning events | CLOSED / ACCEPTED by Product Owner; PR #9 merged |
 | 5 — Web | Responsive accessible client with core learning, audio/images, microphone flows, dashboard, preferences and localized interface | CLOSED / ACCEPTED by Product Owner; PR #10 merged |
-| 6 — Android | Kotlin/Compose client, shared semantic learning behavior and online API integration with platform-specific UX | IMPLEMENTED locally / hosted and Owner review pending |
+| 6 — Android | Kotlin/Compose client, shared semantic learning behavior and online API integration with platform-specific UX | IMPLEMENTED / hosted checks passed; Owner review pending |
 | 7 — Offline / Sync | Android cache/downloads, local persistence, offline media/attempts, version-aware idempotent sync and explicit conflict handling | Not started |
 | 8 — Gamification | XP, levels, streaks, achievements and privacy-conscious leaderboard independent of learning availability | Not started |
 | 9 — Entitlements / Billing | Account-wide free/premium access, monthly/yearly plans, promotions and payment adapters with verified market/platform policies | Not started |

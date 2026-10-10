@@ -1,13 +1,13 @@
 # Project state
 
-Updated: 2026-10-09. Product: NorskAllstars. Platform: NorskAllstars Platform.
+Updated: 2026-10-10. Product: NorskAllstars. Platform: NorskAllstars Platform.
 Phase 0: **CLOSED / ACCEPTED by Product Owner**.
 Phase 1: **CLOSED / ACCEPTED by Product Owner; PR #4 merged**.
 Phase 2: **CLOSED / ACCEPTED by Product Owner; PR #7 merged**.
 Phase 3: **CLOSED / ACCEPTED by Product Owner; PR #8 merged**.
 Phase 4: **CLOSED / ACCEPTED by Product Owner; PR #9 merged**.
 Phase 5: **CLOSED / ACCEPTED by Product Owner; PR #10 merged**.
-Phase 6: **Android IMPLEMENTED / PR #17 published, hosted checks and Owner review pending**.
+Phase 6: **Android IMPLEMENTED / hosted implementation checks passed; PR #17 awaiting Owner review**.
 Production readiness: **not achieved**.
 
 ## Actual implementation
@@ -28,8 +28,8 @@ Phase 6 now implements native Kotlin/Compose online account/learning/dashboard/
 media/microphone journeys against existing APIs. Keystore-protected sessions,
 account-generation isolation, lifecycle controls and bounded consented media are
 implemented. No new product schema/migration/HTTP endpoint or offline sync is added.
-Final device/hosted/Owner acceptance remains pending; sync/billing, production
-infrastructure and Redis remain absent.
+Device/hosted implementation checks passed; Owner acceptance remains pending.
+Sync/billing, production infrastructure and Redis remain absent.
 
 Runtime and decisions: docs/architecture/backend-runtime.md and ADRs 0008/0009.
 Identity: docs/architecture/identity.md, ADR 0011 and docs/security/phase-3-review.md.
@@ -39,7 +39,7 @@ roles or privileged HTTP course operations. Required secret keys have no default
 configuration requires HTTPS identity links, explicit Google audiences and TLS SMTP.
 Verification evidence: docs/phase-1-review.md. Initial Phase 1 PR runs passed
 quality/tests/audit/container, Phase 0 safeguards and Python CodeQL. Each updated
-PR head is verified separately; historical evidence does not substitute for it. Web has passing accepted/merged-main hosted runs. Android now has real workflow definitions; its exact-head hosted results remain pending.
+PR head is verified separately; historical evidence does not substitute for it. Web has passing accepted/merged-main hosted runs. Android now has successful real workflow runs; the dated exact-head evidence follows below.
 
 ## Repository governance
 
@@ -305,3 +305,24 @@ when recreating its failed stopped container metadata; authenticated loopback DB
 access passed without new firewall changes. Only the guarded Android synthetic DB
 was reset. Owner manual-review data was not reset. Emulator/build work is serialized
 on this two-CPU environment; previous process failures are not hidden as green tests.
+
+## Phase 6 hosted implementation verification — 2026-10-10
+
+PR #17 implementation/correction head `54f83ac96763b0bfa21d5b7150d19956175eb15b`
+passed **all 35 hosted checks** across push and PR events, including all eleven
+existing required checks and all six new Android checks. Both API 26 and API 35
+jobs independently verified three actually executed native tests with no
+failures/errors/skips. PR was MERGEABLE/CLEAN; current main remains `8100927`.
+[Run evidence](docs/phase-6-review.md) preserves earlier failed/false-green
+observations and their corrections. Later heads require separate hosted checks.
+Repository/receiving regressions now pass 36/36. Native JVM tests remain 19/19;
+backend 248/248, Contract 19/19, Web 25/25 plus nine browser E2E tests passed.
+Dependency audits, confidentiality/secret guards, container checks and
+CodeQL Python/Web plus compiled Android analysis passed. Alert API is still 403; Owner must review the
+Code Scanning UI rather than infer absence of alerts from successful analysis.
+
+Phase 6 is **READY FOR PRODUCT OWNER REVIEW**, not ACCEPTED. No merge or settings
+change occurred. Exact manual review is in [Android review](docs/android/manual-review.md).
+Live SMTP/Google, SMTP at-least-once delivery, production bucket/erasure/retention/GC
+operations, backups, export/admin/release migration/license/store gates remain open.
+Phase 7 is **NOT STARTED / NOT AUTHORIZED**.
