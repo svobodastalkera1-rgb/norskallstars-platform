@@ -1,6 +1,8 @@
 # Phase 6 implementation review evidence
 
-Phase 6 Android is implemented locally; hosted and Product Owner review remain pending. This record is not Product
+Phase 6 Android is implemented; hosted implementation checks passed. Product Owner
+review remains pending. Dated validation/correction evidence below is historical;
+each later HEAD requires separate hosted verification. This record is not Product
 Owner acceptance and contains no private course material or test credentials.
 
 Accepted Web PR #10 was merged into main
