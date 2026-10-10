@@ -2,8 +2,8 @@
 
 import argparse
 import hashlib
-import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -56,18 +56,85 @@ def environment(command=None):
         "PROCESSOR_ARCHITECTURE", "TERM", "COLORTERM", "NO_COLOR", "CI",
     }
     result = {key: value for key, value in os.environ.items() if key in allowed}
-    if command == "device":
-        # AGP 9.4.1 sends install options with a device suffix; engine 1.0.1
-        # reads only the base key. Inject one constant into its forked JVM.
-        # Ambient JAVA_TOOL_OPTIONS is deliberately never inherited.
-        result["JAVA_TOOL_OPTIONS"] = "-Dandroid-test.apk-install-options=-r"
     return result
+
+
+def instrumentation_results(output):
+    """Accept completed AndroidJUnitRunner events, never adb's exit status alone."""
+    if len(output.encode()) > 1048576:
+        raise SystemExit("Native device gate failed: oversized instrumentation output")
+    bundle = {}
+    started = None
+    completed = set()
+    final = []
+    for line in output.splitlines():
+        if line.startswith(("INSTRUMENTATION_FAILED:", "INSTRUMENTATION_ABORTED:")):
+            raise SystemExit("Native device gate failed: instrumentation aborted")
+        if line.startswith("INSTRUMENTATION_STATUS: "):
+            key, separator, value = line[len("INSTRUMENTATION_STATUS: "):].partition("=")
+            if not separator or key in bundle:
+                raise SystemExit("Native device gate failed: malformed instrumentation event")
+            bundle[key] = value
+        elif line.startswith("INSTRUMENTATION_STATUS_CODE: "):
+            code = line[len("INSTRUMENTATION_STATUS_CODE: "):]
+            case = (bundle.get("class"), bundle.get("test"))
+            if code not in {"1", "0"} or not all(case):
+                raise SystemExit("Native device gate failed: failed, errored or skipped instrumentation")
+            if code == "1":
+                if started is not None or case in completed:
+                    raise SystemExit("Native device gate failed: duplicate or overlapping test")
+                started = case
+            else:
+                if started != case:
+                    raise SystemExit("Native device gate failed: incomplete test event sequence")
+                completed.add(case)
+                started = None
+            bundle = {}
+        elif line.startswith("INSTRUMENTATION_CODE: "):
+            final.append(line[len("INSTRUMENTATION_CODE: "):])
+    if final != ["-1"] or started is not None or bundle or not REQUIRED_DEVICE_TESTS <= completed:
+        raise SystemExit("Native device gate failed: missing final result or required journeys")
+    return completed
+
+
+def run_device():
+    # Use the documented AndroidJUnitRunner/adb interface. The pinned AGP's
+    # engine can silently skip tests after reinstalling the preprovisioned app.
+    if DEVICE_RESULTS.exists():
+        shutil.rmtree(DEVICE_RESULTS)
+    def adb(*args, timeout=120):
+        result = subprocess.run(["adb", *args], env=environment("device"),
+            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=timeout)
+        if result.returncode:
+            raise SystemExit("Native device gate failed: adb operation failed; private output omitted")
+        return result.stdout.decode(errors="replace")
+    devices = [line.split() for line in adb("devices").splitlines()[1:] if line.strip()]
+    if len(devices) != 1 or len(devices[0]) != 2 or devices[0][1] != "device" or not re.fullmatch(r"emulator-\d+", devices[0][0]):
+        raise SystemExit("Native device gate requires exactly one isolated online emulator")
+    serial = devices[0][0]
+    apk = ANDROID / "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk"
+    if not apk.is_file():
+        raise SystemExit("Native device gate failed: build the instrumentation APK first")
+    adb("-s", serial, "install", "-r", str(apk))
+    output = adb("-s", serial, "shell", "am", "instrument", "-w", "-r",
+        "com.norskallstars.platform.dev.test/androidx.test.runner.AndroidJUnitRunner", timeout=900)
+    completed = instrumentation_results(output)
+    # Persist only case identities/results, never raw stacks, responses or credentials.
+    suite = ET.Element("testsuite", tests=str(len(completed)), failures="0", errors="0", skipped="0")
+    for cls, name in sorted(completed):
+        ET.SubElement(suite, "testcase", classname=cls, name=name)
+    DEVICE_RESULTS.mkdir(parents=True, exist_ok=True)
+    ET.ElementTree(suite).write(DEVICE_RESULTS / "TEST-instrumentation.xml", encoding="utf-8")
+    verify_device_results(DEVICE_RESULTS)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=("check", "build", "device-build", "device", "wrapper"))
     args = parser.parse_args()
+    if args.command == "device":
+        run_device()
+        return
     if args.command == "wrapper":
         expected = urllib.request.urlopen(
             "https://services.gradle.org/distributions/gradle-9.6.0-wrapper.jar.sha256", timeout=30
@@ -82,25 +149,12 @@ def main():
         "check": [":app:testDebugUnitTest", ":app:lintDebug"],
         "build": [":app:assembleDebug", ":app:assembleRelease"],
         "device-build": [":app:assembleDebug", ":app:assembleDebugAndroidTest", "-PdevelopmentOrigin=http://10.0.2.2:8001"],
-        "device": [":app:connectedDebugAndroidTest", "-PdevelopmentOrigin=http://10.0.2.2:8001"],
     }
-    if args.command == "device":
-        # Gradle can return zero after APK installation fails. Old reports must
-        # never authorize a new run, and every required native journey must run.
-        if DEVICE_RESULTS.exists():
-            shutil.rmtree(DEVICE_RESULTS)
     command = [str(ANDROID / "gradlew"), *jobs[args.command], "--no-daemon"]
-    private = ROOT / ".cache/android-e2e/login.json"
     result = subprocess.run(command, cwd=ANDROID, env=environment(args.command), stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT, timeout=1800)
     output = result.stdout.decode(errors="replace")
-    if args.command == "device" and private.exists():
-        for account in json.loads(private.read_text())["accounts"].values():
-            for value in account.values():
-                output = output.replace(value, "[synthetic credential redacted]")
     print(output, end="")
-    if args.command == "device" and result.returncode == 0:
-        verify_device_results(DEVICE_RESULTS)
     raise SystemExit(result.returncode)
 
 

@@ -128,12 +128,34 @@ phase1.run(phase1.uv('python', '-m', 'norskallstars_backend.identity.cli', 'mail
 PY
 ```
 
-Read the generated private `.eml` in that ignored directory using a MIME-aware
-viewer. Use the **complete decoded token** from the verification/reset link in the
-native token field, not the URL, raw quoted-printable text, folded lines or a reset
+Decode the generated private `.eml` locally if your editor shows raw MIME:
+
+```sh
+python3 - <<'PY'
+from email import policy
+from email.parser import BytesParser
+from pathlib import Path
+import os
+for source in Path('.cache/android-e2e/identity-mail').rglob('*.eml'):
+    body = BytesParser(policy=policy.default).parsebytes(source.read_bytes()).get_body(preferencelist=('plain',))
+    if body is None:
+        raise SystemExit('Missing plain-text development message')
+    try:
+        fd = os.open(source.with_suffix('.txt'), os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+    except FileExistsError:
+        continue
+    with os.fdopen(fd, 'w') as output:
+        output.write(body.get_content())
+print('Decoded messages remain in the ignored private mailbox; values omitted')
+PY
+```
+
+Open the newest matching `.txt` privately in VS Code. Paste **only the complete
+value after `#token=`** into the native token field, not the URL, raw MIME or a reset
 token in the verification screen. Tokens are one-use and expiring; request a fresh
-one after consumption/expiry. The CLI prints counts only. Never publish the mail
-files/token or change provider credentials to make this local review work.
+one after consumption/expiry. The CLI prints counts only. Delete the local mailbox
+after review; never publish its files/tokens or change provider credentials to make
+this local review work.
 
 ## Coverage limits and separate gates
 

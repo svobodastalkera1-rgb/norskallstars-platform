@@ -105,3 +105,21 @@ and consent behavior, screen rotation/background/foreground, TalkBack and large
 text. Live Google/SMTP need separately configured isolated staging and are not
 verified by mocks/default emulator tests. Production storage/retention/erasure,
 export/admin/release migration/license/store gates remain explicit in TASKS.
+
+### Hosted runner follow-up — 2026-10-10
+
+At `32943e2`, API 35 again passed three real native tests, but API 26 still
+failed before execution despite the constant JVM option. This is not accepted.
+The harness now uses the official AndroidJUnitRunner/adb command-line interface
+for the entire unchanged instrumentation package after Gradle APK assembly.
+Only the test APK is installed at this point; the provisioned app/input remains
+private. The fail-closed parser requires start and successful completion events
+for all three journeys and one final successful instrumentation result. Skips,
+errors, crashes, duplicates, missing events and oversized output are rejected;
+only sanitized case identities/results are persisted as fresh local JUnit XML.
+No tests, backend assertions, signature checks or API matrix entries were removed.
+New parser regressions exercise false-green and malformed output.
+The Web push run at this revision timed out downloading browser dependencies from
+the hosted image's indirect HTTP Azure mirror list, before E2E. The existing
+HTTPS mirror setup now also updates the referenced local mirror-list files.
+Exact-head hosted validation of these corrections remains pending.

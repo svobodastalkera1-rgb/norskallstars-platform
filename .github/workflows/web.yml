@@ -62,6 +62,9 @@ jobs:
           from pathlib import Path
 
           sources = [Path("/etc/apt/sources.list")]
+          # Hosted images may use mirror+file URIs; update their referenced
+          # mirror lists as well as ordinary deb822/list sources.
+          sources += list(Path("/etc/apt").glob("*mirrors*.txt"))
           sources += list(Path("/etc/apt/sources.list.d").glob("*.list"))
           sources += list(Path("/etc/apt/sources.list.d").glob("*.sources"))
           for source in sources:

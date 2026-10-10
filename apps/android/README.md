@@ -96,13 +96,18 @@ python3 scripts/android_e2e.py device-input
 python3 scripts/android.py device
 ```
 
-The device wrapper removes old reports and requires fresh successful JUnit results
-for every required native journey, even when Gradle returns a misleading zero status.
+The device wrapper uses AndroidJUnitRunner through the documented `adb shell am
+instrument -w -r` interface, avoiding the pinned AGP engine's reinstall/reporting
+defects. It runs the entire instrumentation package and requires real start/success
+events for every required native journey plus the final successful runner result.
+Failures, skips, crashes, duplicates and incomplete output fail closed; old reports
+are removed. Only case identities/results become fresh local JUnit XML, which is
+independently checked; raw stacks or credential/response output are not printed.
 In hosted CI, APK preparation runs after emulator setup with the same sanitized
 build environment as instrumentation to preserve debug signing consistency.
 
-Connected tests may uninstall the app when finished. If the debug app remains
-installed, clear its data after testing with `adb shell pm clear
+The adb harness leaves the isolated debug/test apps installed. Clear debug data
+after testing with `adb shell pm clear
 com.norskallstars.platform.dev`.
 
 Use an isolated test AVD: `device-input` first clears this debug app's data/session.

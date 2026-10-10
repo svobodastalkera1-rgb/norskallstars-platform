@@ -11,7 +11,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from android_audit import inventory
 from android import environment
-from android import REQUIRED_DEVICE_TESTS, verify_device_results
+from android import REQUIRED_DEVICE_TESTS, verify_device_results, instrumentation_results
 import android_jdk
 
 
@@ -23,9 +23,36 @@ class AndroidAuditTests(unittest.TestCase):
         }, clear=True):
             self.assertEqual(environment(), {})
             self.assertEqual(environment("check"), {})
-            self.assertEqual(environment("device"), {
-                "JAVA_TOOL_OPTIONS": "-Dandroid-test.apk-install-options=-r",
-            })
+            self.assertEqual(environment("device"), {})
+
+    @staticmethod
+    def instrumentation_trace():
+        output = []
+        for cls, name in sorted(REQUIRED_DEVICE_TESTS):
+            for code in (1, 0):
+                output.extend((f"INSTRUMENTATION_STATUS: class={cls}",
+                    f"INSTRUMENTATION_STATUS: test={name}",
+                    f"INSTRUMENTATION_STATUS_CODE: {code}"))
+        return "\n".join(output + ["INSTRUMENTATION_CODE: -1"])
+
+    def test_instrumentation_requires_real_started_and_completed_journeys(self):
+        trace = self.instrumentation_trace()
+        self.assertEqual(instrumentation_results(trace), REQUIRED_DEVICE_TESTS)
+        for bad in ("", "OK (3 tests)", trace.replace("INSTRUMENTATION_CODE: -1", ""),
+                    trace.replace("INSTRUMENTATION_STATUS_CODE: 0", "INSTRUMENTATION_STATUS_CODE: -2", 1),
+                    trace.replace("INSTRUMENTATION_STATUS_CODE: 0", "INSTRUMENTATION_STATUS_CODE: -3", 1),
+                    trace.replace("INSTRUMENTATION_STATUS_CODE: 1", "INSTRUMENTATION_STATUS_CODE: 0", 1),
+                    trace + "\nINSTRUMENTATION_ABORTED: synthetic crash",
+                    trace + "\nINSTRUMENTATION_CODE: -1", trace + "\n" + trace):
+            with self.subTest(trace=bad), self.assertRaises(SystemExit):
+                instrumentation_results(bad)
+
+    def test_instrumentation_rejects_incomplete_and_oversized_output(self):
+        trace = self.instrumentation_trace()
+        with self.assertRaises(SystemExit):
+            instrumentation_results(trace.split("INSTRUMENTATION_STATUS_CODE: 0", 1)[1])
+        with self.assertRaises(SystemExit):
+            instrumentation_results("x" * 1048577)
 
     def test_device_install_failure_cannot_pass_without_junit_reports(self):
         with tempfile.TemporaryDirectory() as folder:
