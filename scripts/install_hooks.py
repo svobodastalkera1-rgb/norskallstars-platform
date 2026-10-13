@@ -25,10 +25,11 @@ def main() -> None:
     quoted = shlex.quote(str(python))
     hook.parent.mkdir(parents=True, exist_ok=True)
     hook.write_text(f'#!/bin/sh\n{MARKER}\nset -eu\ncd {shlex.quote(str(ROOT))}\n'
+                    f'{quoted} scripts/experience_bible.py --index\n'
                     f'{quoted} scripts/confidentiality_guard.py\n'
                     f'{quoted} scripts/scan_secrets.py\n')
     hook.chmod(0o755)
-    print('Installed local pre-commit guard and secret scan (no remote changes)')
+    print('Installed local Bible verification, confidentiality guard and secret scan (no remote changes)')
 
 
 if __name__ == '__main__':

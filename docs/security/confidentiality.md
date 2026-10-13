@@ -6,6 +6,14 @@ this platform consumes versioned packages, never its internal directory layout.
 Product Owner specifications remain outside the public checkout. Translate
 necessary requirements into engineering decisions, not verbatim private text.
 
+The explicitly Owner-approved public-safe **World & Experience Bible v1.0** under
+docs/product-world is permitted normative documentation, with version/checksum
+provenance. This specific approval does not make the private Master Specification,
+corpus narrative/entity registries, production references/prompts or private QA
+public. Synchronize only approved public document copies through separate authorized
+operators; never add platform access to the private repository. No scanner exclusion
+or weakened artifact rule is introduced by Bible adoption.
+
 Never publish real lessons/exercises/curriculum, private course packages, prompts,
 production images/audio, character references, private QA, credentials/tokens/
 keys, production configuration, dumps, user data, backups or sensitive logs.

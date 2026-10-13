@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- World & Experience Bible v1.0: public-safe normative direction, version/SHA-256
+  and exact-index Bootstrap verification; separate corpus adoption/audit and
+  Experience Contract definition remain pending. No runtime/Contract change,
+  visual rollout or private repository access.
+
 - Phase 0 bootstrap: architecture boundaries, project workflow, confidentiality
   safeguards, development tooling and CI definitions; accepted by Product Owner.
 - Phase 1 backend infrastructure, local Docker runtime, real PostgreSQL/tests,

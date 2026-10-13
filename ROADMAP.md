@@ -1,8 +1,8 @@
 # Production roadmap
 
 NorskAllstars targets Production v1.0. An internal milestone is not a substitute
-for release acceptance. Phases 0–4 are CLOSED/ACCEPTED (Learning Core PR #9 merged).
-Phase 5 Web is authorized under Owner-accepted voice/privacy policy.
+for release acceptance. Phases 0–5 are CLOSED/ACCEPTED (Web PR #10 merged).
+Phase 6 Android is authorized in separate PR #17; Phase 7 and later need authorization.
 Every phase needs design, implementation, meaningful tests, security review,
 documentation, and a state update. Foundational failures block downstream work.
 
@@ -13,8 +13,8 @@ documentation, and a state update. Foundational failures block downstream work.
 | 2 — Course Integration | Integrate approved Contract v1 and synthetic fixture; validate untrusted packages, create versioned staged releases and authorized audited publication | CLOSED / ACCEPTED by Product Owner |
 | 3 — Identity | Shared accounts, email and Google sign-in, verification, recovery, session/device revocation, authorization and account deletion lifecycle | CLOSED / ACCEPTED by Product Owner; PR #8 merged |
 | 4 — Learning Core | Structured curriculum, versioned lessons/activities, deterministic placement/evaluation/mastery/review, attempts, progress and learning events | CLOSED / ACCEPTED by Product Owner; PR #9 merged |
-| 5 — Web | Responsive accessible client with core learning, audio/images, microphone flows, dashboard, preferences and localized interface | IMPLEMENTED / AWAITING PRODUCT OWNER REVIEW; not accepted |
-| 6 — Android | Kotlin/Compose client, shared semantic learning behavior and online API integration with platform-specific UX | Not started |
+| 5 — Web | Responsive accessible client with core learning, audio/images, microphone flows, dashboard, preferences and localized interface | CLOSED / ACCEPTED by Owner; PR #10 merged |
+| 6 — Android | Kotlin/Compose client, shared semantic learning behavior and online API integration with platform-specific UX | Authorized; separate PR #17, not merged here |
 | 7 — Offline / Sync | Android cache/downloads, local persistence, offline media/attempts, version-aware idempotent sync and explicit conflict handling | Not started |
 | 8 — Gamification | XP, levels, streaks, achievements and privacy-conscious leaderboard independent of learning availability | Not started |
 | 9 — Entitlements / Billing | Account-wide free/premium access, monthly/yearly plans, promotions and payment adapters with verified market/platform policies | Not started |
@@ -63,3 +63,12 @@ introduces these paths and must be satisfied by Production Hardening/Operations
 in all cases; accepted Identity and Learning Core introduce none. Phase 5 course
 media delivery crosses the asset-delivery boundary and must close this gate.
 See [Web scope and receiving dependencies](docs/web/README.md).
+
+## World and experience acceptance
+
+[World & Experience Bible v1.0](docs/product-world/world-experience-bible-v1.md)
+is normative. Contemporary people, narrative continuity, meaningful light and
+preserved pedagogy govern future review. XP/levels are secondary presentation,
+not canonical learning gates. Legacy art is not precedent. Experience Contract
+definition and synchronized corpus adoption remain pending; RetroCel/ambient
+sound are future candidates, not new release dependencies or phase authorization.

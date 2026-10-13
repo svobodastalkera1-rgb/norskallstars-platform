@@ -1,5 +1,19 @@
 # Tasks
 
+## Bible adoption
+
+- [x] Record all 24 normative sections, exact version/SHA, LF bytes and ADR 0016.
+- [x] Add working/index Bootstrap and hook verification with integrity/export regressions.
+- [x] Prepare separate private corpus adoption/audit brief; no private access.
+- [ ] Verify focused Bible PR hosted checks; Owner reviews before merge.
+- [ ] Separate authorized corpus operator installs byte-identical document/version record.
+- [ ] Owner reviews private narrative/visual audit before rewriting accepted lessons.
+- [ ] Define/approve Experience Contract and any controlled compatibility/handoff changes.
+- [ ] Bible-aligned visual benchmarks/review before rollout; no automatic new phase.
+
+Owner accepted Phase 5/PR #10. Phase 6 remains authorized in separate PR #17.
+Older task/evidence sections below are historical and do not revoke those decisions.
+
 ## Completed governance
 
 - [x] Phase 0 CLOSED/ACCEPTED and published; hosted main Phase 0 CI passed.
