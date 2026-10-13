@@ -95,3 +95,7 @@ and [integration architecture](docs/architecture/course-integration.md).
 
 Learning API/policy/security: [Learning Core](docs/architecture/learning-core.md),
 [platform policy](contracts/learning/README.md) and [Phase 4 evidence](docs/phase-4-review.md).
+
+[World & Experience Bible](docs/product-world/README.md) defines normative experience
+direction: contemporary Norway, narrative continuity and North outside / warmth
+inside. Future design/content acceptance follows this authority.

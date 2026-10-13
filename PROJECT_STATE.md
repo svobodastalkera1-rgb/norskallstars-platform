@@ -1,14 +1,33 @@
 # Project state
 
-Updated: 2026-10-08. Product: NorskAllstars. Platform: NorskAllstars Platform.
+Updated: 2026-10-13. Product: NorskAllstars. Platform: NorskAllstars Platform.
 Phase 0: **CLOSED / ACCEPTED by Product Owner**.
 Phase 1: **CLOSED / ACCEPTED by Product Owner; PR #4 merged**.
 Phase 2: **CLOSED / ACCEPTED by Product Owner; PR #7 merged**.
 Phase 3: **CLOSED / ACCEPTED by Product Owner; PR #8 merged**.
 Phase 4: **CLOSED / ACCEPTED by Product Owner; PR #9 merged**.
-Phase 5: **Web IMPLEMENTED / AWAITING PRODUCT OWNER REVIEW; NOT ACCEPTED**.
-Phase 6: **NOT STARTED / NOT AUTHORIZED**.
+Phase 5: **CLOSED / ACCEPTED by Owner; PR #10 merged**.
+Phase 6: **AUTHORIZED; implementation in separate PR #17, not merged here**.
 Production readiness: **not achieved**.
+
+## Product-world authority
+
+Owner adopted [World & Experience Bible v1.0](docs/product-world/world-experience-bible-v1.md)
+as public-safe normative direction. Platform canonical bytes/version/SHA and
+working/index Bootstrap/hook verification are implemented. Corpus adoption and
+hash equality remain pending/unverified; no private repository was accessed.
+[Corpus audit brief](docs/product-world/corpus-adoption.md) requires independent
+pedagogy/language versus narrative/visual statuses before rewriting accepted units.
+[Experience Contract definition](docs/product-world/experience-contract-direction.md)
+is pending; Course Package v1, runtime/API/migrations are unchanged. RetroCel is
+optional/future. Existing visuals are not precedent; Owner benchmarks/review remain
+required. All deferred production gates are preserved.
+
+This focused branch is based on current main and includes Bible adoption only.
+Android PR #17 and local North/design studies are not bundled into this PR.
+Publishing/PR creation is Owner-authorized; merge and further phases are not.
+Local seven Bible regressions supplement existing repository tests. Hosted results
+must be verified at this PR HEAD; prior implementation checks are not inherited.
 
 ## Actual implementation
 
@@ -176,7 +195,7 @@ artifact review, and reported no blocking Code Scanning alerts at acceptance.
 This is a dated observation, not a guarantee about later alerts. Historical
 docs/phase-4-review.md and docs/security/phase-4-review.md remain unchanged.
 
-## Phase 5 current implementation and validation state
+## Historical Phase 5 implementation and validation evidence — before Owner acceptance
 
 Authoritative scope: **Web**, defined by ROADMAP, public product direction and
 [Web requirements](docs/web/README.md). Owner authorized implementation and accepted

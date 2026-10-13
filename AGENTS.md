@@ -19,11 +19,11 @@ Phase 4 Learning Core is CLOSED and ACCEPTED (PR #9 merged and verified).
 Public-safe normative Product Owner rules are recorded in
 docs/architecture/learning-core.md. Require explicit versioned learning policies;
 never invent numeric pedagogical defaults or infer rules from fixtures/arbitrary
-Contract extension objects. Product Owner authorized Phase 5 Web subject to its
-authoritative scope. Read docs/web/README.md: Owner accepted selective voice
+Contract extension objects. Phase 5 Web is CLOSED/ACCEPTED (PR #10 merged).
+Phase 6 Android is authorized in separate PR #17 and not merged here. Read docs/web/README.md: Owner accepted selective voice
 retention with separate consent, an explicit processing purpose, at most twelve
-months and erasure with account deletion. Phase 5 implementation is authorized;
-ML implementation/training is not. Phase 6 and later need separate authorization.
+months and erasure with account deletion; the same policy applies to Android.
+ML implementation/training is not authorized. Phase 7 and later need separate authorization.
 Work through a feature PR; never merge without Product Owner review.
 Do not implement application runtime,
 identity, importers, learning, billing, administration, sync, or deployments
@@ -71,3 +71,19 @@ Review destination mapping and compatibility/regression tests before changing
 inventoried public files. Continue only the already-authorized task/phase.
 The short command never authorizes deployments, publication, destructive
 migrations, secrets/billing changes or irreversible external operations.
+
+## Product-world authority
+
+Read docs/product-world/world-experience-bible-v1.md and docs/product-world/README.md
+before product/narrative/visual work. Bible v1.0 is Owner-approved public-safe
+normative direction, superseding conflicting old art guidance, not security/privacy,
+accessibility, pedagogy or accepted domain behavior. Verify version/SHA and exact
+index using scripts/experience_bible.py --index. Corpus synchronization is pending;
+never access private corpus to infer it. Legacy visuals/studies are evidence, not
+style precedent; independently review KEEP/REINTERPRET/REPLACE against Bible and
+Owner-approved benchmarks. Preserve behavior/accessibility, not legacy appearance.
+Experience Contract definition is pending; do not invent fields or extend Course
+Package v1. RetroCel is a future candidate, not a dependency. Bible adoption does
+not authorize corpus rewriting, rollout, merge or another phase.
+Owner accepted Phase 5 (PR #10 merged). Phase 6 is authorized in separate PR #17,
+not merged/accepted here; Phase 7 is not authorized. These decisions do not authorize new runtime work in the Bible publication task.

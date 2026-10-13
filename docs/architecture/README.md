@@ -1,5 +1,9 @@
 # Architecture
 
+[Product-world authority](../product-world/README.md) owns normative experience
+direction. The planned Experience Contract requires approved public semantics;
+Course Package Contract v1 and its current data boundary remain unchanged.
+
 The baseline is a monorepo with one modular backend and two clients. The
 boundaries were accepted in Phase 0. Phase 1 now implements backend infrastructure;
 Phase 2 adds curriculum release integration; accepted Phase 3 adds [shared identity](identity.md).

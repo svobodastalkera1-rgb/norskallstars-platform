@@ -6,6 +6,15 @@ and Phase 0 boundaries. Production v1.0 remains the intended complete release.
 Change product requirements only with owner approval; resolve absent details at
 the phase that needs them.
 
+[World & Experience Bible v1.0](../product-world/world-experience-bible-v1.md) is
+Owner-approved public-safe normative world/experience direction. It governs future
+visual/narrative decisions without changing accepted learning/security/privacy rules.
+Chapters and narrative geography lead presentation; XP/levels remain secondary,
+never pedagogical unlock policy. Existing artwork is provisional, not a style anchor.
+Read [adoption/compatibility](../product-world/README.md); Experience Contract
+definition and synchronized corpus adoption are pending. RetroCel and environmental
+audio are future candidates, not current runtime or required release dependencies.
+
 ## Learning and clients
 
 - Norwegian Bokmål is the primary interface language and learning language.

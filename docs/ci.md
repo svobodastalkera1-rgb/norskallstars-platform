@@ -8,7 +8,7 @@ and reported after completion; existence of a workflow is not a passing result.
 
 | Exact status-check name | Real checks |
 | --- | --- |
-| Bootstrap checks | Tooling syntax/docs links and confidentiality safeguard tests/index/history |
+| Bootstrap checks | Tooling syntax/docs links, World & Experience Bible version/hash/exact-index verification and confidentiality safeguard tests/index/history |
 | Security checks | Checksum-pinned redacted Gitleaks index and reachable history scan |
 | Backend quality | Locked environment; Ruff format/lint/security rules; strict mypy; generated Identity/Learning OpenAPI and platform policy schema drift |
 | Backend tests | Real isolated PostgreSQL, migration/drift, receiving/import/security and upstream tests |
