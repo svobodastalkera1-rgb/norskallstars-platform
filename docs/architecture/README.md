@@ -9,9 +9,9 @@ The baseline is a monorepo with one modular backend and two clients. The
 boundaries were accepted in Phase 0. Phase 1 now implements backend infrastructure;
 Phase 2 adds curriculum release integration; accepted Phase 3 adds [shared identity](identity.md).
 [Phase 4 Learning Core](learning-core.md) is accepted and merged under approved
-public-safe normative rules. [Phase 5 Web](../web/README.md) scope is reviewed;
-implementation is authorized under the accepted voice/privacy policy and exists
-in the feature working tree. Validation remains incomplete; Android is unimplemented.
+public-safe normative rules. [Phase 5 Web](../web/README.md) is accepted and merged through PR #10 under the
+accepted voice/privacy policy. Android implementation remains a separate unmerged
+candidate in PR #17; it is not a current main capability.
 
 ```mermaid
 flowchart LR

@@ -4,7 +4,9 @@
 version 1.0, by Product Owner decision on 2026-11-01. See
 [approval/provenance](experience-approval-2026-11-01.md),
 [Corpus semantic review](corpus-semantic-review-2026-10-31.md) and
-[reconciliation](experience-reconciliation-v1.md). Semantic review is closed.
+[reconciliation](experience-reconciliation-v1.md). Semantic review is closed. Product Owner squash-merged publication PR #24 on
+2026-11-01 at main `8e2dc429bedc83437bef224769fe7a265cd34b26`; all eleven
+post-merge hosted checks succeeded.
 Approved first slice 014 → 015 → 016 → REVIEW-02 → READING-02 is contract READY;
 implementation has NOT started. Course Package v1 remains unchanged. RetroCel
 is not a dependency; Corpus adoption/synchronization is not claimed.
