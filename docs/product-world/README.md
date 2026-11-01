@@ -1,5 +1,16 @@
 # Product-world authority and synchronized public copies
 
+[Experience Contract v1](experience-contract-v1.md) is **APPROVED / NORMATIVE**,
+version 1.0, by Product Owner decision on 2026-11-01. See
+[approval/provenance](experience-approval-2026-11-01.md),
+[Corpus semantic review](corpus-semantic-review-2026-10-31.md) and
+[reconciliation](experience-reconciliation-v1.md). Semantic review is closed. Product Owner squash-merged publication PR #24 on
+2026-11-01 at main `8e2dc429bedc83437bef224769fe7a265cd34b26`; all eleven
+post-merge hosted checks succeeded.
+Approved first slice 014 → 015 → 016 → REVIEW-02 → READING-02 is contract READY;
+implementation has NOT started. Course Package v1 remains unchanged. RetroCel
+is not a dependency; Corpus adoption/synchronization is not claimed.
+
 [World & Experience Bible v1.0](world-experience-bible-v1.md) is the Product Owner's
 approved **public-safe normative product direction**, covering platform, corpus,
 narrative and future visual production. It is not the private Master Specification.
@@ -8,9 +19,10 @@ independently redefine it. The canonical v1.0 publication/export source is the
 document here. The separate corpus must retain a byte-identical approved copy
 and the same [version/checksum record](EXPERIENCE_BIBLE_VERSION).
 
-Status: Platform copy recorded locally. **Corpus adoption/synchronization is
-pending and has not been verified.** No private repository was accessed. Owner authorized publishing this focused Bible branch and opening a PR; merge
-remains subject to Owner review.
+Status: Platform Bible published through Owner-merged PR #19 on 2026-10-13.
+**Corpus adoption/synchronization is pending and has not been verified.** No
+private repository was accessed. Experience v1 approval does not prove Corpus
+installation or authorize implementation.
 
 ## Authority and compatibility
 

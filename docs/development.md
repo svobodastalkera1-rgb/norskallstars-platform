@@ -45,6 +45,11 @@ Do not disable firewall protections or change application security to fix routin
 
 ## Backend checks
 
+For the reviewed Web matcher/tooling compatibility migration and its fail-closed
+OpenAPI preparation, see [dependency compatibility](security/web-dependency-compatibility.md).
+Use the documented `npm run contracts` entry point, including its repository-owned
+preparation command; do not invoke a bare generator to bypass that check.
+
 ```sh
 uv sync --locked --project apps/backend
 uv run --locked --project apps/backend ruff format --check apps/backend

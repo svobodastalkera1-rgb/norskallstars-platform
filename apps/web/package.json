@@ -11,10 +11,11 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 127.0.0.1 --port 3000",
     "lint": "eslint . --max-warnings 0",
-    "test": "vitest run",
+    "test": "vitest run && npm run test:tooling",
     "e2e": "playwright test",
-    "contracts": "openapi-typescript ../../contracts/api/identity-v1.openapi.json -o src/identity.generated.ts && openapi-typescript ../../contracts/api/learning-v1.openapi.json -o src/learning.generated.ts && openapi-typescript ../../contracts/api/media-v1.openapi.json -o src/media.generated.ts",
-    "format": "prettier --check ."
+    "contracts": "node scripts/prepare-openapi-tooling.mjs && openapi-typescript ../../contracts/api/identity-v1.openapi.json -o src/identity.generated.ts && openapi-typescript ../../contracts/api/learning-v1.openapi.json -o src/learning.generated.ts && openapi-typescript ../../contracts/api/media-v1.openapi.json -o src/media.generated.ts",
+    "format": "prettier --check .",
+    "test:tooling": "node --test scripts/prepare-openapi-tooling.test.mjs"
   },
   "dependencies": {
     "react": "19.3.0",
@@ -39,5 +40,19 @@
     "typescript-eslint": "8.71.1",
     "vite": "8.3.3",
     "vitest": "5.0.3"
+  },
+  "overrides": {
+    "eslint": {
+      "minimatch": "^11.0.1"
+    },
+    "@eslint/config-array": {
+      "minimatch": "^11.0.1"
+    },
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "^11.0.1"
+    },
+    "@redocly/openapi-core": {
+      "minimatch": "^11.0.1"
+    }
   }
 }

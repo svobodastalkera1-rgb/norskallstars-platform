@@ -1,5 +1,57 @@
 # Project state
 
+## Post-security publication cleanup — 2026-11-01
+
+Owner merged baseline security integration PR #27 into main at
+`0386f95b757381df72623faaa9b4d84f53e6996b` (09:20:07 UTC). Backend and Web
+dependency audits on merged main succeeded. Source PRs #23/#25/#26 were marked
+superseded and closed without merge; their branches/review history are retained.
+
+Product Owner squash-merged PR #24 on 2026-11-01 at 14:34:52 UTC into
+`8e2dc429bedc83437bef224769fe7a265cd34b26`. All eleven hosted checks on merged
+main succeeded, including Backend/Web dependency audits and Python/Web CodeQL.
+The merged tree matches the accepted PR head. Normative Experience v1 bytes remain
+SHA-256 `309cd307dc0123338a945872dc83f851cfa3a51d94d74d374467fcc782cbf981`.
+No Course Package v1 or dependency changes were introduced by PR #24.
+
+World & Experience Bible v1.0 and Experience Contract v1.0 are normative; Corpus
+semantic review is complete. First integrated slice
+014 → 015 → 016 → REVIEW-02 → READING-02 is READY at contract level;
+IMPLEMENTATION NOT STARTED. Corpus adoption/synchronization remains unverified.
+RetroCel is an optional future candidate, not a dependency. Android PR #17 remains
+OPEN/unmerged and separate. Implementation requires separate Owner authorization.
+
+Post-merge housekeeping preserved duplicate local requirements-handoff files and
+their README byte-for-byte in ignored local storage, restoring the repository
+README. These local transfer copies are not accepted repository artifacts and
+are not committed. All deferred production gates remain open as recorded below.
+Earlier publication/base snapshots below remain dated historical evidence.
+
+## Experience Contract v1 — APPROVED / NORMATIVE (2026-11-01)
+
+Product Owner approved [Experience Contract v1](docs/product-world/experience-contract-v1.md)
+and closed semantic review. The [dated lineage](docs/product-world/experience-approval-2026-11-01.md)
+preserves initial candidate → Corpus review → accepted minor corrections →
+Platform correction → final approval; no earlier state is retroactively approved.
+[Reconciliation](docs/product-world/experience-reconciliation-v1.md) retains all
+11 mappings: nine preserved, 009 resolved, 011 deferred outside normative v1.
+
+World & Experience Bible v1.0 and Experience v1 are normative; Course Package v1
+is unchanged. Reading availability, canonical Learning Core and local UX stay
+separate; no extra authored reading state/gate, new speaker/voice registry or
+sidecar. Approved first slice: 014 → 015 → 016 → REVIEW-02 → READING-02.
+Contract-level readiness READY; implementation and the slice have NOT started.
+Corpus adoption/synchronization is not claimed. RetroCel is not a dependency.
+
+Historical pre-publication snapshot (superseded by the post-merge record above):
+public main was rechecked at 5669565; Android PR #17 OPEN/unmerged at 1317521.
+The publication PR contains documentation only, excluding earlier local receiving/
+exporter code, private material and UI/Android work. Earlier project snapshots
+below remain historical; receiver checks run on local branches are not delivered
+runtime features of this PR. Existing production/provider/privacy/storage/export/
+license gates remain open. No merge, deployment or new phase is authorized.
+
+
 Updated: 2026-10-13. Product: NorskAllstars. Platform: NorskAllstars Platform.
 Phase 0: **CLOSED / ACCEPTED by Product Owner**.
 Phase 1: **CLOSED / ACCEPTED by Product Owner; PR #4 merged**.
@@ -18,12 +70,13 @@ working/index Bootstrap/hook verification are implemented. Corpus adoption and
 hash equality remain pending/unverified; no private repository was accessed.
 [Corpus audit brief](docs/product-world/corpus-adoption.md) requires independent
 pedagogy/language versus narrative/visual statuses before rewriting accepted units.
-[Experience Contract definition](docs/product-world/experience-contract-direction.md)
-is pending; Course Package v1, runtime/API/migrations are unchanged. RetroCel is
+[Experience Contract v1](docs/product-world/experience-contract-v1.md) is approved
+and normative; implementation is not started. Course Package v1, runtime/API/migrations are unchanged. RetroCel is
 optional/future. Existing visuals are not precedent; Owner benchmarks/review remain
 required. All deferred production gates are preserved.
 
-This focused branch is based on current main and includes Bible adoption only.
+Historical Bible-publication branch snapshot (PR #19 has since merged):
+that focused branch included Bible adoption only.
 Android PR #17 and local North/design studies are not bundled into this PR.
 Publishing/PR creation is Owner-authorized; merge and further phases are not.
 Local seven Bible regressions supplement existing repository tests. Hosted results
