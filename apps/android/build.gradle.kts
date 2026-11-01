@@ -3,6 +3,10 @@ buildscript {
         resolutionStrategy.activateDependencyLocking()
         resolutionStrategy.eachDependency {
             when {
+                requested.group == "com.google.guava" && requested.name == "guava" -> {
+                    useVersion("33.7.2-jre")
+                    because("Fix GHSA-xxph-c9ww-hj94 in the Android build/lint toolchain")
+                }
                 requested.group == "org.bouncycastle" -> useVersion("1.86")
                 requested.group == "org.apache.commons" && requested.name == "commons-lang3" -> useVersion("3.20.0")
                 requested.group == "org.apache.httpcomponents" && requested.name == "httpclient" -> useVersion("4.5.14")

@@ -89,3 +89,28 @@ Python/Web and compiled Android CodeQL checks. Both API 26/35 executed the real 
 security/learning journeys (three tests each, no skips). This is dated evidence,
 not live provider acceptance. Alert API access remains 403; Owner UI review is
 required. Existing eleven required checks/protections were only read, not changed.
+
+## Owner-authorized toolchain remediation — 2026-11-01
+
+Fresh OSV audit identified GHSA-xxph-c9ww-hj94 in Guava 33.4.0-jre. It is
+transitive through AGP 9.4.1 (Android tools common/sdk-common/apkzlib) and
+lint 32.4.1, confined to buildscript classpath and androidLintTool. It is not an
+application runtime dependency. Narrow resolution rules in both Gradle build
+files select 33.7.2-jre, the first fixed release, without upgrading AGP/Kotlin.
+
+Gradle regenerated both lockfiles and SHA-256 verification metadata using:
+
+```sh
+cd apps/android
+./gradlew :app:dependencies --configuration androidLintTool \
+  --update-locks com.google.guava:guava \
+  --write-verification-metadata sha256 --no-daemon
+```
+
+Guava's own dependency metadata also updates failureaccess 1.0.2 → 1.0.3,
+error_prone_annotations 2.36.0 → 2.50.0, j2objc-annotations 3.0.0 → 3.1 and
+adds jspecify 1.0.1. Lint-only jsr305/checker-qual edges disappear; other uses
+remain. These are resolution consequences of Guava, not unrelated upgrades.
+Runtime dependencies and all security checks remain intact. Local OSV audit
+passes for 313 locked coordinates; exact final-head hosted checks remain the
+acceptance gate. Historical findings/results above remain dated evidence.
