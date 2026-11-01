@@ -1,5 +1,18 @@
 # Tasks
 
+## Separate Web dependency compatibility migration
+
+- [x] Inspect exact PR #23 and verify it removes undici findings; retain it as base.
+- [x] Map all minimatch consumers; retain parent versions with scoped fixed-major
+  resolution and checksum-guarded legacy Redocly import adaptation.
+- [x] Local audit zero, lint/format/type/build, unchanged generated contracts and
+  24 component/unit plus four actual compatibility/guard tests pass.
+- [x] Full clean browser recheck: 9/9 across Chromium, Firefox, WebKit; repository/
+  security gates pass. Initial local WebKit image-load timeout and retries are recorded.
+- [ ] Verify hosted checks on the separate migration PR.
+- [ ] Owner reviews the separate migration PR and coordinates independent base
+  security dependencies; no automatic merge or new product implementation.
+
 ## Bible adoption
 
 - [x] Record all 24 normative sections, exact version/SHA, LF bytes and ADR 0016.

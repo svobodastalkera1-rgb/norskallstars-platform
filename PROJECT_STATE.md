@@ -1,5 +1,20 @@
 # Project state
 
+## Separate Web dependency compatibility migration — 2026-11-01
+
+Owner authorized this dependency/tooling-only migration separately from PR #24.
+Branch is stacked on PR #23's exact undici remediation; it does not duplicate or
+merge that change. [Compatibility design](docs/security/web-dependency-compatibility.md)
+records the four minimatch consumers, scoped security-floor overrides and bounded
+Redocly import adapter. Existing parent versions and app behavior are preserved;
+all minimatch instances resolve to 11.0.3. Existing npm audit/checks remain strict.
+
+Experience Contract v1 was Owner-approved in separate PR #24; this branch does
+not modify its semantics or implement the contract/slice. Corpus, Course Package,
+Android PR #17, RetroCel and roadmap implementation remain outside this task.
+Earlier implementation/approval snapshots below remain historical. Independent
+backend security remediation belongs to PR #24, not this migration's diff.
+
 Updated: 2026-10-13. Product: NorskAllstars. Platform: NorskAllstars Platform.
 Phase 0: **CLOSED / ACCEPTED by Product Owner**.
 Phase 1: **CLOSED / ACCEPTED by Product Owner; PR #4 merged**.
