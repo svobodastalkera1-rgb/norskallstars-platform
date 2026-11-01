@@ -19,11 +19,10 @@ Phase 4 Learning Core is CLOSED and ACCEPTED (PR #9 merged and verified).
 Public-safe normative Product Owner rules are recorded in
 docs/architecture/learning-core.md. Require explicit versioned learning policies;
 never invent numeric pedagogical defaults or infer rules from fixtures/arbitrary
-Contract extension objects. Phase 5 Web is CLOSED/ACCEPTED (PR #10 merged and verified).
-Phase 6 Android is authorized; read docs/android/README.md before implementation.
-Read docs/web/README.md: Owner accepted selective voice
+Contract extension objects. Phase 5 Web is CLOSED/ACCEPTED (PR #10 merged).
+Phase 6 Android is authorized in separate PR #17 and not merged here. Read docs/web/README.md: Owner accepted selective voice
 retention with separate consent, an explicit processing purpose, at most twelve
-months and erasure with account deletion. The same voice policy applies to Android;
+months and erasure with account deletion; the same policy applies to Android.
 ML implementation/training is not authorized. Phase 7 and later need separate authorization.
 Work through a feature PR; never merge without Product Owner review.
 Do not implement application runtime,
@@ -40,7 +39,7 @@ logs. Read private inputs only with authorization. Keep them outside this
 checkout. Do not reconstruct removed confidential documents from Git history.
 Do not access the private corpus repository without separate owner permission.
 Course integration accepts only an explicitly approved public handoff; the
-manifest under contracts/course-package records the accepted public handoff provenance.
+pending manifest under contracts/course-package records that dependency.
 Do not place private material in issues, PRs, job logs, or CI artifacts.
 
 ## Engineering workflow
@@ -72,3 +71,27 @@ Review destination mapping and compatibility/regression tests before changing
 inventoried public files. Continue only the already-authorized task/phase.
 The short command never authorizes deployments, publication, destructive
 migrations, secrets/billing changes or irreversible external operations.
+
+## Product-world authority
+
+Read docs/product-world/world-experience-bible-v1.md and docs/product-world/README.md
+before product/narrative/visual work. Bible v1.0 is Owner-approved public-safe
+normative direction, superseding conflicting old art guidance, not security/privacy,
+accessibility, pedagogy or accepted domain behavior. Verify version/SHA and exact
+index using scripts/experience_bible.py --index. Corpus synchronization is pending;
+never access private corpus to infer it. Legacy visuals/studies are evidence, not
+style precedent; independently review KEEP/REINTERPRET/REPLACE against Bible and
+Owner-approved benchmarks. Preserve behavior/accessibility, not legacy appearance.
+Experience Contract v1 is APPROVED / NORMATIVE as of 2026-11-01; read
+docs/product-world/experience-contract-v1.md and the dated approval record. Semantic
+review is closed; contract-level first slice 014 → 015 → 016 → REVIEW-02 → READING-02
+is READY, implementation NOT STARTED. No new reading state/gate absent authoritative
+data; local reading UX grants no canonical credit. Existing attribution/text/audio
+suffice; no voice registry/sidecar. EXP-REQ-011 is deferred outside normative v1.
+Do not invent fields or extend Course Package v1. RetroCel is a future candidate, not a dependency. Bible adoption does
+not authorize corpus rewriting, rollout, merge or another phase.
+Owner accepted Phase 5 (PR #10 merged). Phase 6 is authorized in separate PR #17,
+not merged/accepted here; Phase 7 is not authorized. These decisions do not authorize new runtime work in the Bible publication task.
+
+For Phase 6 candidate work, read docs/android/README.md and ADR 0014.
+Android UI is implementation evidence, not normative visual precedent.

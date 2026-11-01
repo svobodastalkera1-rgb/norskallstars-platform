@@ -1,14 +1,98 @@
 # Project state
 
-Updated: 2026-10-10. Product: NorskAllstars. Platform: NorskAllstars Platform.
+## Android candidate refresh — 2026-11-01
+
+PR #17 remains OPEN and unmerged, refreshed against Owner-merged PR #28 main
+`422f32714e6922ee3289e0fc8448a5e24a531de5` through a normal merge. Native online
+implementation and Phase 6 tooling are retained; current normative documents and
+Backend/Web security baseline are preserved. Fresh checks and Owner review are
+required; prior hosted results below remain historical. Native client consumes
+existing API projections; no Experience Contract implementation or slice is added.
+Android visuals are legacy evidence, not normative design precedent. Live provider,
+manual accessibility, production/storage/privacy/license gates remain open.
+
+
+## Post-security publication cleanup — 2026-11-01
+
+Owner merged baseline security integration PR #27 into main at
+`0386f95b757381df72623faaa9b4d84f53e6996b` (09:20:07 UTC). Backend and Web
+dependency audits on merged main succeeded. Source PRs #23/#25/#26 were marked
+superseded and closed without merge; their branches/review history are retained.
+
+Product Owner squash-merged PR #24 on 2026-11-01 at 14:34:52 UTC into
+`8e2dc429bedc83437bef224769fe7a265cd34b26`. All eleven hosted checks on merged
+main succeeded, including Backend/Web dependency audits and Python/Web CodeQL.
+The merged tree matches the accepted PR head. Normative Experience v1 bytes remain
+SHA-256 `309cd307dc0123338a945872dc83f851cfa3a51d94d74d374467fcc782cbf981`.
+No Course Package v1 or dependency changes were introduced by PR #24.
+
+World & Experience Bible v1.0 and Experience Contract v1.0 are normative; Corpus
+semantic review is complete. First integrated slice
+014 → 015 → 016 → REVIEW-02 → READING-02 is READY at contract level;
+IMPLEMENTATION NOT STARTED. Corpus adoption/synchronization remains unverified.
+RetroCel is an optional future candidate, not a dependency. Android PR #17 remains
+OPEN/unmerged and separate. Implementation requires separate Owner authorization.
+
+Post-merge housekeeping preserved duplicate local requirements-handoff files and
+their README byte-for-byte in ignored local storage, restoring the repository
+README. These local transfer copies are not accepted repository artifacts and
+are not committed. All deferred production gates remain open as recorded below.
+Earlier publication/base snapshots below remain dated historical evidence.
+
+## Experience Contract v1 — APPROVED / NORMATIVE (2026-11-01)
+
+Product Owner approved [Experience Contract v1](docs/product-world/experience-contract-v1.md)
+and closed semantic review. The [dated lineage](docs/product-world/experience-approval-2026-11-01.md)
+preserves initial candidate → Corpus review → accepted minor corrections →
+Platform correction → final approval; no earlier state is retroactively approved.
+[Reconciliation](docs/product-world/experience-reconciliation-v1.md) retains all
+11 mappings: nine preserved, 009 resolved, 011 deferred outside normative v1.
+
+World & Experience Bible v1.0 and Experience v1 are normative; Course Package v1
+is unchanged. Reading availability, canonical Learning Core and local UX stay
+separate; no extra authored reading state/gate, new speaker/voice registry or
+sidecar. Approved first slice: 014 → 015 → 016 → REVIEW-02 → READING-02.
+Contract-level readiness READY; implementation and the slice have NOT started.
+Corpus adoption/synchronization is not claimed. RetroCel is not a dependency.
+
+Historical pre-publication snapshot (superseded by the post-merge record above):
+public main was rechecked at 5669565; Android PR #17 OPEN/unmerged at 1317521.
+The publication PR contains documentation only, excluding earlier local receiving/
+exporter code, private material and UI/Android work. Earlier project snapshots
+below remain historical; receiver checks run on local branches are not delivered
+runtime features of this PR. Existing production/provider/privacy/storage/export/
+license gates remain open. No merge, deployment or new phase is authorized.
+
+
+Updated: 2026-10-13. Product: NorskAllstars. Platform: NorskAllstars Platform.
 Phase 0: **CLOSED / ACCEPTED by Product Owner**.
 Phase 1: **CLOSED / ACCEPTED by Product Owner; PR #4 merged**.
 Phase 2: **CLOSED / ACCEPTED by Product Owner; PR #7 merged**.
 Phase 3: **CLOSED / ACCEPTED by Product Owner; PR #8 merged**.
 Phase 4: **CLOSED / ACCEPTED by Product Owner; PR #9 merged**.
-Phase 5: **CLOSED / ACCEPTED by Product Owner; PR #10 merged**.
-Phase 6: **Android IMPLEMENTED / hosted implementation checks passed; PR #17 awaiting Owner review**.
+Phase 5: **CLOSED / ACCEPTED by Owner; PR #10 merged**.
+Phase 6: **AUTHORIZED; implementation in separate PR #17, not merged here**.
 Production readiness: **not achieved**.
+
+## Product-world authority
+
+Owner adopted [World & Experience Bible v1.0](docs/product-world/world-experience-bible-v1.md)
+as public-safe normative direction. Platform canonical bytes/version/SHA and
+working/index Bootstrap/hook verification are implemented. Corpus adoption and
+hash equality remain pending/unverified; no private repository was accessed.
+[Corpus audit brief](docs/product-world/corpus-adoption.md) requires independent
+pedagogy/language versus narrative/visual statuses before rewriting accepted units.
+[Experience Contract v1](docs/product-world/experience-contract-v1.md) is approved
+and normative; implementation is not started. Course Package v1, runtime/API/migrations are unchanged. RetroCel is
+optional/future. Existing visuals are not precedent; Owner benchmarks/review remain
+required. All deferred production gates are preserved.
+
+Historical Bible-publication branch snapshot (PR #19 has since merged):
+that focused branch included Bible adoption only.
+Android PR #17 and local North/design studies are not bundled into this PR.
+Publishing/PR creation is Owner-authorized; merge and further phases are not.
+Local seven Bible regressions supplement existing repository tests. Hosted results
+must be verified at this PR HEAD; prior implementation checks are not inherited.
 
 ## Actual implementation
 
@@ -23,13 +107,9 @@ Google cryptographic proof validation, interface-language preference, revocable
 opaque sessions and account/session ownership/deletion. Accepted Phase 4 adds
 versioned learning policies, pinned enrollments, attempts/evaluation/progress/review,
 advisory placement and authenticated curriculum/history/translation APIs.
-Phase 5 Web/media is accepted and merged; its dated implementation evidence remains below.
-Phase 6 now implements native Kotlin/Compose online account/learning/dashboard/
-media/microphone journeys against existing APIs. Keystore-protected sessions,
-account-generation isolation, lifecycle controls and bounded consented media are
-implemented. No new product schema/migration/HTTP endpoint or offline sync is added.
-Device/hosted implementation checks passed; Owner acceptance remains pending.
-Sync/billing, production infrastructure and Redis remain absent.
+Phase 5 Web/media implementation has passed complete local validation; initial implementation-head hosted PR
+verification passed; Product Owner review and exact evidence-head CI remain separate.
+Android, sync/billing, production infrastructure and Redis remain absent.
 
 Runtime and decisions: docs/architecture/backend-runtime.md and ADRs 0008/0009.
 Identity: docs/architecture/identity.md, ADR 0011 and docs/security/phase-3-review.md.
@@ -39,7 +119,7 @@ roles or privileged HTTP course operations. Required secret keys have no default
 configuration requires HTTPS identity links, explicit Google audiences and TLS SMTP.
 Verification evidence: docs/phase-1-review.md. Initial Phase 1 PR runs passed
 quality/tests/audit/container, Phase 0 safeguards and Python CodeQL. Each updated
-PR head is verified separately; historical evidence does not substitute for it. Web has passing accepted/merged-main hosted runs. Android now has successful real workflow runs; the dated exact-head evidence follows below.
+PR head is verified separately; historical evidence does not substitute for it. Web has real Phase 5 workflow definitions and passing implementation-head hosted runs; Android remains pending.
 
 ## Repository governance
 
@@ -47,10 +127,9 @@ Product Owner completed Protect main/security configuration after Phase 0:
 active default-branch ruleset, PR-only development, linear history, deletion/
 force-push restrictions, conversation resolution and Squash/Rebase merge methods.
 Required approvals are 0; feature PRs still require Product Owner review and
-must not be auto-merged. Eleven required Actions checks are active with strict up-to-date branches: Bootstrap checks,
+must not be auto-merged. Seven required Actions checks are active with strict up-to-date branches: Bootstrap checks,
 Security checks, Backend quality, Backend tests, Backend dependency audit, Backend
-container, CodeQL Python, Web quality, Web tests, Web dependency audit and CodeQL Web.
-Verified through the branch-rules API on 2026-10-09; no settings changed.
+container and CodeQL Python. Verified through the ruleset API on 2026-10-04.
 
 Owner confirmed private vulnerability reporting, dependency graph, automatic
 submission, Dependabot alerts/security updates, malware alerts, secret scanning
@@ -181,7 +260,7 @@ artifact review, and reported no blocking Code Scanning alerts at acceptance.
 This is a dated observation, not a guarantee about later alerts. Historical
 docs/phase-4-review.md and docs/security/phase-4-review.md remain unchanged.
 
-## Phase 5 historical implementation and validation evidence
+## Historical Phase 5 implementation and validation evidence — before Owner acceptance
 
 Authoritative scope: **Web**, defined by ROADMAP, public product direction and
 [Web requirements](docs/web/README.md). Owner authorized implementation and accepted
@@ -218,13 +297,13 @@ current-head tests cover both. Browser journeys also verify canonical completion
 survives lower-scoring replay. Independent browser projects use reset synthetic
 Web-test data, preserving ordinary runtime rate limits. See [Phase 5 evidence](docs/phase-5-review.md).
 Implementation commit/PR are published. All 23 implementation-head checks passed, including seven required checks; every later
-PR head requires separate hosted verification. This describes the earlier review point; Phase 5 acceptance follows below.
+PR head requires separate hosted verification. Phase 5 is not accepted.
 
 Production gates remain: isolated live SMTP/Google acceptance (SMTP at-least-once),
 private S3/TLS/encryption/anonymous-denial and cleanup scheduling/monitoring/backups,
 future privacy/export, administrator authorization, deterministic release migration,
 license/market/retention/recovery decisions. No earlier gate is silently closed.
-Phase 6 was not authorized at that review point. Current authorization follows below.
+Phase 6 is NOT STARTED / NOT AUTHORIZED. Never merge without Owner review.
 
 Initial completed local evidence: **243/243 backend**, **16/16 Web unit/component**,
 **9/9 browser E2E/accessibility** across Chromium/Firefox/WebKit, **19/19 upstream
@@ -255,74 +334,3 @@ API/policy drift, Web format/lint/build, locked dependency audits and container
 build/migration/runtime smoke passed. Exact correction-head hosted evidence belongs
 to PR #10 metadata/delivery and must not be inferred from historical runs.
 All existing deferred production gates above remain open; no merge or Phase 6.
-
-## Phase 5 closure and Phase 6 authorization — 2026-10-08
-
-Product Owner completed manual Web review, accepted the synthetic content boundary
-and existing submitted-active-time semantics, merged PR #10 and authorized Phase 6
-according to the authoritative roadmap. GitHub confirms merge at
-2026-10-08T20:39:01Z: `8100927bf4717d15dfa112254c4b6acd76dccaae`.
-The merged tree equals accepted correction head
-`af952422215984facab7022f187e265332e36bf0` (empty diff). Merged-main
-[Backend CI](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37841026175),
-[Web CI](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37841026251),
-[Safeguards](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37841026238) and
-[CodeQL](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37841026143)
-completed successfully. Historical review records are not rewritten.
-
-Phases 0–5 are CLOSED / ACCEPTED. Phase 6 Android is authorized; Phase 7 is not.
-Scope: [Android](docs/android/README.md). Work proceeds from this merged main through
-a dedicated feature branch. No private corpus access, production deployment, store
-publication or automatic merge is authorized. All deferred production gates remain
-open, including live SMTP/Google, SMTP at-least-once semantics, private storage/erasure
-operations, privacy/export, administrator authorization, explicit progress migration
-and license. No production acceptance is inferred from synthetic tests.
-
-## Phase 6 implementation and review gates — 2026-10-09
-
-Feature branch: `feature/phase-6-android`, based on current origin/main 8100927.
-Scope and DoD: [Android](docs/android/README.md); [ADR 0014](docs/adr/0014-native-android-online.md).
-[Implementation evidence](docs/phase-6-review.md) and
-[security review](docs/security/phase-6-review.md) distinguish dated regression runs,
-final native results and unresolved hosted/device/provider gates. Native unit tests
-passed 19/19, Lint and debug/test APK plus unsigned R8 release builds passed.
-OSV audited 312 locked app/test/lint/buildscript coordinates with no known findings.
-Contract v1 upstream files are unchanged. The final real-backend API 35 device gate passed 3/3 with no skips, including
-Activity recreation, canonical/replay/placement and account/session/media erasure.
-Final repository/receiving regressions passed 29/29; index/reachable-history
-confidentiality and redacted secret scans passed. API 26 and hosted Android/CodeQL
-checks remain pending; Phase 6 is not accepted. Product Owner explicitly authorized
-normal feature-branch publication and CI defect corrections. PR #17 is open against
-main: https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/17.
-The first hosted run exposed setup-java rejecting the four-component vendor version.
-CI now downloads the same Microsoft 17.0.20.1 archive with pinned SHA-256, uses
-a SemVer-compatible tool-cache label and verifies the installed vendor/version.
-No dependency, JDK patch version or required security check was downgraded. Phase 7 is NOT STARTED / NOT AUTHORIZED.
-
-The Codespace restart removed temporary SDK/JDK caches. Verified official toolchain
-archives restored local builds. The existing named PostgreSQL volume was preserved
-when recreating its failed stopped container metadata; authenticated loopback DB
-access passed without new firewall changes. Only the guarded Android synthetic DB
-was reset. Owner manual-review data was not reset. Emulator/build work is serialized
-on this two-CPU environment; previous process failures are not hidden as green tests.
-
-## Phase 6 hosted implementation verification — 2026-10-10
-
-PR #17 implementation/correction head `54f83ac96763b0bfa21d5b7150d19956175eb15b`
-passed **all 35 hosted checks** across push and PR events, including all eleven
-existing required checks and all six new Android checks. Both API 26 and API 35
-jobs independently verified three actually executed native tests with no
-failures/errors/skips. PR was MERGEABLE/CLEAN; current main remains `8100927`.
-[Run evidence](docs/phase-6-review.md) preserves earlier failed/false-green
-observations and their corrections. Later heads require separate hosted checks.
-Repository/receiving regressions now pass 36/36. Native JVM tests remain 19/19;
-backend 248/248, Contract 19/19, Web 25/25 plus nine browser E2E tests passed.
-Dependency audits, confidentiality/secret guards, container checks and
-CodeQL Python/Web plus compiled Android analysis passed. Alert API is still 403; Owner must review the
-Code Scanning UI rather than infer absence of alerts from successful analysis.
-
-Phase 6 is **READY FOR PRODUCT OWNER REVIEW**, not ACCEPTED. No merge or settings
-change occurred. Exact manual review is in [Android review](docs/android/manual-review.md).
-Live SMTP/Google, SMTP at-least-once delivery, production bucket/erasure/retention/GC
-operations, backups, export/admin/release migration/license/store gates remain open.
-Phase 7 is **NOT STARTED / NOT AUTHORIZED**.

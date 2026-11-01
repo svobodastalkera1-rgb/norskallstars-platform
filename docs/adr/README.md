@@ -22,4 +22,6 @@ choices on 2026-10-03; future changes follow the same review process.
 | [0011](0011-shared-identity.md) | Transactional shared identity and opaque sessions | Accepted; Phase 3 owner-accepted, PR #8 merged |
 | [0012](0012-learning-policy-progress.md) | Versioned learning policies and release-pinned canonical progress | Accepted; Phase 4 owner-accepted, PR #9 merged |
 | [0013](0013-web-media-privacy.md) | Memory-only Web sessions, private media, coordinated GC and consented selective voice | Accepted; Phase 5 Owner-accepted, PR #10 merged |
-| [0014](0014-native-android-online.md) | Native online client, Keystore sessions and lifecycle-bound media | Accepted engineering decision within authorized Phase 6; Owner review pending |
+| [0016](0016-product-world-authority.md) | Owner-controlled public Bible, verified copies and pending Experience Contract | Accepted within Bible adoption; corpus synchronization pending |
+
+| [0014](0014-native-android-online.md) | Native online client, protected sessions and ephemeral media | Phase 6 engineering decision; PR #17 review pending |

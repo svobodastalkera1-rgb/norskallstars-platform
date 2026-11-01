@@ -1,4 +1,8 @@
-# Normalize only wrapper scripts; inventoried Contract bytes must remain unchanged.
+# Canonical public product-world bytes must match approved copies.
+docs/product-world/world-experience-bible-v1.md text eol=lf
+docs/product-world/EXPERIENCE_BIBLE_VERSION text eol=lf
+
+# Preserve native wrapper line endings without changing inventoried Contract bytes.
 apps/android/gradlew text eol=lf
 apps/android/gradlew.bat text eol=crlf
 apps/android/gradle/wrapper/gradle-wrapper.jar binary

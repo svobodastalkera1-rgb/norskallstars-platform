@@ -2,10 +2,12 @@
 import json
 from pathlib import Path
 import re
+import subprocess
 import sys
 from urllib.parse import unquote
 
 from repository import ROOT, git
+from experience_bible import check as check_experience_bible
 
 REQUIRED = ('AGENTS.md', 'PROJECT_STATE.md', 'ROADMAP.md', 'TASKS.md', 'README.md',
             'SECURITY.md', 'CHANGELOG.md', '.env.example', '.python-version',
@@ -16,6 +18,10 @@ REQUIRED = ('AGENTS.md', 'PROJECT_STATE.md', 'ROADMAP.md', 'TASKS.md', 'README.m
 
 def main() -> int:
     errors = []
+    try:
+        check_experience_bible(index=True)
+    except (ValueError, OSError, subprocess.SubprocessError):
+        errors.append('Public World & Experience Bible version/checksum/index verification failed')
     for name in REQUIRED:
         if not (ROOT / name).is_file():
             errors.append(f'Missing required bootstrap file: {name}')

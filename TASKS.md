@@ -1,5 +1,54 @@
 # Tasks
 
+## Android candidate refresh
+
+- [x] Merge current main into PR #17; preserve normative authority and dependency baseline.
+- [ ] Verify fresh Backend/Web/Android hosted compatibility, device tests and CodeQL.
+- [ ] Product Owner reviews refreshed Phase 6 candidate; no automatic merge.
+- [ ] Integrated Experience slice remains NOT STARTED and separately authorized.
+
+
+## Post-security PR #24 cleanup
+
+- [x] Verify Owner-merged #27 on main and successful Backend/Web dependency audits.
+- [x] Mark #23/#25/#26 superseded; close without merge or branch deletion.
+- [x] Update PR #24 from clean main without history rewrite; remove effective
+  security duplication and preserve normative Experience v1 byte identity.
+- [x] Verify all eleven hosted checks on merged main 8e2dc42 succeeded.
+- [x] Product Owner squash-merged PR #24; verify main and normative byte identity.
+
+## Experience v1 approval publication — 2026-11-01
+
+- [x] Owner approves normative [Experience Contract v1](docs/product-world/experience-contract-v1.md)
+  and closes semantic review; preserve dated candidate/review/correction lineage.
+- [x] Resolve 009, defer 011 outside v1, keep existing attribution/text/audio and
+  unchanged Course Package v1; remove speculative annotations/sidecar.
+- [x] Record approved sequence 014 → 015 → 016 → REVIEW-02 → READING-02:
+  contract READY, implementation NOT STARTED; RetroCel is not a dependency.
+- [x] Owner merged documentation-only publication PR #24; post-merge checks passed.
+- [ ] Separate authorization before any contract implementation, slice or wider rollout.
+- [ ] Independent Android PR #17 workflow; do not merge it here.
+
+Existing deferred production/provider/storage/privacy/export/license tasks remain.
+Earlier pending definition tasks are superseded only by this semantic approval,
+not by implementation, private content adoption or deployment acceptance.
+
+
+## Bible adoption
+
+- [x] Record all 24 normative sections, exact version/SHA, LF bytes and ADR 0016.
+- [x] Add working/index Bootstrap and hook verification with integrity/export regressions.
+- [x] Prepare separate private corpus adoption/audit brief; no private access.
+- [x] Bible publication merged through Owner-reviewed PR #19; normative version retained.
+- [ ] Separate authorized corpus operator installs byte-identical document/version record.
+- [ ] Owner reviews private narrative/visual audit before rewriting accepted lessons.
+- [x] Owner approved normative Experience Contract v1 on 2026-11-01.
+- [ ] Separately authorize any implementation or controlled handoff/profile change.
+- [ ] Bible-aligned visual benchmarks/review before rollout; no automatic new phase.
+
+Owner accepted Phase 5/PR #10. Phase 6 remains authorized in separate PR #17.
+Older task/evidence sections below are historical and do not revoke those decisions.
+
 ## Completed governance
 
 - [x] Phase 0 CLOSED/ACCEPTED and published; hosted main Phase 0 CI passed.
@@ -82,7 +131,7 @@ in public source/CI. Product identity/administration completion stays in its pha
   artifact review; merged implementation verified on main 9194c7c on 2026-10-07.
 - [x] Confirm merged main Backend CI, Phase 0 CI and Python CodeQL completed successfully.
 
-## Phase 5 — Web / CLOSED / ACCEPTED
+## Phase 5 — Web / CLOSED / ACCEPTED (PR #10 merged)
 
 - [x] Read authoritative scope; sources agree on Phase 5 Web. Record capabilities,
   dependencies, privacy boundaries and acceptance gates in [Web scope](docs/web/README.md).
@@ -106,8 +155,8 @@ in public source/CI. Product identity/administration completion stays in its pha
 - [x] Add real Web quality/tests/dependency and CodeQL Web workflow definitions.
 - [x] Verify all 23 implementation-head hosted checks, including the seven required
   names and Backend/Web/Contract/receiving/confidentiality/CodeQL regressions.
-- [x] Final correction-head hosted checks passed; Owner completed review and merged PR #10.
-  Alert API access remains distinct from Owner Code Scanning UI review.
+- [ ] Verify each final evidence-only head separately; Owner reviews Code Scanning UI
+  because alerts API is inaccessible (403).
 - [x] Restore environment capabilities for Docker/network and `.git` writes;
   2026-10-07 probes passed, including authenticated Compose-network PostgreSQL and
   Docker build. A scoped reversible local firewall repair preserves global DROP;
@@ -119,30 +168,10 @@ in public source/CI. Product identity/administration completion stays in its pha
   binding; clarify submitted-only time and add explicit versioned synthetic binding.
 - [x] Pass correction regressions: 245 backend, 24 Web unit/component, 9 cross-browser
   E2E, 19 Contract and 25 repository/receiving tests, quality/audits/container gates.
-- [x] Owner completed the corrected synthetic manual journey and accepted existing
-  submitted-active-time semantics; immutable enrollment policies remain intact.
-- [x] Product Owner accepted Phase 5 and merged PR #10; tree and merged-main CI verified.
-
-## Phase 6 — Android / AUTHORIZED
-
-- [x] Verify PR #10 merge/tree and successful merged-main Backend/Web/Safeguards/CodeQL.
-- [x] Reconcile Phase 5 acceptance without rewriting dated evidence.
-- [x] Establish authoritative online native scope in [Android](docs/android/README.md).
-- [x] Implement native Kotlin/Compose account, learning, dashboard, media and microphone journeys.
-- [x] Review native credential storage, lifecycle, permissions and account isolation.
-- [x] Pin/verify toolchain and dependency locks/checksums; implement real lint,
-  JVM/build/OSV/device/compiled CodeQL workflow definitions.
-- [x] Final native 19/19 JVM tests, Lint, debug/test APK and R8 release builds;
-  API 35 real-backend device 3/3. Failures/repeats recorded in docs/phase-6-review.md.
-- [x] Verify all 35 hosted checks at implementation/correction head `54f83ac`;
-  API 26/35 each executed 3/3 native tests, compiled Android CodeQL passed.
-  Later heads require separate verification; Owner acceptance is still pending.
-- [x] Run accepted backend/PostgreSQL/Web/Contract/receiving/container regressions.
-- [x] Inspect staged public changes; exact index/history confidentiality and secret gates pass.
-- [x] Publish feature branch and PR #17 with explicit Product Owner authorization;
-  never merge automatically.
-- [ ] Product Owner reviews Phase 6; Phase 7 remains NOT AUTHORIZED.
-
+- [ ] Owner reviews correction-head hosted evidence in PR #10 and rechecks both
+  completed lessons/time; existing enrollments retain their immutable old policy.
+- [x] Product Owner accepted Phase 5 and merged PR #10.
+- [ ] Phase 6 remains authorized in separate OPEN/unmerged PR #17; no merge here.
 
 ## Mandatory future production storage gate
 
@@ -150,7 +179,7 @@ in public source/CI. Product identity/administration completion stays in its pha
   exclusive GC locks, grace, final reference re-check, durable deletion intents and
   retry/idempotency; local PostgreSQL race/failure tests passed.
 - [x] Implementation-head hosted GC/media regression passed.
-- [x] Owner accepted Phase 5; PR #10 merged tree and merged-main checks verified.
+- [x] Owner accepted Phase 5 and merged PR #10; live operational gates below remain open.
 - [ ] Before live production/remote storage/media/import: acceptance-test private
   unversioned S3 bucket, IAM/anonymous-denial/encryption and provider erasure; schedule
   monitored cleanup with retention SLA, failure alerts and backups erasure policy.
