@@ -1,7 +1,8 @@
 # Architecture
 
 [Product-world authority](../product-world/README.md) owns normative experience
-direction. The planned Experience Contract requires approved public semantics;
+direction. [Experience Contract v1](../product-world/experience-contract-v1.md) is approved
+and normative; implementation and the approved first slice have NOT started;
 Course Package Contract v1 and its current data boundary remain unchanged.
 
 The baseline is a monorepo with one modular backend and two clients. The

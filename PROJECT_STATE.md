@@ -1,5 +1,29 @@
 # Project state
 
+## Experience Contract v1 — APPROVED / NORMATIVE (2026-11-01)
+
+Product Owner approved [Experience Contract v1](docs/product-world/experience-contract-v1.md)
+and closed semantic review. The [dated lineage](docs/product-world/experience-approval-2026-11-01.md)
+preserves initial candidate → Corpus review → accepted minor corrections →
+Platform correction → final approval; no earlier state is retroactively approved.
+[Reconciliation](docs/product-world/experience-reconciliation-v1.md) retains all
+11 mappings: nine preserved, 009 resolved, 011 deferred outside normative v1.
+
+World & Experience Bible v1.0 and Experience v1 are normative; Course Package v1
+is unchanged. Reading availability, canonical Learning Core and local UX stay
+separate; no extra authored reading state/gate, new speaker/voice registry or
+sidecar. Approved first slice: 014 → 015 → 016 → REVIEW-02 → READING-02.
+Contract-level readiness READY; implementation and the slice have NOT started.
+Corpus adoption/synchronization is not claimed. RetroCel is not a dependency.
+
+Public main rechecked at 5669565; Android PR #17 OPEN/unmerged at 1317521.
+The publication PR contains documentation only, excluding earlier local receiving/
+exporter code, private material and UI/Android work. Earlier project snapshots
+below remain historical; receiver checks run on local branches are not delivered
+runtime features of this PR. Existing production/provider/privacy/storage/export/
+license gates remain open. No merge, deployment or new phase is authorized.
+
+
 Updated: 2026-10-13. Product: NorskAllstars. Platform: NorskAllstars Platform.
 Phase 0: **CLOSED / ACCEPTED by Product Owner**.
 Phase 1: **CLOSED / ACCEPTED by Product Owner; PR #4 merged**.
