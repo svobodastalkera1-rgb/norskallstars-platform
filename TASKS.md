@@ -1,5 +1,14 @@
 # Tasks
 
+## Post-security PR #24 cleanup
+
+- [x] Verify Owner-merged #27 on main and successful Backend/Web dependency audits.
+- [x] Mark #23/#25/#26 superseded; close without merge or branch deletion.
+- [x] Update PR #24 from clean main without history rewrite; remove effective
+  security duplication and preserve normative Experience v1 byte identity.
+- [ ] Complete hosted required-check acceptance on the updated documentation head.
+- [ ] Product Owner review/merge of PR #24; no automatic merge or slice execution.
+
 ## Experience v1 approval publication — 2026-11-01
 
 - [x] Owner approves normative [Experience Contract v1](docs/product-world/experience-contract-v1.md)

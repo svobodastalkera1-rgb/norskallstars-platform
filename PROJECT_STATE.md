@@ -1,5 +1,22 @@
 # Project state
 
+## Post-security publication cleanup — 2026-11-01
+
+Owner merged baseline security integration PR #27 into main at
+`0386f95b757381df72623faaa9b4d84f53e6996b` (09:20:07 UTC). Backend and Web
+dependency audits on merged main succeeded. Source PRs #23/#25/#26 were marked
+superseded and closed without merge; their branches/review history are retained.
+
+PR #24 is updated with that main through a normal feature-branch merge. Its
+effective diff is documentation/finalization only: no backend or Web dependency,
+runtime, test, workflow, Android or Course Package delta. The approved normative
+Experience v1 bytes are unchanged (SHA-256
+`309cd307dc0123338a945872dc83f851cfa3a51d94d74d374467fcc782cbf981`).
+Semantic approval remains 2026-11-01; this cleanup changes no contract semantics.
+Implementation and the vertical slice have NOT started. Hosted checks must pass
+on the updated PR head and Product Owner review is required before merge.
+Earlier publication/base snapshots below remain dated historical evidence.
+
 ## Experience Contract v1 — APPROVED / NORMATIVE (2026-11-01)
 
 Product Owner approved [Experience Contract v1](docs/product-world/experience-contract-v1.md)
