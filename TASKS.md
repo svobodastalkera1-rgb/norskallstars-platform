@@ -3,6 +3,8 @@
 ## Android candidate refresh
 
 - [x] Merge current main into PR #17; preserve normative authority and dependency baseline.
+- [ ] Resolve Android Guava GHSA-xxph-c9ww-hj94 (33.4.0-jre; first fixed 33.7.2)
+  through focused dependency remediation; fresh OSV audit must pass without suppression.
 - [ ] Verify fresh Backend/Web/Android hosted compatibility, device tests and CodeQL.
 - [ ] Product Owner reviews refreshed Phase 6 candidate; no automatic merge.
 - [ ] Integrated Experience slice remains NOT STARTED and separately authorized.

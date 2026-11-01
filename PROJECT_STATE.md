@@ -6,7 +6,10 @@ PR #17 remains OPEN and unmerged, refreshed against Owner-merged PR #28 main
 `422f32714e6922ee3289e0fc8448a5e24a531de5` through a normal merge. Native online
 implementation and Phase 6 tooling are retained; current normative documents and
 Backend/Web security baseline are preserved. Fresh checks and Owner review are
-required; prior hosted results below remain historical. Native client consumes
+required; prior hosted results below remain historical. Fresh hosted Android OSV
+audit reports HIGH GHSA-xxph-c9ww-hj94 for locked Guava 33.4.0-jre
+(first fixed version 33.7.2). This is an OPEN acceptance blocker; no advisory
+suppression or unrelated dependency upgrade is part of this refresh. Native client consumes
 existing API projections; no Experience Contract implementation or slice is added.
 Android visuals are legacy evidence, not normative design precedent. Live provider,
 manual accessibility, production/storage/privacy/license gates remain open.
