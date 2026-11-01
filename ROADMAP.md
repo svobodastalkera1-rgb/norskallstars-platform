@@ -69,6 +69,9 @@ See [Web scope and receiving dependencies](docs/web/README.md).
 [World & Experience Bible v1.0](docs/product-world/world-experience-bible-v1.md)
 is normative. Contemporary people, narrative continuity, meaningful light and
 preserved pedagogy govern future review. XP/levels are secondary presentation,
-not canonical learning gates. Legacy art is not precedent. Experience Contract
-definition and synchronized corpus adoption remain pending; RetroCel/ambient
+not canonical learning gates. Legacy art is not precedent. Experience Contract v1
+is APPROVED / NORMATIVE (2026-11-01), semantic review closed and approved first
+slice 014 → 015 → 016 → REVIEW-02 → READING-02 contract READY. Implementation has
+NOT started; final execution authorization and synchronized Corpus adoption remain
+separate gates; RetroCel/ambient
 sound are future candidates, not new release dependencies or phase authorization.

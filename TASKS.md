@@ -1,5 +1,31 @@
 # Tasks
 
+## Post-security PR #24 cleanup
+
+- [x] Verify Owner-merged #27 on main and successful Backend/Web dependency audits.
+- [x] Mark #23/#25/#26 superseded; close without merge or branch deletion.
+- [x] Update PR #24 from clean main without history rewrite; remove effective
+  security duplication and preserve normative Experience v1 byte identity.
+- [ ] Complete hosted required-check acceptance on the updated documentation head.
+- [ ] Product Owner review/merge of PR #24; no automatic merge or slice execution.
+
+## Experience v1 approval publication — 2026-11-01
+
+- [x] Owner approves normative [Experience Contract v1](docs/product-world/experience-contract-v1.md)
+  and closes semantic review; preserve dated candidate/review/correction lineage.
+- [x] Resolve 009, defer 011 outside v1, keep existing attribution/text/audio and
+  unchanged Course Package v1; remove speculative annotations/sidecar.
+- [x] Record approved sequence 014 → 015 → 016 → REVIEW-02 → READING-02:
+  contract READY, implementation NOT STARTED; RetroCel is not a dependency.
+- [ ] Owner reviews/merges the documentation-only publication PR after hosted checks.
+- [ ] Separate authorization before any contract implementation, slice or wider rollout.
+- [ ] Independent Android PR #17 workflow; do not merge it here.
+
+Existing deferred production/provider/storage/privacy/export/license tasks remain.
+Earlier pending definition tasks are superseded only by this semantic approval,
+not by implementation, private content adoption or deployment acceptance.
+
+
 ## Bible adoption
 
 - [x] Record all 24 normative sections, exact version/SHA, LF bytes and ADR 0016.
@@ -8,7 +34,8 @@
 - [ ] Verify focused Bible PR hosted checks; Owner reviews before merge.
 - [ ] Separate authorized corpus operator installs byte-identical document/version record.
 - [ ] Owner reviews private narrative/visual audit before rewriting accepted lessons.
-- [ ] Define/approve Experience Contract and any controlled compatibility/handoff changes.
+- [x] Owner approved normative Experience Contract v1 on 2026-11-01.
+- [ ] Separately authorize any implementation or controlled handoff/profile change.
 - [ ] Bible-aligned visual benchmarks/review before rollout; no automatic new phase.
 
 Owner accepted Phase 5/PR #10. Phase 6 remains authorized in separate PR #17.

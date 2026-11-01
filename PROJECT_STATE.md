@@ -1,5 +1,46 @@
 # Project state
 
+## Post-security publication cleanup — 2026-11-01
+
+Owner merged baseline security integration PR #27 into main at
+`0386f95b757381df72623faaa9b4d84f53e6996b` (09:20:07 UTC). Backend and Web
+dependency audits on merged main succeeded. Source PRs #23/#25/#26 were marked
+superseded and closed without merge; their branches/review history are retained.
+
+PR #24 is updated with that main through a normal feature-branch merge. Its
+effective diff is documentation/finalization only: no backend or Web dependency,
+runtime, test, workflow, Android or Course Package delta. The approved normative
+Experience v1 bytes are unchanged (SHA-256
+`309cd307dc0123338a945872dc83f851cfa3a51d94d74d374467fcc782cbf981`).
+Semantic approval remains 2026-11-01; this cleanup changes no contract semantics.
+Implementation and the vertical slice have NOT started. Hosted checks must pass
+on the updated PR head and Product Owner review is required before merge.
+Earlier publication/base snapshots below remain dated historical evidence.
+
+## Experience Contract v1 — APPROVED / NORMATIVE (2026-11-01)
+
+Product Owner approved [Experience Contract v1](docs/product-world/experience-contract-v1.md)
+and closed semantic review. The [dated lineage](docs/product-world/experience-approval-2026-11-01.md)
+preserves initial candidate → Corpus review → accepted minor corrections →
+Platform correction → final approval; no earlier state is retroactively approved.
+[Reconciliation](docs/product-world/experience-reconciliation-v1.md) retains all
+11 mappings: nine preserved, 009 resolved, 011 deferred outside normative v1.
+
+World & Experience Bible v1.0 and Experience v1 are normative; Course Package v1
+is unchanged. Reading availability, canonical Learning Core and local UX stay
+separate; no extra authored reading state/gate, new speaker/voice registry or
+sidecar. Approved first slice: 014 → 015 → 016 → REVIEW-02 → READING-02.
+Contract-level readiness READY; implementation and the slice have NOT started.
+Corpus adoption/synchronization is not claimed. RetroCel is not a dependency.
+
+Public main rechecked at 5669565; Android PR #17 OPEN/unmerged at 1317521.
+The publication PR contains documentation only, excluding earlier local receiving/
+exporter code, private material and UI/Android work. Earlier project snapshots
+below remain historical; receiver checks run on local branches are not delivered
+runtime features of this PR. Existing production/provider/privacy/storage/export/
+license gates remain open. No merge, deployment or new phase is authorized.
+
+
 Updated: 2026-10-13. Product: NorskAllstars. Platform: NorskAllstars Platform.
 Phase 0: **CLOSED / ACCEPTED by Product Owner**.
 Phase 1: **CLOSED / ACCEPTED by Product Owner; PR #4 merged**.

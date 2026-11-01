@@ -82,8 +82,13 @@ index using scripts/experience_bible.py --index. Corpus synchronization is pendi
 never access private corpus to infer it. Legacy visuals/studies are evidence, not
 style precedent; independently review KEEP/REINTERPRET/REPLACE against Bible and
 Owner-approved benchmarks. Preserve behavior/accessibility, not legacy appearance.
-Experience Contract definition is pending; do not invent fields or extend Course
-Package v1. RetroCel is a future candidate, not a dependency. Bible adoption does
+Experience Contract v1 is APPROVED / NORMATIVE as of 2026-11-01; read
+docs/product-world/experience-contract-v1.md and the dated approval record. Semantic
+review is closed; contract-level first slice 014 → 015 → 016 → REVIEW-02 → READING-02
+is READY, implementation NOT STARTED. No new reading state/gate absent authoritative
+data; local reading UX grants no canonical credit. Existing attribution/text/audio
+suffice; no voice registry/sidecar. EXP-REQ-011 is deferred outside normative v1.
+Do not invent fields or extend Course Package v1. RetroCel is a future candidate, not a dependency. Bible adoption does
 not authorize corpus rewriting, rollout, merge or another phase.
 Owner accepted Phase 5 (PR #10 merged). Phase 6 is authorized in separate PR #17,
 not merged/accepted here; Phase 7 is not authorized. These decisions do not authorize new runtime work in the Bible publication task.

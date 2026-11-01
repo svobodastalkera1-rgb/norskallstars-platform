@@ -1,45 +1,25 @@
-# Experience Contract — direction, not an implemented contract
+# Experience Contract — approved authority and implementation boundary
 
-Status: **definition and bilateral approval pending**. Authority: Bible v1.0 §21.
-No Experience Contract schema, payload/version, parser or importer exists yet.
-This document records requirements to resolve through public-safe collaboration;
-it must not be interpreted as a replacement or extension of Course Package v1.
+[Experience Contract v1](experience-contract-v1.md) is the single normative
+semantic agreement, version 1.0, APPROVED by Product Owner on 2026-11-01.
+[Approval lineage](experience-approval-2026-11-01.md) preserves initial candidate,
+Corpus ACCEPT_WITH_MINOR_CORRECTIONS, October 31 corrections and final approval.
+[Reconciliation](experience-reconciliation-v1.md) maps all eleven requirements.
+This navigation document does not duplicate the normative contract.
 
-## Responsibilities and intended capabilities
+The approved profile preserves ordered reading/media/activities, contextual and
+inspectable imagery, existing attribution/text/audio, explicit translation,
+accessibility and unchanged Learning Core identity/progress semantics. Availability,
+canonical progression and local reading UX remain separate. No extra authored
+reading acknowledgement/completion/unlock semantics absent authoritative data;
+no local reading credit, voice/character-voice registry, provider metadata or
+sidecar. EXP-REQ-011 is deferred outside normative v1. Authoring continuity stays
+outside runtime. Course Package Contract v1 is unchanged.
 
-The corpus owns pedagogical content, authored narrative, character/location/prop
-continuity and production assets in private storage. The platform owns presentation
-capabilities, accessibility/native behavior and server-authoritative progress,
-identity, authorization and media handling. Clients consume stable platform
-API/domain representations rather than interpreting raw Course Packages.
-
-The shared contract should eventually make explicit which experiential primitives
-the platform supports and which the approved corpus requires, including narrative
-reading, sequential illustration/dialogue, chapter/arc continuity, entity references,
-speech/translation affordances and any separately approved ambient media behavior.
-Required versus optional capability handling, version compatibility and safe
-degradation need explicit agreement. Pedagogically necessary media must not
-silently disappear under an optional presentation fallback.
-
-Entity examples in the Bible are conceptual, not required identifier syntax or
-Course Package fields. Renderer changes must preserve recognized entities without
-binding domain logic to a generation prompt, art vendor or current pilot.
-
-## Definition gate
-
-1. Inventory existing accepted platform APIs/domain/media capabilities and actual
-   Contract v1 semantics using public artifacts. Obtain only sanitized corpus
-   requirements through Owner-approved handoff; never infer them from private data
-   or the current provisional pilot.
-2. Map each required experience to a currently supported semantic capability;
-   distinguish platform presentation policy from content interchange needs.
-3. Report exact gaps, incompatible versions and minimal proposals to Owner. If
-   Course Package semantics must change, stop for a controlled upstream contract
-   revision; do not invent extension keys or reinterpret accepted fields.
-4. Agree a versioned public-safe specification, conformance examples/tests and
-   handoff provenance before implementation in an explicitly authorized task/phase.
-
-Package provenance, immutable snapshots, publication eligibility, bounded untrusted
-ingestion, transaction behavior, account ownership and media privacy remain intact.
-This document grants no runtime, private corpus, renderer/ML, publication or phase
-authorization. Existing Course Package Contract v1 and its inventory remain unchanged.
+Approved sequence: 014 → 015 → 016 → REVIEW-02 → READING-02.
+Contract-level readiness READY; implementation/slice NOT STARTED. Any execution,
+UI/client changes, content import/adoption or wider migration needs separate
+Product Owner authorization. Corpus Bible installation and final content acceptance
+are not inferred from semantic review. RetroCel/ambience are not dependencies.
+Preserve receiving, provenance, immutable releases, privacy and all deferred gates.
+No private Corpus access, Android merge, deployment or new phase is authorized.
