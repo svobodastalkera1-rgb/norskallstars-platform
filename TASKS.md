@@ -6,8 +6,8 @@
 - [x] Mark #23/#25/#26 superseded; close without merge or branch deletion.
 - [x] Update PR #24 from clean main without history rewrite; remove effective
   security duplication and preserve normative Experience v1 byte identity.
-- [ ] Complete hosted required-check acceptance on the updated documentation head.
-- [ ] Product Owner review/merge of PR #24; no automatic merge or slice execution.
+- [x] Verify all eleven hosted checks on merged main 8e2dc42 succeeded.
+- [x] Product Owner squash-merged PR #24; verify main and normative byte identity.
 
 ## Experience v1 approval publication — 2026-11-01
 
@@ -17,7 +17,7 @@
   unchanged Course Package v1; remove speculative annotations/sidecar.
 - [x] Record approved sequence 014 → 015 → 016 → REVIEW-02 → READING-02:
   contract READY, implementation NOT STARTED; RetroCel is not a dependency.
-- [ ] Owner reviews/merges the documentation-only publication PR after hosted checks.
+- [x] Owner merged documentation-only publication PR #24; post-merge checks passed.
 - [ ] Separate authorization before any contract implementation, slice or wider rollout.
 - [ ] Independent Android PR #17 workflow; do not merge it here.
 
@@ -31,7 +31,7 @@ not by implementation, private content adoption or deployment acceptance.
 - [x] Record all 24 normative sections, exact version/SHA, LF bytes and ADR 0016.
 - [x] Add working/index Bootstrap and hook verification with integrity/export regressions.
 - [x] Prepare separate private corpus adoption/audit brief; no private access.
-- [ ] Verify focused Bible PR hosted checks; Owner reviews before merge.
+- [x] Bible publication merged through Owner-reviewed PR #19; normative version retained.
 - [ ] Separate authorized corpus operator installs byte-identical document/version record.
 - [ ] Owner reviews private narrative/visual audit before rewriting accepted lessons.
 - [x] Owner approved normative Experience Contract v1 on 2026-11-01.
@@ -123,7 +123,7 @@ in public source/CI. Product identity/administration completion stays in its pha
   artifact review; merged implementation verified on main 9194c7c on 2026-10-07.
 - [x] Confirm merged main Backend CI, Phase 0 CI and Python CodeQL completed successfully.
 
-## Phase 5 — Web / IMPLEMENTED; awaiting Product Owner review
+## Phase 5 — Web / CLOSED / ACCEPTED (PR #10 merged)
 
 - [x] Read authoritative scope; sources agree on Phase 5 Web. Record capabilities,
   dependencies, privacy boundaries and acceptance gates in [Web scope](docs/web/README.md).
@@ -162,8 +162,8 @@ in public source/CI. Product identity/administration completion stays in its pha
   E2E, 19 Contract and 25 repository/receiving tests, quality/audits/container gates.
 - [ ] Owner reviews correction-head hosted evidence in PR #10 and rechecks both
   completed lessons/time; existing enrollments retain their immutable old policy.
-- [ ] Product Owner reviews/accepts Phase 5 and makes an explicit merge decision.
-- [ ] Phase 6 NOT STARTED; no Android implementation is authorized.
+- [x] Product Owner accepted Phase 5 and merged PR #10.
+- [ ] Phase 6 remains authorized in separate OPEN/unmerged PR #17; no merge here.
 
 ## Mandatory future production storage gate
 
@@ -171,7 +171,7 @@ in public source/CI. Product identity/administration completion stays in its pha
   exclusive GC locks, grace, final reference re-check, durable deletion intents and
   retry/idempotency; local PostgreSQL race/failure tests passed.
 - [x] Implementation-head hosted GC/media regression passed.
-- [ ] Obtain Owner Phase 5 acceptance and verify any later evidence-only HEAD.
+- [x] Owner accepted Phase 5 and merged PR #10; live operational gates below remain open.
 - [ ] Before live production/remote storage/media/import: acceptance-test private
   unversioned S3 bucket, IAM/anonymous-denial/encryption and provider erasure; schedule
   monitored cleanup with retention SLA, failure alerts and backups erasure policy.
