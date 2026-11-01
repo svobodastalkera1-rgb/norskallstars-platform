@@ -193,7 +193,7 @@ export function AccountSettings({
     }
   };
   const proof = async (
-    purpose: "password" | "delete" | "link_google",
+    purpose: "password" | "delete" | "link",
     password: string,
   ) =>
     api.request<{ reauthentication_token: string }>(
@@ -207,7 +207,7 @@ export function AccountSettings({
       const input = document.querySelector<HTMLInputElement>("#link-password");
       const password = input?.value ?? "";
       if (input) input.value = "";
-      const fresh = await proof("link_google", password);
+      const fresh = await proof("link", password);
       await api.request("/api/v1/identity/me/google", "POST", {
         ...google,
         ...fresh,

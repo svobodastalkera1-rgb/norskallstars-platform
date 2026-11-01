@@ -1,5 +1,16 @@
 # Tasks
 
+## Android candidate refresh
+
+- [x] Merge current main into PR #17; preserve normative authority and dependency baseline.
+- [x] Remediate Android toolchain Guava GHSA-xxph-c9ww-hj94 to 33.7.2-jre;
+  regenerate locks/checksums; local OSV audit passes without suppression.
+- [ ] Confirm final remediation HEAD hosted OSV/build/device/required checks.
+- [ ] Verify fresh Backend/Web/Android hosted compatibility, device tests and CodeQL.
+- [ ] Product Owner reviews refreshed Phase 6 candidate; no automatic merge.
+- [ ] Integrated Experience slice remains NOT STARTED and separately authorized.
+
+
 ## Post-security PR #24 cleanup
 
 - [x] Verify Owner-merged #27 on main and successful Backend/Web dependency audits.

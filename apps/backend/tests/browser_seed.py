@@ -2,6 +2,7 @@
 
 import asyncio
 import json
+import os
 import secrets
 from pathlib import Path
 
@@ -36,10 +37,15 @@ def browser_policy(docs):
     return policy
 
 
-async def main():
+async def main(client_name="browser"):
+    if client_name not in ("browser", "android"):
+        raise RuntimeError("Unknown synthetic client")
     settings = load_settings()
-    if settings.env != Environment.TEST or settings.database_name != "norskallstars_web_test":
-        raise RuntimeError("Browser seed requires the dedicated synthetic web_test database")
+    expected = (
+        "norskallstars_web_test" if client_name == "browser" else "norskallstars_android_test"
+    )
+    if settings.env != Environment.TEST or settings.database_name != expected:
+        raise RuntimeError("Client seed requires its dedicated synthetic test database")
     database = Database(settings)
     try:
         async with database.transaction() as db:
@@ -88,17 +94,22 @@ async def main():
             headers={"X-NorskAllstars-Client": "web"},
         ) as client:
             accounts = {}
-            for browser in ("chromium", "firefox", "webkit"):
+            for browser in (
+                ("chromium", "firefox", "webkit") if client_name == "browser" else ("android",)
+            ):
                 for flow in ("learning", "accessibility"):
                     email = f"synthetic-{browser}-{flow}@example.com"
                     password = secrets.token_urlsafe(24)
                     await verified(app.state.identity, client, password, email)
                     accounts[f"{browser}:{flow}"] = {"email": email, "password": password}
-        destination = Path(__file__).resolve().parents[3] / ".cache/web-e2e/login.json"
+        folder = "web-e2e" if client_name == "browser" else "android-e2e"
+        destination = Path(__file__).resolve().parents[3] / f".cache/{folder}/login.json"
         destination.parent.mkdir(parents=True, exist_ok=True)
-        destination.write_text(json.dumps({"accounts": accounts, "scenario": scenario}))
-        destination.chmod(0o600)
-        print("Synthetic browser data ready; credentials remain in ignored local staging")
+        descriptor = os.open(destination, os.O_CREAT | os.O_TRUNC | os.O_WRONLY, 0o600)
+        os.fchmod(descriptor, 0o600)
+        with os.fdopen(descriptor, "w") as stream:
+            json.dump({"accounts": accounts, "scenario": scenario}, stream)
+        print("Synthetic client data ready; credentials remain in ignored local staging")
     finally:
         await database.close()
 
