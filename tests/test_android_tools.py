@@ -2,6 +2,8 @@
 
 import os
 import io
+import json
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -13,6 +15,7 @@ from android_audit import inventory
 from android import environment
 from android import REQUIRED_DEVICE_TESTS, verify_device_results, instrumentation_results
 import android_jdk
+import android
 
 
 class AndroidAuditTests(unittest.TestCase):
@@ -53,6 +56,85 @@ class AndroidAuditTests(unittest.TestCase):
             instrumentation_results(trace.split("INSTRUMENTATION_STATUS_CODE: 0", 1)[1])
         with self.assertRaises(SystemExit):
             instrumentation_results("x" * 1048577)
+
+    def test_diagnostics_preserve_success_and_classify_failures(self):
+        trace = self.instrumentation_trace()
+        diagnostics = {}
+        self.assertEqual(instrumentation_results(trace, diagnostics), REQUIRED_DEVICE_TESTS)
+        report = diagnostics["instrumentation"]
+        self.assertEqual(report["classification"], "success")
+        self.assertEqual(report["result_codes"], [-1])
+        self.assertEqual([e["state"] for e in report["events"]], ["started", "completed"] * 3)
+        for status, state in ((-1, "error"), (-2, "failed"), (-3, "skipped"), (-4, "assumption_failed")):
+            with self.subTest(status=status):
+                diagnostics = {}
+                bad = trace.replace("INSTRUMENTATION_STATUS_CODE: 0", f"INSTRUMENTATION_STATUS_CODE: {status}", 1)
+                with self.assertRaises(SystemExit):
+                    instrumentation_results(bad, diagnostics)
+                self.assertEqual(diagnostics["instrumentation"]["classification"], "instrumentation_" + state)
+        for bad, classification in (
+            ("INSTRUMENTATION_STATUS_CODE: 0", "missing_test_identity"),
+            (trace.replace("INSTRUMENTATION_CODE: -1", ""), "incomplete_run"),
+            (trace.replace("INSTRUMENTATION_STATUS_CODE: 1", "INSTRUMENTATION_STATUS_CODE: 0", 1), "incomplete_sequence"),
+            ("INSTRUMENTATION_ABORTED: private", "instrumentation_aborted"),
+            ("INSTRUMENTATION_STATUS: malformed", "malformed_event"),
+        ):
+            with self.subTest(classification=classification):
+                diagnostics = {}
+                with self.assertRaises(SystemExit):
+                    instrumentation_results(bad, diagnostics)
+                self.assertEqual(diagnostics["instrumentation"]["classification"], classification)
+
+    def test_diagnostics_never_copy_private_runner_payloads(self):
+        secret = "private-synthetic-token-answer-marker"
+        trace = self.instrumentation_trace().replace("INSTRUMENTATION_STATUS_CODE: 0",
+            "INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: " + secret +
+            "\n  at com.norskallstars.platform.NativeSecurityTest.synthetic(NativeSecurityTest.kt:24)" +
+            "\nINSTRUMENTATION_STATUS: stream=" + secret + "\nINSTRUMENTATION_STATUS_CODE: -2", 1)
+        diagnostics = {}
+        with self.assertRaises(SystemExit):
+            instrumentation_results(trace, diagnostics)
+        encoded = json.dumps(diagnostics)
+        self.assertNotIn(secret, encoded)
+        self.assertNotIn("synthetic(", encoded)
+        self.assertEqual(diagnostics["instrumentation"]["exception_types"], ["AssertionError"])
+        self.assertEqual(diagnostics["instrumentation"]["test_frames"], [{"file": "NativeSecurityTest.kt", "line": 24}])
+        for raw in (f"INSTRUMENTATION_STATUS: class={secret}\nINSTRUMENTATION_STATUS: test={secret}\nINSTRUMENTATION_STATUS_CODE: -2",
+                    f"INSTRUMENTATION_STATUS_CODE: {secret}\nINSTRUMENTATION_CODE: {secret}"):
+            report = android.instrumentation_diagnostics(raw)
+            self.assertNotIn(secret, json.dumps(report))
+        self.assertLess(len(json.dumps(android.instrumentation_diagnostics(trace * 500))), 32768)
+
+    def test_failed_device_run_persists_only_sanitized_diagnostics(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            apk = root / "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk"
+            apk.parent.mkdir(parents=True)
+            apk.write_bytes(b"synthetic")
+            artifact = root / "diagnostics/device.json"
+            private = "private-device-input-token-marker"
+            responses = [subprocess.CompletedProcess([], 0, b"List of devices attached\nemulator-5554\tdevice\n"),
+                subprocess.CompletedProcess([], 0, b"Success"),
+                subprocess.CompletedProcess([], 0, ("INSTRUMENTATION_STATUS_CODE: -2\n" + private).encode())]
+            with patch.object(android, "ANDROID", root), patch.object(android, "DEVICE_RESULTS", root / "results"), \
+                    patch.object(android, "DIAGNOSTICS", artifact), patch.object(android.subprocess, "run", side_effect=responses), \
+                    patch("sys.stdout", new_callable=io.StringIO) as output:
+                with self.assertRaisesRegex(SystemExit, "failed, errored or skipped instrumentation"):
+                    android.run_device()
+                report = json.loads(artifact.read_text())
+                self.assertEqual(report["outcome"], "failed")
+                self.assertEqual(report["processes"][-1], {"stage": "instrumentation", "outcome": "exited", "exit_code": 0})
+                self.assertNotIn(private, output.getvalue() + artifact.read_text())
+                self.assertFalse((root / "results").exists())
+            for error, outcome in ((subprocess.TimeoutExpired(["adb"], 900, output=private), "timeout"),
+                                   (OSError(private), "launch_error")):
+                with patch.object(android, "DIAGNOSTICS", artifact), \
+                        patch.object(android.subprocess, "run", side_effect=error), \
+                        patch("sys.stdout", new_callable=io.StringIO) as output:
+                    with self.assertRaises(SystemExit):
+                        android.run_device()
+                    self.assertEqual(json.loads(artifact.read_text())["processes"][0]["outcome"], outcome)
+                    self.assertNotIn(private, output.getvalue() + artifact.read_text())
 
     def test_device_install_failure_cannot_pass_without_junit_reports(self):
         with tempfile.TemporaryDirectory() as folder:

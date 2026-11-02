@@ -1,5 +1,14 @@
 # Project state
 
+## Android instrumentation diagnostic gate — 2026-11-02
+
+Owner authorized fail-closed harness diagnostics only. Inconsistent API 26 results
+on identical source trees remain unexplained; no product behavior is changed.
+Sanitized protocol/test lifecycle and process evidence survives failed runs via
+an exact-file, seven-day CI artifact. Raw output/private inputs are never uploaded.
+Fresh hosted results and diagnostic review are required; no automatic rerun/merge
+or integrated slice implementation is authorized.
+
 ## Android candidate refresh — 2026-11-01
 
 PR #17 remains OPEN and unmerged, refreshed against Owner-merged PR #28 main

@@ -120,5 +120,14 @@ jobs:
             adb install -r apps/android/app/build/outputs/apk/debug/app-debug.apk
             python3 scripts/android_e2e.py device-input
             python3 scripts/android.py device
+      - name: Preserve sanitized instrumentation diagnostics
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: android-device-diagnostics-api-${{ matrix.api }}
+          path: .cache/android-diagnostics/device.json
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 7
       - if: always() && steps.local-environment.outcome == 'success'
         run: python3 scripts/phase1.py down

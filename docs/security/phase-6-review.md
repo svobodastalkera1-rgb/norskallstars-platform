@@ -114,3 +114,23 @@ remain. These are resolution consequences of Guava, not unrelated upgrades.
 Runtime dependencies and all security checks remain intact. Local OSV audit
 passes for 313 locked coordinates; exact final-head hosted checks remain the
 acceptance gate. Historical findings/results above remain dated evidence.
+
+## Instrumentation diagnostics — 2026-11-02
+
+Owner authorized diagnostic hardening only, following inconsistent API 26 results
+with identical source trees. The original acceptance parser and required journeys
+remain unchanged. No product behavior, retry, timeout or device matrix changes.
+
+The harness prints and writes `.cache/android-diagnostics/device.json` for each
+device invocation, including failure. The workflow uploads exactly this sanitized
+file as `android-device-diagnostics-api-26` / `android-device-diagnostics-api-35`
+with seven-day retention. Missing evidence before invocation is a warning, never
+a replacement for the failing job. Existing concise failure summaries remain.
+
+The report allowlists protocol codes, known test identities, lifecycle, parser
+classification and adb stage/exit/timeout/launch outcomes. Failure hints contain
+only known exception types and public test-source file/line locations. Unknown
+identities/codes become fixed markers; no raw stdout, stack messages, credentials,
+private input, logcat, learner payloads or backend logs are uploaded. Artifacts
+are public-safe, not a private diagnostic channel. No historical root cause is
+claimed; use fresh evidence before authorizing any behavioral fix.

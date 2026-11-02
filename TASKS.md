@@ -1,5 +1,12 @@
 # Tasks
 
+## Android instrumentation reliability
+
+- [x] Add fail-closed sanitized harness diagnostics and exact-file CI artifact.
+- [x] Add classification/privacy regressions; keep original acceptance parser.
+- [ ] Inspect fresh API 26 evidence; historical root cause remains unestablished.
+- [ ] Owner reviews before merge; no speculative product fix or blind reruns.
+
 ## Android candidate refresh
 
 - [x] Merge current main into PR #17; preserve normative authority and dependency baseline.
