@@ -7,7 +7,7 @@ application and a native Android app. It combines comprehensible input and the
 Natural Method with a shared backend for accounts, course releases and private
 learner progress.
 
-## What is built
+## Platform capabilities
 
 - **Web and native Android:** account journeys, course navigation, illustrated
   text, audio playback, explicit available translations and interactive activities.
@@ -37,8 +37,9 @@ starting point without fabricating completion.
 The [World & Experience Bible](docs/product-world/README.md) defines the product's
 long-term world and visual direction: contemporary Norway, human continuity,
 North outside / warmth inside, and pedagogy before spectacle. Existing client
-visuals are not the normative design reference. The approved Experience Contract
-defines the authored-experience boundary; its runtime integration is not implemented.
+visuals are not the normative design reference. [Experience Contract v1](docs/product-world/experience-contract-v1.md)
+is the public semantic boundary between authored experience and platform
+presentation, distinct from Course Package ingestion and canonical learner progression.
 
 ## Architecture
 
@@ -106,40 +107,29 @@ controls complement review; they do not establish production readiness.
 
 ## Run locally
 
-Prerequisites: Git, repository Python **3.14.2**, backend Python **3.13.16**,
-uv **0.12.23**, Node **24.21.0**, and Docker/Compose. Backend dependencies use
-`uv.lock`; Web uses `package-lock.json` and `npm ci`. Android's pinned JDK,
-Gradle, SDK and checksum setup are in the [native guide](apps/android/README.md).
+For authorized development under [LICENSE](LICENSE), install Git, repository
+Python **3.14.2**, backend Python **3.13.16**, uv **0.12.23**, Node **24.21.0**
+and Docker/Compose. Backend dependencies use `uv.lock`; Web uses
+`package-lock.json` and `npm ci`.
+
+From the repository root:
 
 ```sh
 make bootstrap
 make hooks
-.venv/bin/python scripts/check_repository.py
-.venv/bin/python scripts/confidentiality_guard.py --history main
-.venv/bin/python scripts/scan_secrets.py --history main
-```
-
-Start PostgreSQL, apply migrations and launch the backend/Web runtime:
-
-```sh
 python3 scripts/phase1.py init
 python3 scripts/phase1.py up
 python3 scripts/phase1.py smoke
 ```
 
-Open **http://127.0.0.1:8000/**. The historically named helper starts the current
-local stack. For the Web hot-reload server, with that backend running:
+The commands start PostgreSQL, apply migrations and serve the backend and built
+Web client using local development configuration. Open **http://127.0.0.1:8000/**.
+No production credentials or external providers are required.
 
-```sh
-cd apps/web
-npm ci --ignore-scripts
-npm run dev
-```
-
-Open **http://127.0.0.1:3000/**; API requests proxy to the local backend.
-The [development guide](docs/development.md) covers safe local account verification,
-synthetic scenarios, checks, shutdown and Windows setup. Native installation and
-emulator/device networking are in the [Android guide](apps/android/README.md).
+The [development guide](docs/development.md) covers hot reload, local accounts,
+synthetic data, validation commands, shutdown and platform-specific setup.
+The [native guide](apps/android/README.md) covers Android's pinned JDK/Gradle/SDK,
+installation and emulator/device networking.
 
 ## Explore further
 
@@ -147,5 +137,9 @@ emulator/device networking are in the [Android guide](apps/android/README.md).
 [Current engineering state](PROJECT_STATE.md) · [Actionable tasks](TASKS.md) ·
 [Contributor/agent instructions](AGENTS.md) · [Changelog](CHANGELOG.md)
 
-This is a public development repository. License selection remains a Product
-Owner decision; no open-source license or production-release claim is made.
+## License
+
+**Proprietary — Copyright (c) 2026 Oleg Marikov. All Rights Reserved.**
+Source is visible for review; reuse requires prior explicit written permission,
+with attribution when authorized. Third-party components retain their own licenses.
+See [LICENSE](LICENSE) for the full notice and applicable-law/platform-terms qualifications.

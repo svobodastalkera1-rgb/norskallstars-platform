@@ -26,7 +26,7 @@ Phase 1 PR #4 was merged by the approved workflow. All three main engineering
 workflows succeeded. Owner verified default-branch scanning healthy and no alerts
 at acceptance. Advanced Python CodeQL operates; no duplicate default setup or
 settings bypass is introduced. Review new results per PR; acceptance-time absence
-of alerts is not a guarantee about later commits. License stays owner-pending.
+of alerts is not a guarantee about later commits. Licensing is proprietary / All Rights Reserved; see [LICENSE](../../LICENSE).
 Controlled Contract v1 public receiving passed for Phase 2.
 Before future CD, configure isolated staging/production identities and approval;
 there is no production environment or deployment authorization in this phase.

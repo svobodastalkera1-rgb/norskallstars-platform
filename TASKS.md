@@ -24,6 +24,14 @@ in the [dated engineering archive](docs/reviews/engineering-memory-before-androi
 - [ ] Obtain visual approval before rollout. Existing Web/Android visuals are evidence,
   not normative precedent. No RetroCel dependency, mass redesign or next phase.
 
+## Licensing and future README showcase
+
+- [x] Record Owner-selected proprietary / All Rights Reserved terms in LICENSE;
+  preserve third-party licenses and remove current license-pending statements.
+- [ ] After approved Experience redesign/integrated slice establishes the visual
+  direction, add a curated README product showcase with representative Web and
+  Android screenshots using public-safe, Owner-approved material. Do NOT use current non-normative UI screenshots now.
+
 ## Production gates — close only with evidence
 
 - [ ] Staging SMTP delivery, retry/duplicate semantics and live Google Web/native acceptance.
@@ -35,7 +43,7 @@ in the [dated engineering archive](docs/reviews/engineering-memory-before-androi
 - [ ] Explicit deterministic mapping before release-to-release progress migration.
 - [ ] Supported devices, manual accessibility, provider/signing/store and cross-client
   release acceptance; mocks do not close live integration gates.
-- [ ] Owner license/markets/hosting/regions/recovery decisions and backup/restore evidence.
+- [ ] Owner markets/hosting/regions/recovery decisions and backup/restore evidence.
 - [ ] Resolve earlier server-side confidentiality incident privately; never recover
   removed objects or publish private evidence.
 

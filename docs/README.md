@@ -10,6 +10,7 @@ Start with the [product and architecture overview](../README.md). Choose a route
 | Explore product/world authority | [World & Experience](product-world/README.md), [public product direction](architecture/product-direction.md) |
 | Run or contribute | [Development](development.md), [Web](web/README.md), [Android toolchain](../apps/android/README.md), [agent instructions](../AGENTS.md) |
 | Review security engineering | [Reporting policy](../SECURITY.md), [controls](security/README.md), [CI gates](ci.md) |
+| Review source-use terms | [Proprietary license notice](../LICENSE); third-party rights remain separate |
 | Plan future work | [Roadmap](../ROADMAP.md), [current state](../PROJECT_STATE.md), [tasks](../TASKS.md) |
 | Inspect delivery evidence | [Review index](reviews/README.md), [changelog](../CHANGELOG.md), [release strategy](releases.md) |
 

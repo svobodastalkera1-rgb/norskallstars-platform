@@ -7,6 +7,23 @@ and completed task snapshots are preserved in the
 [engineering memory archive](docs/reviews/engineering-memory-before-android-closure-2026-11-02.md).
 Original phase reviews remain historical evidence, not current status.
 
+## Licensing and future public showcase
+
+Owner selected proprietary / All Rights Reserved licensing, copyright holder
+Oleg Marikov, in [LICENSE](LICENSE). Public visibility supports source inspection,
+portfolio review and technical evaluation; it grants no general reuse license.
+Commercial/non-commercial use requires prior explicit written permission and
+attribution when authorized, subject to applicable law and binding platform terms.
+Third-party licenses/notices remain intact. Historical license-pending records
+remain dated evidence, not current policy.
+
+After the approved Experience redesign/integrated slice establishes the
+production-facing visual direction, the public README MUST receive a curated
+product showcase with representative Web and Android screenshots using public-safe,
+Owner-approved material. Current
+non-normative UI screenshots must not be substituted. This is a future documentation
+acceptance requirement, not authorization to start the slice or redesign now.
+
 ## Accepted implementation
 
 Phases 0–6 are CLOSED / ACCEPTED by Product Owner: Bootstrap, Core Infrastructure,
@@ -85,7 +102,7 @@ not perpetual assurances of no vulnerabilities or a production-readiness claim.
 - Manual TalkBack/text scaling, supported device/store policy, staging provider
   configuration, release signing/publication and wider cross-client release
   acceptance remain release gates; Android merge does not close them automatically.
-- License, hosting/regions, markets/payment/store rules, recovery objectives and
+- Hosting/regions, markets/payment/store rules, recovery objectives and
   production backup/restore acceptance remain Owner decisions. No open-source
   license, production deployment or later phase is authorized by documentation work.
 - Earlier confidentiality incident server-side purge remains a separate private

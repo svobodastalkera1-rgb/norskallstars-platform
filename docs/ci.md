@@ -41,7 +41,7 @@ manually; do not bypass permissions or substitute a fake success.
 The former pending-client workflow now owns real Phase 6 Android checks.
 Backend and Web remain in their dedicated workflows. No production CD is enabled.
 All contributor workflows use SHA pins, no secret inputs, and no pull_request_target.
-The local check guide is in development.md. Dependabot updates uv, npm, Gradle and Actions weekly. License remains owner-pending; Contract v1 public receiving has passed.
+The local check guide is in development.md. Dependabot updates uv, npm, Gradle and Actions weekly. Proprietary terms are in [LICENSE](../LICENSE); Contract v1 public receiving has passed.
 
 Code Scanning UI review remains an Owner responsibility when the alerts API is
 inaccessible. Historical delivery results are indexed under

@@ -22,8 +22,8 @@ distributions. Set `JAVA_HOME`, `ANDROID_HOME` and add `$ANDROID_HOME/platform-t
 to PATH. Install `platform-tools`, `platforms;android-36`, `build-tools;36.0.0`,
 `emulator` and `system-images;android-35;default;x86_64` with Android SDK tooling.
 Keep tool installations and local properties outside tracked source. Accept SDK
-terms through the installed tooling; SDK licenses are separate from this project's
-pending license choice. Do not introduce production credentials to local commands.
+terms through the installed tooling; SDK licenses remain separate from this
+project's [proprietary notice](../../LICENSE). Do not introduce production credentials to local commands.
 
 Lint treats correctness, accessibility and security warnings as errors. Its four
 network-dependent update suggestions (`GradleDependency`, `NewerVersionAvailable`,

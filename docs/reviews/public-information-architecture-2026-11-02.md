@@ -47,8 +47,9 @@ examples remain synthetic and release-ineligible. No private inputs were used.
 
 ## Remaining public presentation limits
 
-No production deployment, production adoption, open-source license or approved
-Experience visual showcase is claimed. Current visuals are not normative examples
+No production deployment, production adoption or approved Experience visual
+showcase is claimed. Owner subsequently selected proprietary / All Rights Reserved
+terms in [LICENSE](../../LICENSE); earlier license-pending snapshots are historical. Current visuals are not normative examples
 of the future world direction; do not substitute speculative mockups as evidence.
 Historical documents intentionally retain dated pending statuses and detailed
 reviews. Their index and current-state pointers make that context explicit.
