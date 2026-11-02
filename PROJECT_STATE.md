@@ -1,5 +1,30 @@
 # Project state
 
+## Android instrumentation diagnostic gate — 2026-11-02
+
+Owner authorized fail-closed harness diagnostics only. Inconsistent API 26 results
+on identical source trees remain unexplained; no product behavior is changed.
+Sanitized protocol/test lifecycle and process evidence survives failed runs via
+an exact-file, seven-day CI artifact. Raw output/private inputs are never uploaded.
+Fresh hosted results and diagnostic review are required; no automatic rerun/merge
+or integrated slice implementation is authorized.
+
+## Android candidate refresh — 2026-11-01
+
+PR #17 remains OPEN and unmerged, refreshed against Owner-merged PR #28 main
+`422f32714e6922ee3289e0fc8448a5e24a531de5` through a normal merge. Native online
+implementation and Phase 6 tooling are retained; current normative documents and
+Backend/Web security baseline are preserved. Fresh checks and Owner review are
+required; prior hosted results below remain historical. The subsequent Owner-authorized security remediation resolves toolchain Guava
+33.4.0-jre to 33.7.2-jre in buildscript and androidLintTool, with regenerated locks
+and verification metadata. Local OSV audit passes for 313 coordinates; fresh
+hosted acceptance remains required. No advisory suppression or unrelated
+dependency upgrade is included. Native client consumes
+existing API projections; no Experience Contract implementation or slice is added.
+Android visuals are legacy evidence, not normative design precedent. Live provider,
+manual accessibility, production/storage/privacy/license gates remain open.
+
+
 ## Post-security publication cleanup — 2026-11-01
 
 Owner merged baseline security integration PR #27 into main at

@@ -92,3 +92,6 @@ Do not invent fields or extend Course Package v1. RetroCel is a future candidate
 not authorize corpus rewriting, rollout, merge or another phase.
 Owner accepted Phase 5 (PR #10 merged). Phase 6 is authorized in separate PR #17,
 not merged/accepted here; Phase 7 is not authorized. These decisions do not authorize new runtime work in the Bible publication task.
+
+For Phase 6 candidate work, read docs/android/README.md and ADR 0014.
+Android UI is implementation evidence, not normative visual precedent.
