@@ -2,10 +2,16 @@
 
 ## Unreleased
 
-- World & Experience Bible v1.0: public-safe normative direction, version/SHA-256
-  and exact-index Bootstrap verification; separate corpus adoption/audit and
-  Experience Contract definition remain pending. No runtime/Contract change,
-  visual rollout or private repository access.
+- Native Android accepted and merged through PR #17; online client, protected
+  sessions, Guava toolchain remediation and sanitized instrumentation diagnostics.
+  No production release or integrated Experience slice implementation.
+- Public information architecture: product README, security policy, reference
+  navigation and current engineering memory separated from historical snapshots.
+
+- World & Experience Bible v1.0: normative public direction with exact-index
+  version/SHA verification. Experience Contract v1 is approved/normative;
+  separate Corpus adoption/synchronization remains unverified. No integrated
+  runtime/Contract change, visual rollout or private repository access.
 
 - Phase 0 bootstrap: architecture boundaries, project workflow, confidentiality
   safeguards, development tooling and CI definitions; accepted by Product Owner.

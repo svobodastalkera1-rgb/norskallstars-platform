@@ -22,11 +22,14 @@ and reported after completion; existence of a workflow is not a passing result.
 | CodeQL Web | JavaScript/TypeScript security-extended analysis |
 | CodeQL | GitHub Advanced Security code-scanning results check |
 
-Product Owner activated the first seven checks as required in Protect main,
-with strict up-to-date branches, after accepting Phase 1. All seven are supplied
-by GitHub Actions. Generated CodeQL (GitHub Advanced Security) succeeds but is not
-configured as required. This state was verified on 2026-10-04; no settings are
-changed by development PRs. Retired pending names must never be required.
+Protect main currently requires eleven Actions contexts: Bootstrap checks,
+Security checks, Backend quality, Backend tests, Backend dependency audit, Backend
+container, CodeQL Python, Web quality, Web tests, Web dependency audit and CodeQL Web.
+Strict up-to-date branches are required. The ruleset was read on 2026-11-02;
+this documentation pass changes no settings. Android quality/build/dependency,
+API 26/35 device tests and CodeQL Android run as additional checks. Generated
+CodeQL results are separate from named required contexts. Never substitute a
+skipped/pending result or require a retired placeholder gate.
 
 The CodeQL advanced workflow uses contents/actions read and security-events write
 only for analysis upload. It never receives private content or production secrets.
@@ -38,15 +41,11 @@ manually; do not bypass permissions or substitute a fake success.
 The former pending-client workflow now owns real Phase 6 Android checks.
 Backend and Web remain in their dedicated workflows. No production CD is enabled.
 All contributor workflows use SHA pins, no secret inputs, and no pull_request_target.
-The local check guide is in development.md. Dependabot updates uv, npm, Gradle and Actions weekly. License remains owner-pending; Contract v1 public receiving has passed.
+The local check guide is in development.md. Dependabot updates uv, npm, Gradle and Actions weekly. Proprietary terms are in [LICENSE](../LICENSE); Contract v1 public receiving has passed.
 
-After actual successful Phase 5 PR runs, Owner should add exactly **Web quality**,
-**Web tests**, **Web dependency audit**, **CodeQL Web** to Protect main if desired,
-preserving the existing seven checks and strict up-to-date branches. No settings
-were changed. Review both advanced CodeQL language categories in Code Scanning;
-no competing default-setup workflow is needed. All 23 implementation-head PR checks passed (PR #10, `1eb49b7`); later revisions
-need separate exact-head results. Alert API access returned 403; Owner UI review
-remains required. See [Phase 5 evidence](phase-5-review.md).
+Code Scanning UI review remains an Owner responsibility when the alerts API is
+inaccessible. Historical delivery results are indexed under
+[review evidence](reviews/README.md); every proposed head requires fresh checks.
 
 Web test setup uses separate bounded install/unit/build/browser steps. Temporary
 Ubuntu runners use official HTTPS Ubuntu package mirrors with bounded APT timeouts
@@ -55,8 +54,8 @@ stalls observed on the runner's Azure HTTP mirror. Browser tests remain mandator
 failed installs fail the job. Compose cleanup runs only after local configuration
 initialization succeeded, and still runs if later integration tests fail.
 
-Phase 6 introduces these exact names. All succeeded at implementation/correction
-head `54f83ac` in PR #17; later heads require independent hosted verification:
+Native Android supplies these additional checks; exact-head evidence is indexed
+in the dated review records, not inherited by future changes:
 
 | Exact status-check name | Coverage |
 | --- | --- |
@@ -67,17 +66,10 @@ head `54f83ac` in PR #17; later heads require independent hosted verification:
 | Android device tests (API 35) | Same native journeys on newer OS |
 | CodeQL Android | Manual compiled Java/Kotlin security-extended analysis |
 
-The branch-rules API on 2026-10-08 confirms all seven original backend/bootstrap
-checks plus Web quality, Web tests, Web dependency audit and CodeQL Web are now
-required with strict up-to-date branches (eleven total). No settings were changed.
-Only add the Android names above after exact-head hosted success and Owner review.
-Keep all existing protections/checks. Device inputs/reports, APKs, screenshots, logs
-and recordings are not uploaded as public artifacts. Gradle runs do not enable build
-scans. No private provider credentials enter client or CI configuration.
-
-On 2026-10-10 the branch-rules API still lists the same eleven required checks
-with strict up-to-date branches. The six Android names above are successful but
-**not yet required**. Product Owner can add exactly those names after manual
-Phase 6 review, preserving all existing checks/protections. No settings changed.
-CodeQL Python/Web/Android analysis and upload succeeded. Alert API returned 403;
-Owner must inspect all three categories in Code Scanning for blocking alerts.
+Adding required Android contexts remains an Owner settings decision; do not remove
+existing checks or strict up-to-date protection. APKs, screenshots, raw device
+output/logs, recordings and private inputs are not uploaded. Device jobs upload
+only the sanitized exact-file JSON diagnostic described in the
+[Android security reference](security/phase-6-review.md), with seven-day retention,
+including failed runs. Gradle build scans remain disabled. No private provider
+credentials enter client or CI configuration.

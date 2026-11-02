@@ -172,5 +172,5 @@ Live Google Credential Manager needs Owner-configured staging provider/client ID
 and the appropriate Android signing fingerprint. Live SMTP needs staging delivery
 acceptance. Neither is verified by this default local runtime. Remote storage,
 scheduled retention/GC/backups, privacy export, administrator permissions, explicit
-release migration, license and store/signed-production release acceptance remain
+release migration and store/signed-production release acceptance remain
 later gates. Do not enable them for this review or start Phase 7.

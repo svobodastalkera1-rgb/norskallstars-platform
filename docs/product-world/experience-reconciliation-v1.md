@@ -219,3 +219,7 @@ storage provider/retention/GC scheduling/monitoring/backups, consented selective
 recording retention/erasure, future export/privacy, real privileged authorization,
 explicit release migration and pending license. No external boundary is activated
 by documentation-only analysis; none of these gates is marked complete.
+
+Subsequent Owner licensing decision: proprietary / All Rights Reserved terms are
+now recorded in [LICENSE](../../LICENSE). The earlier pending-license reference
+above is historical; other deferred production/integration gates remain open.

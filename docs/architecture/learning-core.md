@@ -119,7 +119,8 @@ retention/GC applies before any production/remote storage, media delivery, exter
 reachable stored assets or production import: inventory/DB references, in-flight
 protection, grace, immediate re-check, auditable deletion, retention, safe retry and
 race/failure tests. No such path is in the current learning design. Client security,
-administrator MFA/RBAC, wider privacy/operations and license decisions remain in TASKS.
+administrator MFA/RBAC and wider privacy/operations gates remain in TASKS.
+Proprietary terms are recorded in [LICENSE](../../LICENSE).
 
 ## Implemented HTTP inventory
 

@@ -20,7 +20,7 @@ Public-safe normative Product Owner rules are recorded in
 docs/architecture/learning-core.md. Require explicit versioned learning policies;
 never invent numeric pedagogical defaults or infer rules from fixtures/arbitrary
 Contract extension objects. Phase 5 Web is CLOSED/ACCEPTED (PR #10 merged).
-Phase 6 Android is authorized in separate PR #17 and not merged here. Read docs/web/README.md: Owner accepted selective voice
+Phase 6 Android is CLOSED / ACCEPTED; PR #17 is merged on main. Read docs/web/README.md: Owner accepted selective voice
 retention with separate consent, an explicit processing purpose, at most twelve
 months and erasure with account deletion; the same policy applies to Android.
 ML implementation/training is not authorized. Phase 7 and later need separate authorization.
@@ -39,7 +39,7 @@ logs. Read private inputs only with authorization. Keep them outside this
 checkout. Do not reconstruct removed confidential documents from Git history.
 Do not access the private corpus repository without separate owner permission.
 Course integration accepts only an explicitly approved public handoff; the
-pending manifest under contracts/course-package records that dependency.
+manifest under contracts/course-package records approved public handoff provenance.
 Do not place private material in issues, PRs, job logs, or CI artifacts.
 
 ## Engineering workflow
@@ -90,8 +90,7 @@ data; local reading UX grants no canonical credit. Existing attribution/text/aud
 suffice; no voice registry/sidecar. EXP-REQ-011 is deferred outside normative v1.
 Do not invent fields or extend Course Package v1. RetroCel is a future candidate, not a dependency. Bible adoption does
 not authorize corpus rewriting, rollout, merge or another phase.
-Owner accepted Phase 5 (PR #10 merged). Phase 6 is authorized in separate PR #17,
-not merged/accepted here; Phase 7 is not authorized. These decisions do not authorize new runtime work in the Bible publication task.
+Owner accepted Phases 5 and 6 (PR #10 and PR #17 merged). Phase 7 is not authorized. These decisions do not authorize new runtime work in the Bible publication task.
 
-For Phase 6 candidate work, read docs/android/README.md and ADR 0014.
+For native Android work, read docs/android/README.md and ADR 0014.
 Android UI is implementation evidence, not normative visual precedent.

@@ -67,7 +67,7 @@ Exact-head hosted checks and Product Owner manual device review precede acceptan
 Live SMTP/Google acceptance remains mandatory before live provider operation;
 mocked credentials/device tests do not close staging gates. Existing storage GC
 must remain functional; actual remote bucket privacy/erasure, scheduled cleanup and
-backups still need production acceptance. Export/admin/migration/license remain
-pending. Adding an online native consumer does not authorize production providers.
+backups still need production acceptance. Export/admin/migration gates remain
+open; proprietary terms are in [LICENSE](../../LICENSE). Adding an online native consumer does not authorize production providers.
 Any unmet device/provider gate must be reported explicitly. Stop before merge and
 before Phase 7.

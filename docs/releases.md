@@ -14,4 +14,5 @@ unless the owner explicitly records accepted risk. Store publication, deployment
 signing and external provider changes need their own authorization.
 
 Do not claim a production-ready version from a bootstrap tag, demo or skipped
-checks. License selection remains an owner action; no license is assumed here.
+checks. Proprietary / All Rights Reserved terms are in [LICENSE](../LICENSE); third-party
+licenses and required notices must be preserved in release artifacts.

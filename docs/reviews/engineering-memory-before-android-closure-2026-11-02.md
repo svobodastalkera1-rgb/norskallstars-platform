@@ -1,0 +1,567 @@
+# Historical engineering memory before Android closure
+
+Snapshot source: main `8a05b73c2b8ae5e04ce5d80982354e4c0906951a`, immediately
+after PR #17 merge. These documents accumulated implementation-time observations;
+their pending/unmerged statements are historical, not current authority.
+The current state is [PROJECT_STATE](../../PROJECT_STATE.md), actionable work is
+[TASKS](../../TASKS.md). Existing phase review records are unchanged.
+Only relative navigation links have been rebased for this archive location.
+
+## PROJECT_STATE snapshot
+
+# Project state
+
+## Android instrumentation diagnostic gate — 2026-11-02
+
+Owner authorized fail-closed harness diagnostics only. Inconsistent API 26 results
+on identical source trees remain unexplained; no product behavior is changed.
+Sanitized protocol/test lifecycle and process evidence survives failed runs via
+an exact-file, seven-day CI artifact. Raw output/private inputs are never uploaded.
+Fresh hosted results and diagnostic review are required; no automatic rerun/merge
+or integrated slice implementation is authorized.
+
+## Android candidate refresh — 2026-11-01
+
+PR #17 remains OPEN and unmerged, refreshed against Owner-merged PR #28 main
+`422f32714e6922ee3289e0fc8448a5e24a531de5` through a normal merge. Native online
+implementation and Phase 6 tooling are retained; current normative documents and
+Backend/Web security baseline are preserved. Fresh checks and Owner review are
+required; prior hosted results below remain historical. The subsequent Owner-authorized security remediation resolves toolchain Guava
+33.4.0-jre to 33.7.2-jre in buildscript and androidLintTool, with regenerated locks
+and verification metadata. Local OSV audit passes for 313 coordinates; fresh
+hosted acceptance remains required. No advisory suppression or unrelated
+dependency upgrade is included. Native client consumes
+existing API projections; no Experience Contract implementation or slice is added.
+Android visuals are legacy evidence, not normative design precedent. Live provider,
+manual accessibility, production/storage/privacy/license gates remain open.
+
+
+## Post-security publication cleanup — 2026-11-01
+
+Owner merged baseline security integration PR #27 into main at
+`0386f95b757381df72623faaa9b4d84f53e6996b` (09:20:07 UTC). Backend and Web
+dependency audits on merged main succeeded. Source PRs #23/#25/#26 were marked
+superseded and closed without merge; their branches/review history are retained.
+
+Product Owner squash-merged PR #24 on 2026-11-01 at 14:34:52 UTC into
+`8e2dc429bedc83437bef224769fe7a265cd34b26`. All eleven hosted checks on merged
+main succeeded, including Backend/Web dependency audits and Python/Web CodeQL.
+The merged tree matches the accepted PR head. Normative Experience v1 bytes remain
+SHA-256 `309cd307dc0123338a945872dc83f851cfa3a51d94d74d374467fcc782cbf981`.
+No Course Package v1 or dependency changes were introduced by PR #24.
+
+World & Experience Bible v1.0 and Experience Contract v1.0 are normative; Corpus
+semantic review is complete. First integrated slice
+014 → 015 → 016 → REVIEW-02 → READING-02 is READY at contract level;
+IMPLEMENTATION NOT STARTED. Corpus adoption/synchronization remains unverified.
+RetroCel is an optional future candidate, not a dependency. Android PR #17 remains
+OPEN/unmerged and separate. Implementation requires separate Owner authorization.
+
+Post-merge housekeeping preserved duplicate local requirements-handoff files and
+their README byte-for-byte in ignored local storage, restoring the repository
+README. These local transfer copies are not accepted repository artifacts and
+are not committed. All deferred production gates remain open as recorded below.
+Earlier publication/base snapshots below remain dated historical evidence.
+
+## Experience Contract v1 — APPROVED / NORMATIVE (2026-11-01)
+
+Product Owner approved [Experience Contract v1](../../docs/product-world/experience-contract-v1.md)
+and closed semantic review. The [dated lineage](../../docs/product-world/experience-approval-2026-11-01.md)
+preserves initial candidate → Corpus review → accepted minor corrections →
+Platform correction → final approval; no earlier state is retroactively approved.
+[Reconciliation](../../docs/product-world/experience-reconciliation-v1.md) retains all
+11 mappings: nine preserved, 009 resolved, 011 deferred outside normative v1.
+
+World & Experience Bible v1.0 and Experience v1 are normative; Course Package v1
+is unchanged. Reading availability, canonical Learning Core and local UX stay
+separate; no extra authored reading state/gate, new speaker/voice registry or
+sidecar. Approved first slice: 014 → 015 → 016 → REVIEW-02 → READING-02.
+Contract-level readiness READY; implementation and the slice have NOT started.
+Corpus adoption/synchronization is not claimed. RetroCel is not a dependency.
+
+Historical pre-publication snapshot (superseded by the post-merge record above):
+public main was rechecked at 5669565; Android PR #17 OPEN/unmerged at 1317521.
+The publication PR contains documentation only, excluding earlier local receiving/
+exporter code, private material and UI/Android work. Earlier project snapshots
+below remain historical; receiver checks run on local branches are not delivered
+runtime features of this PR. Existing production/provider/privacy/storage/export/
+license gates remain open. No merge, deployment or new phase is authorized.
+
+
+Updated: 2026-10-13. Product: NorskAllstars. Platform: NorskAllstars Platform.
+Phase 0: **CLOSED / ACCEPTED by Product Owner**.
+Phase 1: **CLOSED / ACCEPTED by Product Owner; PR #4 merged**.
+Phase 2: **CLOSED / ACCEPTED by Product Owner; PR #7 merged**.
+Phase 3: **CLOSED / ACCEPTED by Product Owner; PR #8 merged**.
+Phase 4: **CLOSED / ACCEPTED by Product Owner; PR #9 merged**.
+Phase 5: **CLOSED / ACCEPTED by Owner; PR #10 merged**.
+Phase 6: **AUTHORIZED; implementation in separate PR #17, not merged here**.
+Production readiness: **not achieved**.
+
+## Product-world authority
+
+Owner adopted [World & Experience Bible v1.0](../../docs/product-world/world-experience-bible-v1.md)
+as public-safe normative direction. Platform canonical bytes/version/SHA and
+working/index Bootstrap/hook verification are implemented. Corpus adoption and
+hash equality remain pending/unverified; no private repository was accessed.
+[Corpus audit brief](../../docs/product-world/corpus-adoption.md) requires independent
+pedagogy/language versus narrative/visual statuses before rewriting accepted units.
+[Experience Contract v1](../../docs/product-world/experience-contract-v1.md) is approved
+and normative; implementation is not started. Course Package v1, runtime/API/migrations are unchanged. RetroCel is
+optional/future. Existing visuals are not precedent; Owner benchmarks/review remain
+required. All deferred production gates are preserved.
+
+Historical Bible-publication branch snapshot (PR #19 has since merged):
+that focused branch included Bible adoption only.
+Android PR #17 and local North/design studies are not bundled into this PR.
+Publishing/PR creation is Owner-authorized; merge and further phases are not.
+Local seven Bible regressions supplement existing repository tests. Hosted results
+must be verified at this PR HEAD; prior implementation checks are not inherited.
+
+## Actual implementation
+
+Backend infrastructure now exists: FastAPI factory/lifespan, typed configuration,
+async PostgreSQL/SQLAlchemy transaction/pool lifecycle, Alembic migration discipline,
+liveness/readiness, safe structured logs/errors and request IDs/bounds, object
+storage protocol/local development adapter, locked dependencies, local Docker
+runtime and real backend/CodeQL CI definitions. Phase 2 now adds bounded generic package validation, immutable versioned
+release persistence, idempotent staged import, asset references and audited
+privileged publication. Phase 3 implements the Identity module: shared accounts, verification/recovery,
+Google cryptographic proof validation, interface-language preference, revocable
+opaque sessions and account/session ownership/deletion. Accepted Phase 4 adds
+versioned learning policies, pinned enrollments, attempts/evaluation/progress/review,
+advisory placement and authenticated curriculum/history/translation APIs.
+Phase 5 Web/media implementation has passed complete local validation; initial implementation-head hosted PR
+verification passed; Product Owner review and exact evidence-head CI remain separate.
+Android, sync/billing, production infrastructure and Redis remain absent.
+
+Runtime and decisions: docs/architecture/backend-runtime.md and ADRs 0008/0009.
+Identity: docs/architecture/identity.md, ADR 0011 and docs/security/phase-3-review.md.
+Migration 0003_identity adds seven identity tables without changing course tables.
+Phase 2 import/publication remains operator-side; identity grants no administrative
+roles or privileged HTTP course operations. Required secret keys have no defaults; production
+configuration requires HTTPS identity links, explicit Google audiences and TLS SMTP.
+Verification evidence: docs/phase-1-review.md. Initial Phase 1 PR runs passed
+quality/tests/audit/container, Phase 0 safeguards and Python CodeQL. Each updated
+PR head is verified separately; historical evidence does not substitute for it. Web has real Phase 5 workflow definitions and passing implementation-head hosted runs; Android remains pending.
+
+## Repository governance
+
+Product Owner completed Protect main/security configuration after Phase 0:
+active default-branch ruleset, PR-only development, linear history, deletion/
+force-push restrictions, conversation resolution and Squash/Rebase merge methods.
+Required approvals are 0; feature PRs still require Product Owner review and
+must not be auto-merged. Seven required Actions checks are active with strict up-to-date branches: Bootstrap checks,
+Security checks, Backend quality, Backend tests, Backend dependency audit, Backend
+container and CodeQL Python. Verified through the ruleset API on 2026-10-04.
+
+Owner confirmed private vulnerability reporting, dependency graph, automatic
+submission, Dependabot alerts/security updates, malware alerts, secret scanning
+and push protection enabled. CodeQL had been deferred pending actual runtime;
+Phase 1 advanced Python CodeQL operates on main. Owner verified no alerts at
+the acceptance point; this is a dated observation, not a perpetual guarantee. See docs/security/github-settings.md.
+
+## Content and licensing
+
+Contract v1 public handoff passed receiving: archive, dual inventory/checksums,
+independent confidentiality/secret review, 7 schemas/23 refs, synthetic fixture
+and 19 upstream tests. The 25 accepted files are byte-inventoried under
+contracts/course-package/upstream; raw ZIP/transfer metadata remain local. No private corpus access or pilot import is authorized.
+License remains **Product Owner pending**; no license is added and the project
+is not announced as open-source.
+
+Reachable public main was cleaned in the earlier confidentiality incident.
+Server-side purge remains a separate support-review matter without confirmation
+here. Do not recover removed private input or publish incident object identifiers.
+
+## Known limitations / next step
+
+The Codespace previously blocked normal Compose bridge traffic through conflicting
+legacy/nft firewall rules. On 2026-10-07, two reversible local rules restored only
+same-project PostgreSQL forwarding; the global legacy DROP policy remains intact.
+Authenticated SELECT 1 now passes both from the host and from the Compose network.
+The local repair is not persistent across host/network recreation; ignored repair
+and rollback tooling records the exact rules. This is environment recovery, not
+application/container acceptance. Hosted Backend container checks remain separate.
+Live deployed TLS/roles, production storage/delivery, release image scanning and
+later domain security remain future work, not production-readiness claims.
+
+Phase 1 acceptance reconciliation: GitHub confirms PR #4 merged into main at
+03009f38b100731cc3ad375a941da3447bc6a9bb; all three main engineering workflows
+completed successfully. Owner confirmed default-branch scanning healthy/no alerts.
+No implementation is reopened; Phase 1 review evidence is historical.
+
+Phase 2 acceptance reconciliation: PR #7 merged through the protected workflow
+into main at fce1def7c805c59f4292fc20180c112c14bc2d61. Main backend, bootstrap
+and CodeQL workflows completed successfully. Owner accepted the receiving,
+contract, synthetic, confidentiality and clarification gates and confirmed healthy
+code scanning/no alerts at review. Historical review records remain unchanged.
+Never merge without Product Owner review. Future “Залил новый handoff,
+продолжай работу” follows docs/corpus-integration/receiving.md and only resumes
+already-authorized work. It grants no production/irreversible authorization.
+
+## Mandatory deferred storage gate
+
+Failed/ambiguous imports can retain private objects outside PostgreSQL transactions.
+Committed DB state remains atomic; unmapped objects cannot automatically publish.
+Owner accepts this operational limitation only for the current development phase.
+Before production storage, remote persistent storage, media delivery, externally
+reachable assets or production imports: implement and verify reconciliation,
+retention and orphan GC, including in-flight protection, grace period, immediate
+reference re-check, auditable deletion, safe retry and race/failure tests.
+Accepted Identity/Learning Core introduce no storage/media delivery interface.
+Phase 5 course audio/image delivery crosses this boundary: reconciliation,
+retention and orphan GC are required before accepting that capability. Delivery/GC implementation and PostgreSQL race/failure regressions passed locally.
+Implementation-head hosted verification passed; later exact-head checks and Owner
+review remain separate. Live provider privacy/erasure,
+cleanup scheduling/monitoring and backups remain explicit production gates.
+
+## Phase 3 acceptance and deferred identity gates
+
+Product Owner accepted Phase 3 and its clarification/deferred gates. GitHub confirms
+[PR #8](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/8) merged
+at 2026-10-04T23:00:27Z into main at
+d03336a52559cf247e1fe3a7af3c33205d7c05ee. Its tree is byte-identical to accepted PR
+head 0d731b9f661c922641ae1d714e5b17aa4a9ec091 (`git diff` is empty).
+All 15 final PR checks succeeded. All seven required jobs on merged main succeeded:
+[Backend](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37242146348),
+[Safeguards](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37242146391),
+[CodeQL](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37242146312).
+Owner reviewed Code Scanning/CodeQL UI and reported no blocking alerts at acceptance;
+this does not assert perpetual absence of alerts. Historical docs/phase-3-review.md
+remains unchanged, including its review-time status. No Phase 3 implementation is
+reopened. No real Google/SMTP credentials or users are used in public tests.
+
+Live SMTP delivery and live Google authentication have NOT been acceptance-tested
+against configured staging infrastructure/providers. Both are explicit production
+gates before their respective live capabilities. SMTP delivery remains at-least-once,
+not exactly-once; staging must verify the documented retry/duplicate-delivery behavior.
+Owner must configure and verify isolated staging providers/mail delivery. Client token
+persistence/CSRF and OS-protected storage belong to Web/Android phases; administrator
+MFA/RBAC to Phase 10. Wider privacy/unverified-account/financial retention decisions,
+later-domain erasure hooks, worker scheduling/monitoring and key rotation remain
+production gates. License remains pending.
+
+## Phase 4 authority and normative rules
+
+ROADMAP Phase 4 is Learning Core; sources agree. Product Owner supplied public-safe
+normative rules after the scope review and authorized continuation. They are recorded
+in [Learning Core](../../docs/architecture/learning-core.md): optional advisory placement,
+evaluator-independent evidence, linear canonical mastery gates, release/policy-pinned
+progress and account-lifetime private learning data erased with account deletion.
+No default numeric pedagogical threshold is authorized; require explicit versioned
+platform policy. Contract v1 bytes/semantics remain unchanged. Phase 4 is accepted
+and merged; its design rules remain authoritative for the Web client.
+
+Phase 4 implementation/review evidence: docs/phase-4-review.md and ADR 0012.
+Migration 0004_learning adds eight learning tables; account-owned learning rows
+cascade on account deletion. Ordinary Identity grants no import/publication/admin
+permission. Compatible learning-policy selection fails closed without explicit
+rules; there is no default pedagogical percentage. All 226 backend tests passed
+against a fresh isolated PostgreSQL database; the Contract v1 suite passed 19/19,
+strict typing, lint, schema drift, dependency audit and repository confidentiality
+checks passed. All seven required hosted jobs and CodeQL analysis passed on
+implementation commit
+82188982e8ecbaab5b58cbde17114785bd3cb0f5 in PR #9. The subsequent evidence-update
+head 17cc29bc3071e88d27385b744e8372d72fee72de also passed all seven required hosted
+jobs and CodeQL analysis. These are historical implementation-time observations;
+the post-merge acceptance evidence follows below.
+Local Docker bridge routing blocks the containerized migrator in this workspace; the
+supported host migration and complete backend test path both passed.
+
+## Phase 4 post-merge acceptance reconciliation
+
+GitHub confirms [PR #9](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/9)
+merged at 2026-10-07T08:17:59Z into main at
+`9194c7c0ca8d67cb7936be8508ef6df029a03364`. The main tree equals accepted PR head
+`351308a2f604266c7ebeffc2c4e1653188d22bfc` (`git diff` is empty).
+Merged main workflows completed successfully:
+[Backend CI](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37592844028),
+[Phase 0 CI](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37592844092),
+[Python CodeQL](https://github.com/svobodastalkera1-rgb/norskallstars-platform/actions/runs/37592844072).
+Product Owner accepted the required checks, hosted CI, conflict and confidential
+artifact review, and reported no blocking Code Scanning alerts at acceptance.
+This is a dated observation, not a guarantee about later alerts. Historical
+docs/phase-4-review.md and docs/security/phase-4-review.md remain unchanged.
+
+## Historical Phase 5 implementation and validation evidence — before Owner acceptance
+
+Authoritative scope: **Web**, defined by ROADMAP, public product direction and
+[Web requirements](../../docs/web/README.md). Owner authorized implementation and accepted
+selective speaking-recording collection with separate consent, an explicit processing
+purpose, maximum twelve calendar months and account-deletion erasure. This supersedes
+the earlier indefinite-retention request. ML implementation/training is not authorized.
+Accepted Identity/Learning Core erasure and pinned policy/release semantics remain intact.
+
+Feature branch: `feature/phase-5-web`, based on accepted main 9194c7c.
+[PR #10](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/10) contains
+implementation commit `1eb49b7571b8850a98f043dd52ae3e118eae7533`.
+Phase 5 implementation includes a React/TypeScript client, memory-only bearer sessions,
+identity/fresh-proof/preferences/session/deletion journeys, learning/placement/replay/
+history/translation UI, private media/recordings, dashboard and engagement evidence.
+ADR 0013 records the consequential session/media/storage decisions.
+Migration 0005_media adds recording mappings and hashed-object deletion audit;
+0006_learning_engagement adds nullable attempt engagement evidence without reinterpreting
+legacy attempts. Platform presentation bindings are optional explicit versioned rules;
+legacy policy digests are preserved. Upstream Contract v1 artifacts are unchanged.
+
+Storage inventory, S3-compatible adapter and coordinated bounded GC are implemented
+in the working tree. Shared writer/exclusive cleanup PostgreSQL locks, final reference
+re-checks, grace, committed expiry and durable deletion intents protect reference
+integrity. Complete local PostgreSQL/race, browser and final container regressions
+passed locally and on the implementation-head hosted run. Later exact-head checks
+and Owner acceptance remain separate. Live
+provider/erasure and scheduled operations remain production gates; no production
+import, provider or deployment runs.
+
+Earlier environment restrictions interrupted application checks. Recovery on
+2026-10-07 restored Git/Docker/network/threads/PostgreSQL. Complete regression now
+passes: the browser fetch receiver and downgrade naming defects have focused tests;
+current-head tests cover both. Browser journeys also verify canonical completion
+survives lower-scoring replay. Independent browser projects use reset synthetic
+Web-test data, preserving ordinary runtime rate limits. See [Phase 5 evidence](../../docs/phase-5-review.md).
+Implementation commit/PR are published. All 23 implementation-head checks passed, including seven required checks; every later
+PR head requires separate hosted verification. Phase 5 is not accepted.
+
+Production gates remain: isolated live SMTP/Google acceptance (SMTP at-least-once),
+private S3/TLS/encryption/anonymous-denial and cleanup scheduling/monitoring/backups,
+future privacy/export, administrator authorization, deterministic release migration,
+license/market/retention/recovery decisions. No earlier gate is silently closed.
+Phase 6 is NOT STARTED / NOT AUTHORIZED. Never merge without Owner review.
+
+Initial completed local evidence: **243/243 backend**, **16/16 Web unit/component**,
+**9/9 browser E2E/accessibility** across Chromium/Firefox/WebKit, **19/19 upstream
+Contract v1** and **25/25 repository/receiving** tests passed. Ruff, strict mypy (45
+source files), generated API/policy drift and Web format/lint/build passed. Final
+Compose image build, migration and non-root/read-only runtime smoke passed. Locked
+backend audit (91 packages) and npm audit reported no known vulnerabilities. Final
+staged index/history confidentiality and redacted secret checks passed before commit.
+Implementation-head hosted verification passed all 23 checks. Evidence-only updates
+require separate exact-head verification; Owner review remains pending. CodeQL Python
+and Web analysis succeeded; alert API returned 403, so Owner must review scanning UI.
+
+## Phase 5 manual-review follow-up — 2026-10-08
+
+Owner reported a usable Web/learning UI and accepted the artificial synthetic
+content boundary; Phase 5 remains NOT ACCEPTED pending the follow-up. The displayed
+time intentionally includes only submitted active attempts, rounded down to minutes;
+idle/hidden/unsubmitted time is excluded. The notice now states update/rounding
+semantics. The primary smoke seed omitted the explicit matching presentation binding,
+so the client correctly failed closed but the course could not finish. Corrected
+versioned test-only browser policy adds that binding; upstream Contract artifacts,
+production runtime learning rules and immutable existing enrollments are unchanged.
+New regressions cover heartbeat activity/idle/hidden/retry behavior, dashboard
+submission/rounding and completion of both synthetic lessons. Correction validation:
+245/245 backend, 24/24 Web component/unit, 9/9 E2E across Chromium/Firefox/WebKit,
+19/19 Contract and 25/25 repository/receiving regressions passed. Ruff/strict mypy,
+API/policy drift, Web format/lint/build, locked dependency audits and container
+build/migration/runtime smoke passed. Exact correction-head hosted evidence belongs
+to PR #10 metadata/delivery and must not be inferred from historical runs.
+All existing deferred production gates above remain open; no merge or Phase 6.
+
+## TASKS snapshot
+
+# Tasks
+
+## Android instrumentation reliability
+
+- [x] Add fail-closed sanitized harness diagnostics and exact-file CI artifact.
+- [x] Add classification/privacy regressions; keep original acceptance parser.
+- [ ] Inspect fresh API 26 evidence; historical root cause remains unestablished.
+- [ ] Owner reviews before merge; no speculative product fix or blind reruns.
+
+## Android candidate refresh
+
+- [x] Merge current main into PR #17; preserve normative authority and dependency baseline.
+- [x] Remediate Android toolchain Guava GHSA-xxph-c9ww-hj94 to 33.7.2-jre;
+  regenerate locks/checksums; local OSV audit passes without suppression.
+- [ ] Confirm final remediation HEAD hosted OSV/build/device/required checks.
+- [ ] Verify fresh Backend/Web/Android hosted compatibility, device tests and CodeQL.
+- [ ] Product Owner reviews refreshed Phase 6 candidate; no automatic merge.
+- [ ] Integrated Experience slice remains NOT STARTED and separately authorized.
+
+
+## Post-security PR #24 cleanup
+
+- [x] Verify Owner-merged #27 on main and successful Backend/Web dependency audits.
+- [x] Mark #23/#25/#26 superseded; close without merge or branch deletion.
+- [x] Update PR #24 from clean main without history rewrite; remove effective
+  security duplication and preserve normative Experience v1 byte identity.
+- [x] Verify all eleven hosted checks on merged main 8e2dc42 succeeded.
+- [x] Product Owner squash-merged PR #24; verify main and normative byte identity.
+
+## Experience v1 approval publication — 2026-11-01
+
+- [x] Owner approves normative [Experience Contract v1](../../docs/product-world/experience-contract-v1.md)
+  and closes semantic review; preserve dated candidate/review/correction lineage.
+- [x] Resolve 009, defer 011 outside v1, keep existing attribution/text/audio and
+  unchanged Course Package v1; remove speculative annotations/sidecar.
+- [x] Record approved sequence 014 → 015 → 016 → REVIEW-02 → READING-02:
+  contract READY, implementation NOT STARTED; RetroCel is not a dependency.
+- [x] Owner merged documentation-only publication PR #24; post-merge checks passed.
+- [ ] Separate authorization before any contract implementation, slice or wider rollout.
+- [ ] Independent Android PR #17 workflow; do not merge it here.
+
+Existing deferred production/provider/storage/privacy/export/license tasks remain.
+Earlier pending definition tasks are superseded only by this semantic approval,
+not by implementation, private content adoption or deployment acceptance.
+
+
+## Bible adoption
+
+- [x] Record all 24 normative sections, exact version/SHA, LF bytes and ADR 0016.
+- [x] Add working/index Bootstrap and hook verification with integrity/export regressions.
+- [x] Prepare separate private corpus adoption/audit brief; no private access.
+- [x] Bible publication merged through Owner-reviewed PR #19; normative version retained.
+- [ ] Separate authorized corpus operator installs byte-identical document/version record.
+- [ ] Owner reviews private narrative/visual audit before rewriting accepted lessons.
+- [x] Owner approved normative Experience Contract v1 on 2026-11-01.
+- [ ] Separately authorize any implementation or controlled handoff/profile change.
+- [ ] Bible-aligned visual benchmarks/review before rollout; no automatic new phase.
+
+Owner accepted Phase 5/PR #10. Phase 6 remains authorized in separate PR #17.
+Older task/evidence sections below are historical and do not revoke those decisions.
+
+## Completed governance
+
+- [x] Phase 0 CLOSED/ACCEPTED and published; hosted main Phase 0 CI passed.
+- [x] Owner configured active Protect main and repository security features.
+- [x] Owner authorized and accepted Phase 1 Core Infrastructure.
+- [x] Owner added seven real required checks and enabled strict up-to-date branches.
+- [x] Owner reviewed/accepted Phase 1 and merged PR #4 through protected workflow.
+- [ ] License remains Product Owner pending; add no license/make no open-source claim.
+- [x] Controlled public Contract v1 receiving gate passed; no private repo access.
+- [ ] Owner confirms earlier server-side confidentiality incident status privately.
+
+## Phase 1 — CLOSED / ACCEPTED
+
+- [x] Pin backend runtime and public-index dependencies in uv.lock.
+- [x] Implement FastAPI factory, typed settings and lifespan ownership.
+- [x] Add async PostgreSQL transaction boundary and real isolated test database.
+- [x] Add Alembic tracking baseline without product tables; migration sanity/drift tests.
+- [x] Implement bounded health, safe errors/logs, correlation IDs and request boundary.
+- [x] Define storage protocol and tested development-only local adapter.
+- [x] Build non-root backend image and local Compose configuration.
+- [x] Replace backend pending gate with real quality/tests/dependency/container CI.
+- [x] Prepare Python CodeQL analysis and runtime threat/security review.
+- [x] Initial Phase 1 PR hosted runs passed; revision/run evidence is recorded.
+- [x] Owner verified successful PR checks and healthy default-branch Code scanning/no alerts.
+- [x] Product Owner accepted Phase 1 and authorized Phase 2 subject to receiving gate.
+
+## Phase 2 — CLOSED / ACCEPTED
+
+Receiving completed; implementation follows: controlled public handoff review/provenance, actual
+Contract v1 compatibility assessment, untrusted-input validation design, transactional
+staged CourseRelease import and minimal protected/audited publication, synthetic
+fixture integration and negative tests. Missing contractual/security decisions
+must be resolved before implementation; never infer schemas or use private pilot
+in public source/CI. Product identity/administration completion stays in its phases.
+
+- [x] Fail-closed local staging/archive/inventory/confidentiality/contract gates.
+- [x] Byte-preserving public-only transfer; raw ZIP and transfer metadata excluded.
+- [x] Generic bounded validation and immutable staged release/asset/audit persistence.
+- [x] Identity/version conflict handling, transactional rollback and concurrency tests.
+- [x] Complete security/compatibility tests and initial real hosted CI; open PR #7.
+- [x] Owner reviewed/accepted PR #7, required checks, scanning and clarification.
+- [x] PR #7 merged; accepted implementation verified on current main.
+
+## Phase 3 — Identity / CLOSED / ACCEPTED
+
+- [x] Shared accounts, email/password and Google sign-in; verification/recovery.
+- [x] Preferences, revocable sessions/devices and account-owned authorization.
+- [x] Self-service account deletion with complete identity/session invalidation.
+- [x] Typed secret/configuration, migrations, threat review and regression suites.
+- [x] PR #8 implementation 62b5a8a passed hosted required checks/CodeQL (15 successful).
+  Every later head is verified separately; no inherited/fake green checks.
+- [x] Product Owner accepted PR #8, all 15 final checks and Code Scanning UI.
+- [x] PR #8 merged; accepted tree verified on main d03336a; seven required main jobs passed.
+- [ ] Acceptance-test live SMTP delivery against configured isolated staging,
+  including at-least-once retries/duplicate semantics, before production mail operation.
+- [ ] Acceptance-test live Google authentication against configured staging
+  credentials/provider before production Google authentication.
+- [ ] Before production: owner privacy/unverified-account/financial retention policy;
+  later-domain erasure hooks; broader compromised-password/edge abuse review;
+  mail/credential cleanup scheduling, monitoring and explicit key rotation.
+- [ ] Web/Android phases: secure token persistence and browser CSRF/cookie adapter
+  review if introduced; Phase 10 separate administrator MFA/RBAC.
+
+## Phase 4 — Learning Core / CLOSED / ACCEPTED
+
+- [x] Verify Phase 3 merge/acceptance and read all authoritative scope sources.
+- [x] Confirm scope agreement and record complete known capabilities/dependencies,
+  expected persistence/API/privacy boundaries and gates in
+  [Learning Core](../../docs/architecture/learning-core.md).
+- [x] Product Owner supplied public-safe placement, evaluator/normalization,
+  completion/unlock, mastery/review, content-version and learning-data policies.
+  Rules are recorded in Learning Core; numeric thresholds require explicit versioned
+  policy, with no application pedagogical defaults.
+- [x] Design/implement Phase 4 feature work, including
+  all deterministic components, user-owned attempts/progress/events, account-erasure
+  interaction, bounded authenticated APIs and DB constraints/concurrency behavior.
+- [x] Validate all previous regressions, new domain/API/ownership/race/security tests,
+  migrations/OpenAPI, dependency/security/container and actual hosted required checks/CodeQL.
+- [x] Product Owner accepted PR #9, hosted required checks, Code Scanning and public
+  artifact review; merged implementation verified on main 9194c7c on 2026-10-07.
+- [x] Confirm merged main Backend CI, Phase 0 CI and Python CodeQL completed successfully.
+
+## Phase 5 — Web / CLOSED / ACCEPTED (PR #10 merged)
+
+- [x] Read authoritative scope; sources agree on Phase 5 Web. Record capabilities,
+  dependencies, privacy boundaries and acceptance gates in [Web scope](../../docs/web/README.md).
+- [x] Product Owner accepted selective voice collection with separate consent,
+  explicit purpose, at most twelve months and account-deletion erasure. The earlier
+  indefinite-retention request is superseded; ML remains outside Phase 5.
+- [x] Implement memory-only browser sessions and stable API projections; ADR 0013.
+- [x] Complete local security/runtime review; exact hosted head remains a separate gate.
+- [x] Implement responsive Bokmål-first React/TypeScript client in the working tree:
+  identity, learning/replay/review/placement, dashboard, preferences, localization,
+  course audio/images and the approved microphone workflow.
+- [x] Verify 9/9 Chromium/Firefox/WebKit journeys/accessibility and 243/243 backend
+  PostgreSQL/migration/media/security/race regressions after the latest fixes.
+- [x] Implement storage inventory, reference coordination, expiry/retention and GC.
+- [x] Complete local PostgreSQL/race/failure verification of course delivery/GC;
+  in-flight protection, grace, final reference checks and durable audit tested.
+- [x] Pass final container build/migration/runtime smoke, Web 16/16 component tests,
+  locked backend/npm audits and unchanged Contract 19/19 regressions.
+- [ ] Verify provider staging gates for any live SMTP/Google-dependent journey;
+  mocks do not satisfy provider acceptance; SMTP remains at-least-once.
+- [x] Add real Web quality/tests/dependency and CodeQL Web workflow definitions.
+- [x] Verify all 23 implementation-head hosted checks, including the seven required
+  names and Backend/Web/Contract/receiving/confidentiality/CodeQL regressions.
+- [ ] Verify each final evidence-only head separately; Owner reviews Code Scanning UI
+  because alerts API is inaccessible (403).
+- [x] Restore environment capabilities for Docker/network and `.git` writes;
+  2026-10-07 probes passed, including authenticated Compose-network PostgreSQL and
+  Docker build. A scoped reversible local firewall repair preserves global DROP;
+  reapply after host/network recreation if needed. Complete local application
+  validation passed; feature commit/push/PR and hosted results remain separate gates.
+- [x] Open [PR #10](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/10)
+  against protected main; implementation-head hosted results passed.
+- [x] Investigate manual-review time semantics and missing smoke-course matching
+  binding; clarify submitted-only time and add explicit versioned synthetic binding.
+- [x] Pass correction regressions: 245 backend, 24 Web unit/component, 9 cross-browser
+  E2E, 19 Contract and 25 repository/receiving tests, quality/audits/container gates.
+- [ ] Owner reviews correction-head hosted evidence in PR #10 and rechecks both
+  completed lessons/time; existing enrollments retain their immutable old policy.
+- [x] Product Owner accepted Phase 5 and merged PR #10.
+- [ ] Phase 6 remains authorized in separate OPEN/unmerged PR #17; no merge here.
+
+## Mandatory future production storage gate
+
+- [x] Phase 5 implements storage reconciliation/retention/GC with shared writer/
+  exclusive GC locks, grace, final reference re-check, durable deletion intents and
+  retry/idempotency; local PostgreSQL race/failure tests passed.
+- [x] Implementation-head hosted GC/media regression passed.
+- [x] Owner accepted Phase 5 and merged PR #10; live operational gates below remain open.
+- [ ] Before live production/remote storage/media/import: acceptance-test private
+  unversioned S3 bucket, IAM/anonymous-denial/encryption and provider erasure; schedule
+  monitored cleanup with retention SLA, failure alerts and backups erasure policy.
+  Unmapped orphans remain private; DB rollback is atomic. Functional test success
+  must not silently close live operational acceptance.
+
+## Later owner decisions
+
+Target markets/payment/store policies, hosting/regions, privacy/retention/voice
+handling, recovery objectives, client support and content-version migration rules
+must be settled before their relevant acceptance gates. Do not fabricate product
+rules to unblock infrastructure work.

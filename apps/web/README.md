@@ -30,4 +30,4 @@ Google requires a public build-time VITE_GOOGLE_CLIENT_ID matching an explicitly
 configured backend audience. Client IDs are public identifiers, never provider
 secrets. Missing configuration is shown truthfully. Live Google/SMTP acceptance,
 private remote-storage verification and production operations remain separate gates.
-Android and offline behavior are outside this phase. License remains Owner-pending.
+Android and offline behavior are outside this phase. Proprietary terms are in [LICENSE](../../LICENSE).
