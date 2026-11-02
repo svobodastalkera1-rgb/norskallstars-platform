@@ -1,6 +1,6 @@
 # Development environment
 
-Phase 0 repository tooling remains Python 3.14.2/Git with make bootstrap,
+Repository tooling uses Python 3.14.2/Git with make bootstrap,
 make hooks, make check and make security-check. Backend uses a separate pinned
 Python 3.13.16 environment selected by apps/backend/.python-version and uv.lock.
 Install uv **0.12.23** with your reviewed package manager, or into the bootstrap
@@ -8,7 +8,7 @@ venv: .venv/bin/python -m pip install uv==0.12.23. On Windows use the correspond
 .venv/Scripts/python.exe. Docker Engine and Docker Compose are required for real
 local PostgreSQL/container checks; no private corpus access is needed.
 
-## Start the Phase 1 local runtime
+## Start the local runtime
 
 From the repository root:
 
@@ -24,7 +24,8 @@ for backend readiness. Ports bind only to localhost: API 8000, PostgreSQL 5433.
 The default local environment has no real users or lessons; use synthetic accounts only.
 Health endpoints are http://127.0.0.1:8000/health/live and /health/ready; local
 OpenAPI docs are available at /docs. Phase 3 exposes the documented Identity API;
-no course import/publication or media HTTP routes exist.
+course import/publication remains operator-side; authenticated learning and media
+HTTP APIs are implemented.
 
 Use python3 scripts/phase1.py down to stop services; volumes are preserved.
 Never casually delete generated credentials while retaining a database volume:
@@ -138,7 +139,7 @@ accepted Identity session model; every learner endpoint needs a verified account
 and bearer access token. Mutations require the existing client header/JSON boundary.
 The API inventory/semantics are in docs/architecture/learning-core.md and the
 reviewed contracts/api/learning-v1.openapi.json. Accepted Phase 5 Web and the
-authorized Phase 6 native Android client consume these same contracts.
+native Android client consume these same contracts.
 
 An authorized OS/DB operator can select an already-published eligible release and
 bounded external policy (never a private policy checked into public Git):

@@ -1,56 +1,115 @@
 # NorskAllstars
 
-NorskAllstars Platform is being built for learning Norwegian Bokmål through
-comprehensible input and the Natural Method. The production direction includes
-a responsive Web client and a native Android client backed by the same services.
+**Learn the language. Follow the road. Enter the North.**
 
-**Status: Phases 0–4 CLOSED/ACCEPTED; Phase 5 Web implemented with passing implementation-head local/hosted checks; Product Owner review pending.**
-The backend supplies infrastructure plus generic Course Package validation,
-immutable staged release import and explicit privileged publication transitions.
-Phase 3 adds shared accounts, email/password and Google proof validation,
-verification/recovery, revocable sessions, preferences and self-service deletion.
-Accepted Phase 4 adds canonical learning, versioned policies, progress/review
-and advisory placement. Phase 5 adds the Web client/media boundary on its feature branch, with local and implementation-head hosted validation passed; Owner review pending. Android and production deployment remain unimplemented.
-[Learning Core scope and normative rules](docs/architecture/learning-core.md) records
-the approved implementation baseline. Production v1.0 remains the goal; see the [complete roadmap](ROADMAP.md).
+NorskAllstars is a Norwegian Bokmål learning platform with a responsive Web
+application and a native Android app. It combines comprehensible input and the
+Natural Method with a shared backend for accounts, course releases and private
+learner progress.
 
-## Architecture direction
+## What is built
 
-A monorepo will hold a Python/FastAPI modular monolith, PostgreSQL persistence
-with SQLAlchemy/Alembic, Pydantic validation, React/TypeScript Web, and native
-Kotlin/Jetpack Compose Android. Phase 1 supplies Docker packaging and an object
-storage boundary. Redis or workers require a demonstrated use case. No production
-infrastructure is provisioned.
+- **Web and native Android:** account journeys, course navigation, illustrated
+  text, audio playback, explicit available translations and interactive activities.
+- **Learning Core:** server-evaluated activities, linear mastery gates, optional
+  advisory placement, completion, replay, review and private attempt history.
+  Completed lessons remain replayable without erasing canonical completion.
+- **Shared identity:** email/password registration, verification/recovery,
+  Google sign-in integration, revocable sessions/devices, preferences, sensitive
+  changes with fresh proof, and account deletion.
+- **Course continuity:** immutable versioned releases and release-pinned learner
+  enrollments. Publishing new content does not silently reinterpret prior progress.
+- **Media infrastructure:** authenticated image/audio delivery, object-storage
+  adapters, retention/reconciliation and consent-based selective recording uploads.
 
-| Location | Responsibility | Current state |
-| --- | --- | --- |
-| apps/backend/ | Infrastructure and domain modules | Accepted infrastructure/course/identity/learning; Phase 5 media under validation |
-| apps/web/ | Responsive learning client | React/TypeScript implementation in feature branch; local/implementation-head hosted validation passed; Owner review pending |
-| apps/android/ | Native client and later offline capability | Boundary documentation |
-| contracts/ | Public API and Course Package interfaces | Reviewed Contract v1 and synthetic-only fixture |
-| infra/ | Local runtime; future deployment definitions | Local Docker Compose |
-| docs/ | Engineering, ADRs, security and delivery guidance | Implemented |
-| scripts/ | Repository and confidentiality checks | Implemented |
+These capabilities are implemented and tested. This repository does not claim a
+production deployment, production users or production-scale validation. Live
+external-provider integrations are environment-specific and are not exercised
+against production services in CI.
 
-License selection remains pending Product Owner decision; no license is added.
+## Learning and experience
 
-See [architecture](docs/architecture/README.md) and the [ADR index](docs/adr/README.md).
+Norwegian content remains the learning focus; translations are explicit rather
+than automatic. Progress and mastery come from persisted evidence and versioned
+policies, with no invented default pedagogical threshold. Placement recommends a
+starting point without fabricating completion.
 
-## Course content boundary
+The [World & Experience Bible](docs/product-world/README.md) defines the product's
+long-term world and visual direction: contemporary Norway, human continuity,
+North outside / warmth inside, and pedagogy before spectacle. Existing client
+visuals are not the normative design reference. The approved Experience Contract
+defines the authored-experience boundary; its runtime integration is not implemented.
 
-The separate private NorskAllstars Corpus repository owns teaching materials.
-This platform does not inspect its directory layout or embed real content.
-Integration uses the existing Course Package Contract v1 received through a
-controlled public handoff. Its schemas and synthetic fixture are individually
-inventoried; the fixture remains release-ineligible. No private pilot is included.
-[Integration readiness](docs/corpus-integration/README.md) records the import gate.
-A future development/demo environment must run with synthetic content alone.
+## Architecture
 
-## Local development
+A public monorepo contains a modular backend and two API clients. The backend owns
+identity, authorization, course releases, evaluation and progress. Clients own
+presentation and platform interaction; they do not parse Course Packages or
+independently grant learning credit.
 
-Install Git and Python **3.14.2** for repository tooling. Backend Python **3.13.16**
-and dependencies are managed separately by pinned uv and uv.lock.
-From the repository root on Linux/macOS:
+```mermaid
+flowchart LR
+  Web[React / TypeScript Web] --> API[FastAPI / versioned APIs]
+  Android[Kotlin / Compose Android] --> API
+  API --> Domains[Identity / curriculum / learning / media]
+  Domains --> DB[(PostgreSQL)]
+  Domains --> Storage[Object storage abstraction]
+  Package[Approved Course Package] --> Validation[Bounded validation / staged import]
+  Validation --> Domains
+```
+
+The backend uses Python, FastAPI, Pydantic, SQLAlchemy and Alembic. Persistence is
+PostgreSQL; storage supports local development and an S3-compatible adapter.
+Web uses React/TypeScript and Vite. Android uses Kotlin/Jetpack Compose, Android
+Keystore-protected sessions and lifecycle-aware media handling. Docker/Compose
+provides the local backend/database runtime.
+
+See [architecture](docs/architecture/README.md),
+[API contracts](docs/api/README.md) and [architecture decisions](docs/adr/README.md).
+
+## Content boundary
+
+Authored teaching materials belong to a separate private Corpus. This platform
+has no direct dependency on its repository or internal structure. Integration
+uses **Course Package Contract v1**, with bounded archive/schema/checksum checks,
+immutable staged releases and an explicit audited publication boundary.
+
+Public automated tests and development use approved synthetic fixtures, which
+remain release-ineligible. Real lessons, private packages, prompts and production
+media are excluded from this repository. **No private package is required or accepted.**
+See [Course Package integration](docs/corpus-integration/README.md).
+
+## Security and privacy engineering
+
+Authorization and account ownership are enforced server-side. Learner responses
+and progress are private; clients do not authorize access using supplied user IDs.
+Browser sessions remain in memory; Android credentials use device-bound encrypted
+storage. Recording submission requires separate consent and server selection.
+
+CI checks include PostgreSQL/migration regressions, generated API drift, browser
+E2E/accessibility, native device tests, dependency audits, CodeQL for Python,
+Web and Android, and index/history confidentiality and secret checks. These
+controls complement review; they do not establish production readiness.
+[Security policy](SECURITY.md) · [Security engineering](docs/security/README.md)
+
+## Repository map
+
+| Path | Purpose |
+| --- | --- |
+| `apps/backend/` | FastAPI runtime, domain modules, migrations and tests |
+| `apps/web/` | React client and browser/component tests |
+| `apps/android/` | Native Compose app, locked toolchain and device tests |
+| `contracts/` | Versioned public APIs, learning policy and Course Package artifacts |
+| `infra/` | Local Docker runtime and infrastructure boundaries |
+| `scripts/` | Development, validation, receiving and security tooling |
+| `docs/` | Architecture, product authority, developer guides and review evidence |
+
+## Run locally
+
+Prerequisites: Git, repository Python **3.14.2**, backend Python **3.13.16**,
+uv **0.12.23**, Node **24.21.0**, and Docker/Compose. Backend dependencies use
+`uv.lock`; Web uses `package-lock.json` and `npm ci`. Android's pinned JDK,
+Gradle, SDK and checksum setup are in the [native guide](apps/android/README.md).
 
 ```sh
 make bootstrap
@@ -60,9 +119,7 @@ make hooks
 .venv/bin/python scripts/scan_secrets.py --history main
 ```
 
-The security installer downloads a version/checksum-pinned Gitleaks binary.
-Windows PowerShell equivalents and offline setup are in the
-[development guide](docs/development.md). For the Phase 1 local backend, install Docker/Compose and run:
+Start PostgreSQL, apply migrations and launch the backend/Web runtime:
 
 ```sh
 python3 scripts/phase1.py init
@@ -70,32 +127,25 @@ python3 scripts/phase1.py up
 python3 scripts/phase1.py smoke
 ```
 
-These commands generate ignored local credentials, start PostgreSQL/backend and
-verify health. See the development guide for tests, host-network prerequisites
-and lifecycle commands. No private package is required or accepted.
+Open **http://127.0.0.1:8000/**. The historically named helper starts the current
+local stack. For the Web hot-reload server, with that backend running:
 
-## Public repository security
+```sh
+cd apps/web
+npm ci --ignore-scripts
+npm run dev
+```
 
-Security must hold even when the implementation is fully visible. Confidential
-content and operational secrets belong outside this checkout. Ignore rules,
-a staged-file guard, secret scanning and review reduce accidental disclosure;
-none is a guarantee or an authorization to publish data.
-See [SECURITY.md](SECURITY.md), [CI status](docs/ci.md), and the
-[owner settings checklist](docs/security/github-settings.md).
+Open **http://127.0.0.1:3000/**; API requests proxy to the local backend.
+The [development guide](docs/development.md) covers safe local account verification,
+synthetic scenarios, checks, shutdown and Windows setup. Native installation and
+emulator/device networking are in the [Android guide](apps/android/README.md).
 
-Start a new engineering session with [AGENTS.md](AGENTS.md),
-[PROJECT_STATE.md](PROJECT_STATE.md), and [TASKS.md](TASKS.md).
+## Explore further
 
-Identity API/security/limits: [identity architecture](docs/architecture/identity.md)
-and [threat review](docs/security/phase-3-review.md). Live Google/SMTP configuration
-and client flows still require their acceptance gates. No real emails are sent by CI.
+[Documentation index](docs/README.md) · [Production roadmap](ROADMAP.md) ·
+[Current engineering state](PROJECT_STATE.md) · [Actionable tasks](TASKS.md) ·
+[Contributor/agent instructions](AGENTS.md) · [Changelog](CHANGELOG.md)
 
-Receiving/integration details: [receiving workflow](docs/corpus-integration/receiving.md)
-and [integration architecture](docs/architecture/course-integration.md).
-
-Learning API/policy/security: [Learning Core](docs/architecture/learning-core.md),
-[platform policy](contracts/learning/README.md) and [Phase 4 evidence](docs/phase-4-review.md).
-
-[World & Experience Bible](docs/product-world/README.md) defines normative experience
-direction: contemporary Norway, narrative continuity and North outside / warmth
-inside. Future design/content acceptance follows this authority.
+This is a public development repository. License selection remains a Product
+Owner decision; no open-source license or production-release claim is made.

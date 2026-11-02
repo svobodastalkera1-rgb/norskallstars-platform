@@ -5,13 +5,12 @@ direction. [Experience Contract v1](../product-world/experience-contract-v1.md) 
 and normative; implementation and the approved first slice have NOT started;
 Course Package Contract v1 and its current data boundary remain unchanged.
 
-The baseline is a monorepo with one modular backend and two clients. The
-boundaries were accepted in Phase 0. Phase 1 now implements backend infrastructure;
-Phase 2 adds curriculum release integration; accepted Phase 3 adds [shared identity](identity.md).
-[Phase 4 Learning Core](learning-core.md) is accepted and merged under approved
-public-safe normative rules. [Phase 5 Web](../web/README.md) is accepted and merged through PR #10 under the
-accepted voice/privacy policy. Android implementation remains a separate unmerged
-candidate in PR #17; it is not a current main capability.
+The platform is a monorepo with one modular backend and two online clients.
+Python/FastAPI, PostgreSQL/SQLAlchemy/Alembic, React/TypeScript and native Kotlin/
+Compose are implemented. [Identity](identity.md), [Learning Core](learning-core.md)
+and [Web/media](../web/README.md) share versioned backend contracts with
+[native Android](../android/README.md). Production deployment and later roadmap
+capabilities remain separate work. Client visuals are not normative design precedent.
 
 ```mermaid
 flowchart LR
@@ -36,10 +35,9 @@ Production corpus/media stay outside source control and public CI.
 | Course Package Contract | Upstream-defined data interchange; imported unchanged after approval |
 | Infrastructure | Environment definitions; secrets injected externally |
 
-Use domain modules rather than services by default. Candidate domains include
-identity, curriculum/release management, learning/evaluation, progress/review,
-media, gamification, access/billing, and administration. Current infrastructure layout is described in [backend runtime](backend-runtime.md);
-product module layouts follow their future authorized phases.
+Use domain modules rather than services by default. Implemented domains include identity, curriculum/release management, learning/
+evaluation, progress/review and media. Gamification, access/billing and administration
+remain roadmap work. Runtime layout is described in [backend runtime](backend-runtime.md).
 Each module owns its persistence and public interfaces. Avoid cross-module ORM
 writes and shared mutable domain logic. Public DTOs do not expose storage models.
 The backend is authoritative; clients do not independently decide access rights,

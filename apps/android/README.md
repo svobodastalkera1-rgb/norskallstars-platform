@@ -1,7 +1,8 @@
 # NorskAllstars Android
 
 Native Kotlin/Jetpack Compose online client against existing versioned backend
-APIs. Phase 6 is implemented with passing hosted checks; Owner acceptance is pending.
+APIs. The native client is Owner-accepted and merged; production/provider gates
+remain separate. Existing visuals are not normative Experience design precedent.
 Presentation/ViewModel/network/platform boundaries live under `app/src/main`.
 No Course Package interpretation, offline queue, private content or signing keys.
 

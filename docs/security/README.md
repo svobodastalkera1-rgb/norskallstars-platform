@@ -1,37 +1,35 @@
-# Public repository security baseline
+# Security engineering
 
-Implemented locally: confidentiality ignore rules, an indexed-path/content guard,
-a pre-commit hook, pinned Gitleaks, reachable-history checks and active CI
-security job definitions. Owner-confirmed repository settings are recorded in github-settings.md; Phase 1
-adds runtime guards, dependency audit and a Python CodeQL workflow.
+[SECURITY.md](../../SECURITY.md) defines private reporting and disclosure policy.
+This reference describes implemented boundaries and validation. Production/provider
+acceptance and Owner actions remain in [project state](../../PROJECT_STATE.md)
+and [the settings record](github-settings.md); no scan is a perpetual guarantee.
 
-| Layer | Bootstrap state | Later gate |
-| --- | --- | --- |
-| Confidential content | Index/history path rules and public handoff manifest | Human approval for every imported artifact |
-| Secrets | Redacted Gitleaks in index/history and pre-commit | Owner confirmed alerts/push protection enabled |
-| Dependencies | Weekly GitHub Actions update config | uv lock/audit and update config now exist; Phase 5 adds npm audit/update configuration; Gradle remains deferred |
-| SAST | Ruff security lint and prepared Python CodeQL | Verify hosted Python analysis; client languages wait for runtime |
-| Main protection | Active Protect main ruleset | Seven real checks active with strict up-to-date branches; no bypass/automatic merge |
-| Vulnerability reporting | Private vulnerability reporting enabled by owner | Private triage, supported versions and remediation policy before release |
-| Runtime security | Phase 1 threat review and bounded/safe infrastructure | Threat model and negative resource/auth/import/sync/billing tests |
+| Boundary | Implemented controls / verification |
+| --- | --- |
+| Confidential content | Index/reachable-history guards, approved public artifact inventories, human receiving review and synthetic-only public tests |
+| Secrets | Checksum-pinned redacted Gitleaks, staged-byte checks, optional local hooks and CI; externally injected runtime secrets |
+| Dependencies | Locked uv/npm/Gradle graphs, audits and reviewed Dependabot updates; no advisory suppression to obtain green checks |
+| Static analysis | Ruff security lint, strict backend typing and advanced CodeQL for Python, Web and Android |
+| Identity / learner data | Session authentication, ownership, cross-account regressions, fresh proof, revocation and deletion semantics |
+| Untrusted packages / media | Bounded validation, immutable staged releases, controlled publication, authenticated media and coordinated retention/GC |
+| Clients | Memory-only browser credentials, Android Keystore-backed sessions, lifecycle cleanup and consent-based selective recording |
+| Delivery workflow | Protected-main PR workflow, eleven required checks and strict up-to-date branches; additional Android checks run in CI |
 
-Pin Actions to full commit SHAs. Run untrusted PRs with read-only permissions,
-without repository secrets or private course materials; do not use
-pull_request_target to execute contributor code. Keep artifacts/logs public-safe.
-Dependency updates need review, compatibility checks and security assessment.
-No security scan can establish that a document is approved for publication.
+Actions are pinned to full commit SHAs. Contributor workflows use read-only default
+permissions and no production secrets/private course materials. Code scanning has
+scoped upload permissions. Do not use pull_request_target to execute contributor
+code. Logs and uploaded diagnostics must be public-safe; no raw learner responses,
+credentials, private inputs or arbitrary exception payloads.
 
-Primary references:
-- [GitHub Actions secure use](https://docs.github.com/en/actions/reference/security/secure-use)
-- [GitHub secret scanning](https://docs.github.com/en/code-security/concepts/secret-security/secret-scanning)
-- [GitHub push protection](https://docs.github.com/en/code-security/concepts/secret-security/push-protection)
-- [CodeQL](https://docs.github.com/en/code-security/concepts/code-scanning/codeql/codeql-code-scanning)
-- [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
-- [OWASP API Security](https://owasp.org/www-project-api-security/)
+Threat reviews record threat → control → evidence/residual risk at a point in time:
+[backend](phase-1-review.md), [course integration](phase-2-review.md),
+[identity](phase-3-review.md), [learning](phase-4-review.md),
+[Web/media](phase-5-review.md), [Android](phase-6-review.md).
+Historical provider/operational gates are not silently closed by client acceptance.
+See [confidentiality](confidentiality.md) and [CI reference](../ci.md).
 
-Phase 3 adds [identity threat review](phase-3-review.md): ownership, Google/token
-verification, session replay, input/abuse bounds, account deletion and private mail.
-No course HTTP publication/admin authority or production storage is added.
-
-Phase 5 working-tree boundaries and outstanding verification are documented in
-[Web/media threat review](phase-5-review.md). Hosted results remain pending.
+Primary references: [GitHub Actions secure use](https://docs.github.com/en/actions/reference/security/secure-use),
+[CodeQL](https://docs.github.com/en/code-security/concepts/code-scanning/codeql/codeql-code-scanning),
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
+and [OWASP API Security](https://owasp.org/www-project-api-security/).
