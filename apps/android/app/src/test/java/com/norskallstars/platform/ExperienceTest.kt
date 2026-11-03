@@ -31,4 +31,15 @@ class ExperienceTest {
         val source = lesson(); val reading = source.copy(activities = emptyList(), blocks = source.blocks.filter { it.activity_ref == null })
         assertTrue(experienceSequence(reading).all { it.activity == null })
     }
+    @Test fun inspectionIsBoundedEvenForExtremeSourceRatios() {
+        for ((width, height) in listOf(640 to 360, 360 to 640, 1 to 16000000, 16000000 to 1)) {
+            for (zoom in listOf(1f, 3f)) {
+                val (w, h) = com.norskallstars.platform.ui.inspectionSize(width, height, 320f, 640f, zoom)
+                assertTrue(w > 0f && h > 0f && w <= 960.01f && h <= 1920.01f)
+                val ratio = width.toDouble() / height
+                assertEquals(ratio, w.toDouble() / h, ratio * .00001)
+            }
+        }
+    }
+
 }

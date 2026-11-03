@@ -13,7 +13,7 @@ Normative sources: [Experience v1](../product-world/experience-contract-v1.md),
 The prior capability scan remains dated baseline evidence on its analysis branch;
 current source/API/tests determine current capability. No prior visual is precedent.
 
-## Requirement matrix — established before implementation
+## Requirement matrix — baseline and implementation corrections
 
 | Approved requirement | Classification | Smallest implementation / invariant |
 | --- | --- | --- |
@@ -27,14 +27,19 @@ current source/API/tests determine current capability. No prior visual is preced
 | EXP-REQ-005/010 inspectable images, alt text, focus/back recovery | PRESENTATION_ONLY | Accessible enlargement, bounded existing media; native back/dismiss and Web focus return |
 | Explicit translation | ALREADY_SUPPORTED | Reuse on-demand authorized translation; no automatic fetch/display |
 | EXP-REQ-008 chapter learning order, linear mastery, semantic completion, replay | ALREADY_SUPPORTED | Ornament renders existing completion state; never changes thresholds or awards credit |
-| EXP-REQ-009 reading availability versus local UX versus progression | ALREADY_SUPPORTED | No scroll/acknowledgement completion or reading-specific unlock; no new persistence |
+| EXP-REQ-009 reading availability versus local UX versus progression | DOMAIN_CHANGE_REQUIRED | Preserve existing progression; reject empty content-only attempts server-side, no new persistence/state or reading acknowledgement |
 | Contextual correct/incorrect/completion feedback | PRESENTATION_ONLY | Server evaluation only; unknown/pending/not-applicable stay distinct; ignition/hearth visual language |
 | Character/location/prop/weather/light registry | NOT_REQUIRED_FOR_SLICE | Authoring-only; consume approved renderer-independent assets, not private registries |
 | Chapter opening/closing artwork schema | NOT_REQUIRED_FOR_SLICE | Not required by accepted first-slice reconciliation; use existing lesson illustrations, no invented chapter asset semantics |
 | EXP-REQ-011 separate reading kind | NOT_REQUIRED_FOR_SLICE | Deferred outside normative v1 |
 | Ambience, timed playlists, RetroCel, offline/sync | NOT_REQUIRED_FOR_SLICE | No inferred roles, provider, scheduling or next-phase work |
 
-No DOMAIN_CHANGE_REQUIRED item or migration is justified. No Course Package v1
+The initial matrix anticipated no domain change. Implementation exposed one
+DOMAIN_CHANGE_REQUIRED correctness guard: an available unit without activities
+must not create/submit an empty attempt and receive vacuous completion credit.
+The server now rejects those mutations, matching the approved reading semantics;
+existing committed history is not rewritten. No new state, policy field, threshold
+or migration is introduced. No Course Package v1
 change is proposed. Existing course asset identities, block/activity references
 and authenticated projections suffice. API additions are presentation-safe DTOs,
 not a Course Package/Experience schema extension. Unknown or unresolved media
@@ -70,7 +75,13 @@ asset transcript when the block has none).
 Descriptors resolve only within the enrolled immutable release. No URLs, storage
 keys, answer keys, speaker notes or arbitrary metadata are projected. Existing
 media delivery still checks authenticated account, enrollment ownership, lesson
-availability and declared asset association. Placement does not project stimuli
+availability and declared asset association. Repeated media/transcript references have a 512 KiB escaped-JSON projection budget
+per lesson, checked before learning-release selection and again before response
+construction. A failed compatibility check cannot replace the selected release. This is an engineering resource
+profile, not a pedagogical rule or Course Package schema change. Oversized
+projections fail closed with a generic 413; nothing is truncated. Actual Corpus
+handoff compatibility must be checked against this profile.
+Placement does not project stimuli
 that its existing delivery boundary cannot serve. OpenAPI and generated Web/native
 DTOs describe these additive fields. There are no new endpoints, tables, migrations,
 package fields, entity registries or progression policies.
@@ -106,7 +117,12 @@ uses 16–64 px, task grouping 10–28 px, utility controls retain comfortable t
 Neither client redesigns account/security/history surfaces in this slice.
 
 Web respects `prefers-reduced-motion`; Compose transitions respect the system
-animator duration scale. No autoplay, ambient layer, reward sound, permissions or
+animator duration scale. Declared images reserve a stable letterboxed preview and inspection control while
+loading. The cinematic frame is a presentation choice, not a requirement that
+authored source images share its aspect ratio; contain/inspection preserve the
+whole image. Web regression holds the actual image request and verifies the Start
+hit target does not move when it resolves.
+No autoplay, ambient layer, reward sound, permissions or
 sensory effects are added. Keyboard/screen-reader labels, native Back, touch sizes,
 text scaling, IME and existing microphone/session protection remain requirements.
 Success, incorrect, pending and not-applicable remain distinct. Content-only units without activities have no attempt start/submit affordance;
@@ -210,7 +226,8 @@ not a new privileged operation. Cross-account/anonymous denial and release pinni
 remain server enforced. Existing bounded media decoding/delivery and request limits
 remain unchanged; no external asset URLs or markup execution are introduced. Free-form
 answers stay in existing protected persistence and are not normal-log payloads.
-Inspection reuses authorized bytes and disposes object URLs/native temporary media;
+Inspection reuses authorized bytes, fits both viewport axes before bounded native
+zoom (including extreme source ratios), and disposes object URLs/native temporary media;
 no extra durable cache or sharing is introduced. No storage/provider/GC boundary is
 newly crossed, and existing cleanup/privacy regressions must continue to pass.
 
@@ -229,3 +246,10 @@ screenshots. Run only on the documented reset synthetic test device; retain any
 copied evidence under ignored `.cache/experience-review/android`. Do not use this
 test option for real accounts/content or upload raw device state. The instrumentation
 still runs all required tests and the normal fail-closed gate remains mandatory.
+
+A local compact API 35 journey initially timed out waiting for the placement
+result, before Experience content. Sanitized evidence was preserved; a fresh
+isolated runtime passed all three required tests, as did compact/modern synthetic
+review runs. The initial cause is UNKNOWN, not declared fixed. Additional static
+assertion sites distinguish generic operation error, busy state and missing result
+without emitting private values if it recurs. No gate, retry or timeout was weakened.

@@ -55,6 +55,8 @@ class PlatformJourneyTest {
     // supply the argument or publish screenshots; the secure window stays enabled.
     private fun review(name: String) {
         if (InstrumentationRegistry.getArguments().getString("experienceReview") != "synthetic-only") return
+        val model = androidx.lifecycle.ViewModelProvider(rule.activity)[com.norskallstars.platform.ui.PlatformModel::class.java]
+        rule.waitUntil(30000) { !model.state.value.busy }
         rule.waitForIdle()
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         File(context.cacheDir, "synthetic-review-$name.png").outputStream().use {
@@ -95,7 +97,16 @@ class PlatformJourneyTest {
         click(scenario.getValue("correct_choice").jsonPrimitive.content)
         assessment.activities.forEach { acknowledge(it.activity_id) }
         click("Submit answers")
-        waitFor("Accept recommendation")
+        try { waitFor("Accept recommendation") }
+        catch (failure: ComposeTimeoutException) {
+            val state = androidx.lifecycle.ViewModelProvider(rule.activity)[com.norskallstars.platform.ui.PlatformModel::class.java].state.value
+            // Distinct assertion sites survive the sanitized frame-only harness;
+            // no response, account, credential or arbitrary exception text is emitted.
+            assertTrue("Placement operation reported a generic error", state.message == null)
+            assertFalse("Placement operation remained busy", state.busy)
+            assertNotNull("Placement action produced no result", state.placement)
+            throw failure
+        }
         click("Accept recommendation")
         waitFor("Norwegian, one step at a time.")
         val advisory = probe("advisory result") { api.get<LearningEnrollmentView>("/api/v1/learning/enrollments/${part(enrollment.id)}") }

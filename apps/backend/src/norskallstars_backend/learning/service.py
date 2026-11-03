@@ -80,6 +80,9 @@ async def select_learning_release(
         content = await published_content(db, release_id)
         if content is None:
             raise LearningError(409, "release_unavailable")
+        for name, lesson in content.documents.items():
+            if name.startswith("lessons/"):
+                Learning.check_media_budget(content, lesson)
         try:
             validate_policy(policy, content.documents)
         except ValueError:
@@ -355,7 +358,8 @@ class Learning:
             raise LearningError()
         return lesson
 
-    def media_reference(self, content: PublishedContent, aid: str) -> dto.MediaReferenceView:
+    @staticmethod
+    def media_reference(content: PublishedContent, aid: str) -> dto.MediaReferenceView:
         # Published immutable content only. Never project arbitrary asset metadata.
         assets = content.documents["course.json"]["assets"]
         matches = [a for a in assets if a["asset_id"] == aid]
@@ -369,15 +373,40 @@ class Learning:
             transcript=asset.get("transcript"),
         )
 
-    def block_transcript(self, content: PublishedContent, block: dict[str, Any]) -> str | None:
+    @staticmethod
+    def block_transcript(content: PublishedContent, block: dict[str, Any]) -> str | None:
         if "transcript" in block:
             return cast(str | None, block["transcript"])
         reference = block.get("asset_ref")
         if block["type"] == "audio" and isinstance(reference, str):
             # This is the exact declared audio asset's approved transcript, not
             # speaker notes, a neighboring block or an inferred speech role.
-            return self.media_reference(content, reference).transcript
+            return Learning.media_reference(content, reference).transcript
         return None
+
+    @staticmethod
+    def check_media_budget(content: PublishedContent, lesson: dict[str, Any]) -> None:
+        # Bound repeated references before constructing/serializing a response.
+        # Ingestion string/node limits alone do not bound projection expansion.
+        maximum = 512 << 10
+        total = 0
+        sizes: dict[str, int] = {}
+        for block in lesson["blocks"]:
+            transcript = Learning.block_transcript(content, block)
+            if transcript is not None:
+                total += len(json.dumps(transcript, ensure_ascii=True))
+                if total > maximum:
+                    raise LearningError(413, "content_unavailable")
+        for aid in lesson["activity_refs"]:
+            for reference in content.documents[f"activities/{aid}.json"].get("stimulus_refs", []):
+                if reference not in sizes:
+                    view = Learning.media_reference(content, reference)
+                    sizes[reference] = len(
+                        json.dumps(view.model_dump(mode="json"), ensure_ascii=True)
+                    )
+                total += sizes[reference]
+                if total > maximum:
+                    raise LearningError(413, "content_unavailable")
 
     def activity_view(
         self,
@@ -417,6 +446,7 @@ class Learning:
                 and enrollment.recommended_lesson_id != lid
             ):
                 raise LearningError(409, "lesson_locked")
+            self.check_media_budget(content, lesson)
             blocks = [
                 dto.BlockView(
                     transcript=self.block_transcript(content, b),
@@ -492,6 +522,8 @@ class Learning:
                 and enrollment.recommended_lesson_id != data.lesson_id
             ):
                 raise LearningError(409, "lesson_locked")
+            if not lesson["activity_refs"]:
+                raise LearningError(409, "content_only")
             open_count = await db.scalar(
                 select(func.count())
                 .select_from(Attempt)
@@ -601,6 +633,8 @@ class Learning:
                     raise LearningError(409, "operation_conflict")
                 return self.attempt_view(attempt, rules)
             lesson = self.lesson_document(content, attempt.lesson_id)
+            if not lesson["activity_refs"]:
+                raise LearningError(409, "content_only")
             rule = policy.lessons[attempt.lesson_id]
             evaluated = self.evaluations(
                 content, policy, data, set(lesson["activity_refs"]), set(rule.required_activities)

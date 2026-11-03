@@ -93,13 +93,49 @@ test("real backend identity, pinned enrollment, placement, history and logout", 
   const canonicalCredit = await page
     .getByRole("progressbar")
     .getAttribute("value");
-  await completedLesson
-    .getByRole("button", { name: "Øv igjen", exact: true })
-    .click();
-  await expect(
-    page.getByText("Øving endrer ikke tidligere fullføring."),
-  ).toBeVisible();
-  await page.getByRole("button", { name: "Begynn", exact: true }).click();
+  // Real asynchronous media must not move the Start hit target while loading.
+  let releaseImages = () => {};
+  const imageBarrier = new Promise<void>((resolve) => {
+    releaseImages = resolve;
+  });
+  const pattern = "**/api/v1/media/**/assets/**";
+  const holdImage = async (route: import("@playwright/test").Route) => {
+    if (route.request().url().endsWith("/fixture.asset.garden"))
+      await imageBarrier;
+    await route.continue();
+  };
+  await page.route(pattern, holdImage);
+  try {
+    await completedLesson
+      .getByRole("button", { name: "Øv igjen", exact: true })
+      .click();
+    await expect(
+      page.getByText("Øving endrer ikke tidligere fullføring."),
+    ).toBeVisible();
+    await expect(page.locator("audio")).toBeVisible();
+    const start = page.getByRole("button", { name: "Begynn", exact: true });
+    const before = await start.boundingBox();
+    const scrollBefore = await page.evaluate(() => window.scrollY);
+    const frameBefore = await page.locator(".north-image-frame").boundingBox();
+    await expect(
+      page.getByRole("button", { name: "Se bildet større", exact: true }),
+    ).toBeDisabled();
+    releaseImages();
+    await expect(page.locator(".lesson-image")).toBeVisible();
+    await page
+      .locator(".lesson-image")
+      .evaluate((node) => (node as HTMLImageElement).decode());
+    const after = await start.boundingBox();
+    expect(before).not.toBeNull();
+    expect(after).not.toBeNull();
+    const scrollAfter = await page.evaluate(() => window.scrollY);
+    const frameAfter = await page.locator(".north-image-frame").boundingBox();
+    expect(Math.abs(after!.y - before!.y), JSON.stringify({before,after,scrollBefore,scrollAfter,frameBefore,frameAfter})).toBeLessThanOrEqual(1);
+    await start.click();
+  } finally {
+    releaseImages();
+    await page.unroute(pattern, holdImage);
+  }
   await page
     .getByRole("radio", {
       name: login.scenario.alternative_choice,

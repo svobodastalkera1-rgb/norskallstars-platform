@@ -15,7 +15,13 @@ import type {
   Lesson,
   Placement,
 } from "./types";
-export function Results({ evaluations }: { evaluations: Evaluation[] }) {
+export function Results({
+  evaluations,
+  labels = {},
+}: {
+  evaluations: Evaluation[];
+  labels?: Record<string, string>;
+}) {
   const { t } = useLanguage();
   return (
     <ul className="results" role="list">
@@ -38,7 +44,10 @@ export function Results({ evaluations }: { evaluations: Evaluation[] }) {
                 ? "× "
                 : "◇ "}
           </span>
-          {result.activity_id}:{" "}
+          {Object.hasOwn(labels, result.activity_id)
+            ? labels[result.activity_id]
+            : result.activity_id}
+          :{" "}
           {result.status === "pending"
             ? t("pending")
             : result.status === "not_applicable"
@@ -307,7 +316,12 @@ export function LearningLesson({
             {attempt.completion_credit === true ? "▲" : "△"}
           </span>
           <h2>{t("score")}</h2>
-          <Results evaluations={attempt.evaluations} />
+          <Results
+            evaluations={attempt.evaluations}
+            labels={Object.fromEntries(
+              lesson.activities.map((a) => [a.activity_id, a.prompt]),
+            )}
+          />
           <p>
             {attempt.completion_credit === true
               ? t("completed")

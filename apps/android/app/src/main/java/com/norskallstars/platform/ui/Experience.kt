@@ -42,6 +42,16 @@ val NorthColors = darkColorScheme(
     background = NorthIron, onBackground = Color(0xFFEEF1E9),
     surface = Color(0xFF172D32), onSurface = Color(0xFFEEF1E9),
     surfaceVariant = Color(0xFF283F42), onSurfaceVariant = Color(0xFFD5E0DB),
+    surfaceContainerLowest = Color(0xFF0B171D), surfaceContainerLow = Color(0xFF12252B),
+    surfaceContainer = Color(0xFF172D32), surfaceContainerHigh = Color(0xFF21383C),
+    surfaceContainerHighest = Color(0xFF283F42), surfaceDim = NorthIron,
+    surfaceBright = Color(0xFF30484B), surfaceTint = NorthFire,
+    primaryContainer = Color(0xFF3E4432), onPrimaryContainer = Color(0xFFFFF1D2),
+    secondaryContainer = Color(0xFF304B4B), onSecondaryContainer = Color(0xFFE6ECE6),
+    tertiary = Color(0xFFD5B183), onTertiary = Color(0xFF31281C),
+    tertiaryContainer = Color(0xFF443B2C), onTertiaryContainer = Color(0xFFF4E4C7),
+    inverseSurface = NorthPaper, inverseOnSurface = NorthInk, inversePrimary = Color(0xFF6A4F2A),
+    errorContainer = Color(0xFF48272C), onErrorContainer = Color(0xFFFFDED5),
     error = Color(0xFFFFB7A9), onError = Color(0xFF42252A), outline = Color(0xFF9DB2B3),
 )
 val NorthShapes = Shapes(

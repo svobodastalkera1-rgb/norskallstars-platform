@@ -65,3 +65,37 @@ def test_transcript_preserves_explicit_audio_association_and_block_precedence():
     assert service.block_transcript(content, {"type": "text"}) is None
     with pytest.raises(LearningError):
         service.block_transcript(content, {**block, "asset_ref": "foreign.asset"})
+
+
+@pytest.mark.parametrize("role", ["stimulus", "transcript"])
+def test_repeated_media_cannot_amplify_the_lesson_projection(role):
+    docs = documents(experience_payload())
+    audio = next(a for a in docs["course.json"]["assets"] if a["type"] == "audio")
+    # Each authored string remains within the existing ingestion limit.
+    audio["transcript"] = "Synthetic " + "x" * 16000
+    lesson = docs["lessons/fixture.lesson.signal.json"]
+    if role == "stimulus":
+        template = docs["activities/fixture.activity.choose.json"]
+        lesson["activity_refs"] = []
+        for i in range(40):
+            aid = f"synthetic.task{i}"
+            docs[f"activities/{aid}.json"] = {
+                **template,
+                "activity_id": aid,
+                "stimulus_refs": [audio["asset_id"]],
+            }
+            lesson["activity_refs"].append(aid)
+    else:
+        lesson["blocks"] = [
+            {
+                "block_id": f"synthetic.audio{i}",
+                "type": "audio",
+                "order": i,
+                "asset_ref": audio["asset_id"],
+            }
+            for i in range(40)
+        ]
+    content = PublishedContent(uuid4(), "fixture.course", "1.0.0", docs)
+    with pytest.raises(LearningError) as failure:
+        Learning(Mock(), Mock()).check_media_budget(content, lesson)
+    assert failure.value.status == 413

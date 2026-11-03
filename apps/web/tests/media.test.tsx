@@ -172,6 +172,7 @@ describe("authenticated image inspection", () => {
     const open = await screen.findByRole("button", {
       name: "Se bildet større",
     });
+    await waitFor(() => expect(open).toBeEnabled());
     await userEvent.click(open);
     expect(show).toHaveBeenCalledOnce();
     expect(screen.getByRole("dialog")).toHaveAccessibleName("Se bildet større");

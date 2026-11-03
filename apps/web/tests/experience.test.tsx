@@ -137,3 +137,56 @@ describe("Experience contract presentation", () => {
     );
   });
 });
+
+it("uses the authored task prompt in learner feedback instead of an internal identity", () => {
+  render(
+    <Languages>
+      <Results
+        labels={{ "synthetic.internal": "Synthetic public prompt" }}
+        evaluations={[
+          {
+            activity_id: "synthetic.internal",
+            response: null,
+            normalized: null,
+            evaluator: "synthetic",
+            evaluator_version: "1",
+            score: null,
+            status: "scored",
+            correct: true,
+          },
+        ]}
+      />
+    </Languages>,
+  );
+  expect(
+    screen.getByText(/Synthetic public prompt: Riktig/),
+  ).toBeInTheDocument();
+  expect(screen.queryByText(/synthetic.internal/)).toBeNull();
+});
+
+it.each(["constructor", "__proto__"])(
+  "does not treat prototype key %s as a feedback label",
+  (identity) => {
+    render(
+      <Languages>
+        <Results
+          evaluations={[
+            {
+              activity_id: identity,
+              response: null,
+              normalized: null,
+              evaluator: "synthetic",
+              evaluator_version: "1",
+              score: null,
+              status: "pending",
+              correct: null,
+            },
+          ]}
+        />
+      </Languages>,
+    );
+    expect(
+      screen.getByText(new RegExp(`${identity}: Venter`)),
+    ).toBeInTheDocument();
+  },
+);

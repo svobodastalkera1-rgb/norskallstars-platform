@@ -643,6 +643,40 @@ footer {
   border-left: 2px solid #8c6a3c;
   padding-left: 14px;
 }
+.north-scene .image-slot {
+  aspect-ratio: auto;
+  max-height: none;
+  display: block;
+  overflow: visible;
+}
+.north-image-frame {
+  width: 100%;
+  position: relative;
+  min-height: 0;
+  overflow-anchor: none;
+  aspect-ratio: 16 / 9;
+  max-height: 600px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.north-image-frame > * {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+}
+.north-image-frame > p {
+  display: grid;
+  place-items: center;
+}
+.north-image-frame .lesson-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.north-workspace .north-image-frame {
+  max-height: 220px;
+}
 .north-scene .lesson-image {
   width: 100%;
   max-height: 600px;

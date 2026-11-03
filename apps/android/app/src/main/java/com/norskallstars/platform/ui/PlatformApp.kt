@@ -252,7 +252,7 @@ private fun LessonUi(model: PlatformModel, media: NativeMedia, state: UiState) {
         } else {
             item {
                 Text(if (state.attempt.completion_credit == true) "▲" else "△", color = NorthFire, style = MaterialTheme.typography.headlineLarge)
-                Results(state.attempt.evaluations.orEmpty())
+                Results(state.attempt.evaluations.orEmpty(), labels = lesson.activities.associate { it.activity_id to it.prompt })
                 Action(t(Msg.continueLearning), !state.busy, model::home)
             }
         }
@@ -268,7 +268,7 @@ private fun LessonScene(entry: ExperienceItem, model: PlatformModel, media: Nati
     Column(Modifier.fillMaxWidth().background(NorthPaper).drawBehind { drawLine(NorthFire, Offset.Zero, Offset(0f, size.height), 2.dp.toPx()) }.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         CompositionLocalProvider(LocalContentColor provides NorthInk) {
         block?.text?.let { Text(it, color = NorthInk, fontFamily = FontFamily.Serif, fontSize = 20.sp, lineHeight = 32.sp) }
-        block?.asset_ref?.let { Asset(model.api, media, enrollment.id, lesson.lesson_id, it, block.alt_text ?: "") }
+        block?.asset_ref?.let { Asset(model.api, media, enrollment.id, lesson.lesson_id, it, block.alt_text ?: "", block.type) }
         block?.transcript?.let { Text(it, color = NorthInk) }
         if (block?.translation_available == true) {
             Action(t(Msg.translation), !state.busy) { model.translate(block.block_id) }
@@ -276,7 +276,7 @@ private fun LessonScene(entry: ExperienceItem, model: PlatformModel, media: Nati
         }
         if (activity != null && state.attempt?.submitted_at == null && state.attempt != null) {
             activity.stimuli.orEmpty().forEach { stimulus ->
-                Asset(model.api, media, enrollment.id, lesson.lesson_id, stimulus.asset_id, stimulus.alt_text)
+                Asset(model.api, media, enrollment.id, lesson.lesson_id, stimulus.asset_id, stimulus.alt_text, stimulus.type)
                 stimulus.transcript?.let { Text(it, color = NorthInk) }
             }
             ActivityUi(activity, state.answers[activity.activity_id], !state.busy, model.api, media, state.attempt.id, model::answer)
@@ -323,7 +323,7 @@ private fun HistoryUi(model: PlatformModel, state: UiState) {
 }
 
 @Composable
-fun Results(evaluations: List<LearningEvaluationView>, responses: Boolean = false) {
+fun Results(evaluations: List<LearningEvaluationView>, responses: Boolean = false, labels: Map<String, String> = emptyMap()) {
     val t = LocalStrings.current
     evaluations.forEach { value ->
         val feedback = if (!LocalExperience.current) MaterialTheme.colorScheme.surface else when (value.correct) {
@@ -333,7 +333,7 @@ fun Results(evaluations: List<LearningEvaluationView>, responses: Boolean = fals
         LaunchedEffect(value) { lit = true }
         val surface by animateColorAsState(if (lit) feedback else MaterialTheme.colorScheme.surface, tween(if (value.correct == true) 160 else 900), label = "Experience feedback")
         Column(if (LocalExperience.current) Modifier.fillMaxWidth().background(surface).padding(12.dp) else Modifier) {
-        Text((if (LocalExperience.current) when (value.correct) { true -> "▲ "; false -> "× "; null -> "◇ " } else "") + "${value.activity_id}: " + when {
+        Text((if (LocalExperience.current) when (value.correct) { true -> "▲ "; false -> "× "; null -> "◇ " } else "") + "${labels[value.activity_id] ?: value.activity_id}: " + when {
             value.status == "pending" -> t(Msg.pending)
             value.status == "not_applicable" -> t(Msg.notApplicable)
             value.correct == null -> t(Msg.unknown)

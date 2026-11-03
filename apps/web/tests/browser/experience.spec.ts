@@ -28,6 +28,16 @@ test("synthetic Experience: contextual media, inspection, authored order and sem
   const inspect = page
     .getByRole("button", { name: "Se bildet større", exact: true })
     .first();
+  await page
+    .locator(".lesson-image")
+    .evaluate((node) => (node as HTMLImageElement).decode());
+  const control = await inspect.boundingBox();
+  const frame = await page.locator(".image-slot").boundingBox();
+  expect(control).not.toBeNull();
+  expect(frame).not.toBeNull();
+  expect(control!.y + control!.height).toBeLessThanOrEqual(
+    frame!.y + frame!.height + 1,
+  );
   await inspect.click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.keyboard.press("Escape");
