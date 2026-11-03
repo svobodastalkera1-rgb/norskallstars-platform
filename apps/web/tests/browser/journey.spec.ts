@@ -130,7 +130,17 @@ test("real backend identity, pinned enrollment, placement, history and logout", 
     expect(after).not.toBeNull();
     const scrollAfter = await page.evaluate(() => window.scrollY);
     const frameAfter = await page.locator(".north-image-frame").boundingBox();
-    expect(Math.abs(after!.y - before!.y), JSON.stringify({before,after,scrollBefore,scrollAfter,frameBefore,frameAfter})).toBeLessThanOrEqual(1);
+    expect(
+      Math.abs(after!.y - before!.y),
+      JSON.stringify({
+        before,
+        after,
+        scrollBefore,
+        scrollAfter,
+        frameBefore,
+        frameAfter,
+      }),
+    ).toBeLessThanOrEqual(1);
     await start.click();
   } finally {
     releaseImages();
