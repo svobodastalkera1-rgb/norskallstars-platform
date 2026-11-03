@@ -1,6 +1,6 @@
 # Current engineering state
 
-Updated: 2026-11-02. Product: NorskAllstars / NorskAllstars Platform.
+Updated: 2026-11-03. Product: NorskAllstars / NorskAllstars Platform.
 This file records current facts and remaining gates. [ROADMAP](ROADMAP.md) owns
 future scope; [TASKS](TASKS.md) owns actionable work. Implementation-time state
 and completed task snapshots are preserved in the
@@ -22,7 +22,7 @@ production-facing visual direction, the public README MUST receive a curated
 product showcase with representative Web and Android screenshots using public-safe,
 Owner-approved material. Current
 non-normative UI screenshots must not be substituted. This is a future documentation
-acceptance requirement, not authorization to start the slice or redesign now.
+acceptance requirement; it is not satisfied by the current synthetic review surfaces.
 
 ## Accepted implementation
 
@@ -57,9 +57,11 @@ normative precedent for the upcoming Experience redesign.
 - Experience Contract v1.0: APPROVED / NORMATIVE; Corpus semantic review complete.
 - Course Package Contract v1: unchanged; public upstream files remain inventoried.
 - First integrated slice: **014 → 015 → 016 → REVIEW-02 → READING-02**.
-  Contract-level **READY / IMPLEMENTATION NOT STARTED**. Separate Owner execution
-  authorization and controlled Corpus adoption remain gates; synchronization is
-  not independently verified. No private repository access is authorized.
+  Contract-level **READY**. Owner authorized the Platform implementation on
+  2026-11-03; the bounded implementation is provided for review in
+  [PR #43](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/43).
+  Real Corpus handoff/integrated acceptance remain pending; no private repository
+  access is authorized. See [Experience implementation](docs/experience/README.md).
 - RetroCel is an optional future illustration provider/candidate, not a dependency.
 - Phase 7 and later are NOT STARTED and require separate authorization.
 
@@ -113,3 +115,12 @@ not perpetual assurances of no vulnerabilities or a production-readiness claim.
 Owner review of the documentation/portfolio pass. Before implementation, separately
 authorize the approved Experience integration/slice and verify its controlled public
 inputs. Do not start it, redesign clients or advance the roadmap automatically.
+
+## First Experience Platform slice — current work
+
+PR #42 is merged/accepted on main. This dedicated work reuses accepted Phases 0–6
+and implements only the approved Experience first-slice projection/presentation
+on Web and native Android using clearly synthetic data. No new roadmap phase,
+Course Package change, migration, production provider or RetroCel dependency.
+Exact-head checks and Owner cross-client visual acceptance remain review gates;
+INTEGRATED_SLICE_COMPLETE is not claimed. Real Corpus handoff remains pending.

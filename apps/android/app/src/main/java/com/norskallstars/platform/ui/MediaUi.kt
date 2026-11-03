@@ -5,11 +5,21 @@ import android.graphics.BitmapFactory
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -21,11 +31,15 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 @Composable
-fun Asset(api: Api, media: NativeMedia, enrollment: String, lesson: String, asset: String, alt: String) {
+fun Asset(api: Api, media: NativeMedia, enrollment: String, lesson: String, asset: String, alt: String, kind: String? = null) {
     val t = LocalStrings.current
     var loaded by remember { mutableStateOf<Pair<String, ByteArray>?>(null) }
     var file by remember { mutableStateOf<File?>(null) }
     var failed by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
+    var zoom by remember { mutableFloatStateOf(1f) }
+    val windowWidth = with(LocalDensity.current) { LocalWindowInfo.current.containerSize.width.toDp() }
+    val windowHeight = with(LocalDensity.current) { LocalWindowInfo.current.containerSize.height.toDp() }
     val playing by media.playingFile.collectAsStateWithLifecycle()
     LaunchedEffect(enrollment, lesson, asset) {
         try {
@@ -39,9 +53,14 @@ fun Asset(api: Api, media: NativeMedia, enrollment: String, lesson: String, asse
         file?.delete()
     } }
     val data = loaded
+    if (kind == "image" && (failed || data == null)) {
+        ImageStage { Text(t(if (failed) Msg.mediaError else Msg.loading)) }
+        Action(t(Msg.inspectImage), false) {}
+        return
+    }
     when {
-        failed -> Text(t(Msg.mediaError))
-        data == null -> Text(t(Msg.loading))
+        failed -> Box(Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(t(Msg.mediaError)) }
+        data == null -> Box(Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(t(Msg.loading)) }
         data.first.startsWith("image/") -> {
             val bitmap = remember(data) {
                 val options = BitmapFactory.Options().apply { inJustDecodeBounds = true }
@@ -54,12 +73,52 @@ fun Asset(api: Api, media: NativeMedia, enrollment: String, lesson: String, asse
                     BitmapFactory.decodeByteArray(data.second, 0, data.second.size, options)?.asImageBitmap()
                 }
             }
-            if (bitmap == null) Text(t(Msg.mediaError))
-            else Image(bitmap, contentDescription = alt.ifBlank { t(Msg.courseImage) }, modifier = Modifier.fillMaxWidth().heightIn(max = 320.dp))
+            if (bitmap == null) {
+                ImageStage { Text(t(Msg.mediaError)) }
+                Action(t(Msg.inspectImage), false) {}
+            }
+            else {
+                ImageStage { Image(bitmap, contentDescription = alt.ifBlank { t(Msg.courseImage) }, modifier = Modifier.fillMaxSize()) }
+                Action(t(Msg.inspectImage)) { expanded = true; zoom = 1f }
+                if (expanded) Dialog(onDismissRequest = { expanded = false }, properties = DialogProperties(usePlatformDefaultWidth = false)) {
+                    Surface(Modifier.fillMaxSize()) {
+                        Column(Modifier.padding(20.dp)) {
+                            Action(t(Msg.closeImage)) { expanded = false }
+                            Row {
+                                TextButton({ zoom = (zoom - .5f).coerceAtLeast(1f) }, enabled = zoom > 1f) { Text(t(Msg.zoomOut)) }
+                                TextButton({ zoom = (zoom + .5f).coerceAtMost(3f) }, enabled = zoom < 3f) { Text(t(Msg.zoomIn)) }
+                            }
+                            val size = inspectionSize(bitmap.width, bitmap.height,
+                                (windowWidth - 40.dp).coerceAtLeast(1.dp).value,
+                                (windowHeight - 160.dp).coerceAtLeast(1.dp).value, zoom)
+                            Box(Modifier.weight(1f).horizontalScroll(rememberScrollState()).verticalScroll(rememberScrollState())) {
+                                Image(bitmap, contentDescription = alt.ifBlank { t(Msg.courseImage) }, modifier = Modifier.size(size.first.dp, size.second.dp))
+                            }
+                        }
+                    }
+                }
+            }
         }
         else -> Action(t(if (playing == file && file != null) Msg.stopAudio else Msg.playAudio), file != null) {
             if (playing == file) media.stopPlayback() else file?.let { media.play(it) { failed = true } }
         }
+    }
+}
+
+/** Fit before zoom: an extreme source ratio cannot amplify a layout dimension. */
+internal fun inspectionSize(width: Int, height: Int, availableWidth: Float, availableHeight: Float, zoom: Float): Pair<Float, Float> {
+    require(width > 0 && height > 0 && availableWidth.isFinite() && availableWidth > 0f &&
+        availableHeight.isFinite() && availableHeight > 0f && zoom in 1f..3f)
+    val scale = minOf(availableWidth / width, availableHeight / height)
+    return Pair(width * scale * zoom, height * scale * zoom)
+}
+
+/** Stable presentation frame, not an assumption about the source image's ratio. */
+@Composable
+private fun ImageStage(content: @Composable BoxScope.() -> Unit) {
+    BoxWithConstraints(Modifier.fillMaxWidth()) {
+        Box(Modifier.fillMaxWidth().height((maxWidth * 9f / 16f).coerceAtMost(320.dp)),
+            contentAlignment = Alignment.Center, content = content)
     }
 }
 

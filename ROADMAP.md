@@ -75,3 +75,10 @@ slice 014 → 015 → 016 → REVIEW-02 → READING-02 contract READY. Implement
 NOT started; final execution authorization and synchronized Corpus adoption remain
 separate gates; RetroCel/ambient
 sound are future candidates, not new release dependencies or phase authorization.
+
+## Authorized cross-client Experience slice
+
+Owner authorized Platform implementation on 2026-11-03 against normative Experience
+v1 and Bible v1. This is a bounded cross-client slice, not Phase 7 or full redesign.
+Synthetic Platform readiness precedes controlled real Corpus handoff and integrated
+Owner acceptance. [Scope, matrix and review](docs/experience/README.md).

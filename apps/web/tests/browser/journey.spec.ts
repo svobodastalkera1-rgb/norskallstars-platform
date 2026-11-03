@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { readFileSync } from "node:fs";
+import { reviewEvidence } from "./review-evidence";
 const login = JSON.parse(
   readFileSync("../../.cache/web-e2e/login.json", "utf8"),
 ) as {
@@ -9,6 +10,7 @@ const login = JSON.parse(
     lesson_title: string;
     correct_choice: string;
     alternative_choice: string;
+    reading_title: string;
   };
 };
 async function signIn(
@@ -91,13 +93,59 @@ test("real backend identity, pinned enrollment, placement, history and logout", 
   const canonicalCredit = await page
     .getByRole("progressbar")
     .getAttribute("value");
-  await completedLesson
-    .getByRole("button", { name: "Øv igjen", exact: true })
-    .click();
-  await expect(
-    page.getByText("Øving endrer ikke tidligere fullføring."),
-  ).toBeVisible();
-  await page.getByRole("button", { name: "Begynn", exact: true }).click();
+  // Real asynchronous media must not move the Start hit target while loading.
+  let releaseImages = () => {};
+  const imageBarrier = new Promise<void>((resolve) => {
+    releaseImages = resolve;
+  });
+  const pattern = "**/api/v1/media/**/assets/**";
+  const holdImage = async (route: import("@playwright/test").Route) => {
+    if (route.request().url().endsWith("/fixture.asset.garden"))
+      await imageBarrier;
+    await route.continue();
+  };
+  await page.route(pattern, holdImage);
+  try {
+    await completedLesson
+      .getByRole("button", { name: "Øv igjen", exact: true })
+      .click();
+    await expect(
+      page.getByText("Øving endrer ikke tidligere fullføring."),
+    ).toBeVisible();
+    await expect(page.locator("audio")).toBeVisible();
+    const start = page.getByRole("button", { name: "Begynn", exact: true });
+    const before = await start.boundingBox();
+    const scrollBefore = await page.evaluate(() => window.scrollY);
+    const frameBefore = await page.locator(".north-image-frame").boundingBox();
+    await expect(
+      page.getByRole("button", { name: "Se bildet større", exact: true }),
+    ).toBeDisabled();
+    releaseImages();
+    await expect(page.locator(".lesson-image")).toBeVisible();
+    await page
+      .locator(".lesson-image")
+      .evaluate((node) => (node as HTMLImageElement).decode());
+    const after = await start.boundingBox();
+    expect(before).not.toBeNull();
+    expect(after).not.toBeNull();
+    const scrollAfter = await page.evaluate(() => window.scrollY);
+    const frameAfter = await page.locator(".north-image-frame").boundingBox();
+    expect(
+      Math.abs(after!.y - before!.y),
+      JSON.stringify({
+        before,
+        after,
+        scrollBefore,
+        scrollAfter,
+        frameBefore,
+        frameAfter,
+      }),
+    ).toBeLessThanOrEqual(1);
+    await start.click();
+  } finally {
+    releaseImages();
+    await page.unroute(pattern, holdImage);
+  }
   await page
     .getByRole("radio", {
       name: login.scenario.alternative_choice,
@@ -140,10 +188,31 @@ test("real backend identity, pinned enrollment, placement, history and logout", 
   await expect(page.locator(".results")).toContainText("Venter");
   await page.getByRole("button", { name: "Fortsett", exact: true }).click();
   await expect(page.getByRole("progressbar")).toHaveAttribute("value", "2");
-  await expect(page.getByRole("progressbar")).toHaveAttribute("max", "2");
+  await expect(page.getByRole("progressbar")).toHaveAttribute("max", "3");
   await expect(
     page.getByRole("button", { name: "Øv igjen", exact: true }),
   ).toHaveCount(2);
+  // Reading is available under the existing course policy; opening/scrolling
+  // never supplies completion evidence or credits the canonical path.
+  await page.getByRole("button", { name: "Fortsett", exact: true }).click();
+  await expect(
+    page.getByRole("heading", {
+      name: login.scenario.reading_title,
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(page.locator(".north-prose")).toContainText(
+    "Synthetic paragraph 8.",
+  );
+  await reviewEvidence(page, testInfo, "continuous-reading");
+  await expect(
+    page.getByRole("button", { name: "Send svar", exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: "Begynn", exact: true }),
+  ).toHaveCount(0);
+  await page.getByRole("button", { name: "Tilbake", exact: true }).click();
+  await expect(page.getByRole("progressbar")).toHaveAttribute("value", "2");
   await page.getByRole("button", { name: "Logg ut", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Logg inn", exact: true }),

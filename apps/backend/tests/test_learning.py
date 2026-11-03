@@ -35,7 +35,7 @@ from norskallstars_backend.learning.models import (
     RuleSet,
 )
 from norskallstars_backend.learning.policy import ActivityRule, LearningPolicy, validate_policy
-from norskallstars_backend.learning.service import LearningError, select_learning_release
+from norskallstars_backend.learning.service import Learning, LearningError, select_learning_release
 from norskallstars_backend.storage import LocalObjectStorage
 
 PREFIX = "/api/v1/learning"
@@ -74,7 +74,7 @@ def synthetic_policy(docs):
             activity_rules[aid]["accepted_responses"] = [["synthetic-one", "synthetic-two"]]
     rules = {}
     for lid, lesson in lessons.items():
-        scored = all(
+        scored = bool(lesson["activity_refs"]) and all(
             activities[aid]["evaluation"]["type"] == "deterministic"
             for aid in lesson["activity_refs"]
         )
@@ -148,14 +148,19 @@ def eligible(files):
 
 
 @pytest.fixture
-async def runtime(database, integration_settings, tmp_path):
+async def runtime(database, integration_settings, tmp_path, request):
     async with database.transaction() as db:
         await db.execute(
             text("TRUNCATE identity_accounts, identity_rate_buckets, course_releases CASCADE")
         )
     # Unchanged approved fixture remains release-ineligible. Eligible derivatives exist only
     # in memory/the isolated test DB to exercise the genuine publication boundary.
-    files = payload()
+    if getattr(request, "param", None) == "experience":
+        from experience_fixture import experience_payload
+
+        files = experience_payload()
+    else:
+        files = payload()
     mutate(
         files,
         "lessons/fixture.lesson.signal.json",
@@ -163,6 +168,11 @@ async def runtime(database, integration_settings, tmp_path):
             reference_text="Synthetic explicit translation",
             internal_extra="private-internal-sentinel",
         ),
+    )
+    mutate(
+        files,
+        "activities/fixture.activity.choose.json",
+        lambda d: d.update(stimulus_refs=["fixture.asset.garden"]),
     )
     policy = synthetic_policy(documents(files))
     storage_root = tmp_path / "objects"
@@ -1061,3 +1071,87 @@ def test_required_future_grading_and_unacknowledged_extensions_fail_closed():
     value["package_policy_inputs"] = {}
     with pytest.raises(ValueError):
         validate_policy(LearningPolicy.model_validate(value), docs)
+
+
+@pytest.mark.integration
+async def test_authorized_lesson_projects_transcript_without_private_notes(runtime):
+    _, client, enrollment, *_ = runtime
+    response = await client.get(
+        f"/api/v1/learning/enrollments/{enrollment['id']}/lessons/fixture.lesson.signal"
+    )
+    assert response.status_code == 200
+    blocks = response.json()["blocks"]
+    assert response.json()["activities"][0]["stimuli"][0]["asset_id"] == "fixture.asset.garden"
+    assert next(b for b in blocks if b["type"] == "audio")["transcript"] == "ding-dong"
+    assert "speaker_notes" not in response.text
+    assert "private-internal-sentinel" not in response.text
+    assert (
+        await client.get(f"/api/v1/learning/enrollments/{uuid4()}/lessons/fixture.lesson.signal")
+    ).status_code == 404
+    client.headers.pop("Authorization")
+    assert (
+        await client.get(
+            f"/api/v1/learning/enrollments/{enrollment['id']}/lessons/fixture.lesson.signal"
+        )
+    ).status_code == 401
+
+
+@pytest.mark.integration
+async def test_oversized_projection_cannot_change_the_selected_release(runtime, monkeypatch):
+    service, client, enrollment, policy, *_ = runtime
+    before = (await client.get(PREFIX + "/courses")).json()
+
+    def reject(content, lesson):
+        raise LearningError(413, "content_unavailable")
+
+    monkeypatch.setattr(Learning, "check_media_budget", staticmethod(reject))
+    with pytest.raises(LearningError) as failure:
+        await select_learning_release(
+            service.database,
+            UUID(enrollment["course"]["release_id"]),
+            policy,
+            actor="synthetic-operator",
+            approval="synthetic-only",
+        )
+    assert failure.value.status == 413
+    assert (await client.get(PREFIX + "/courses")).json() == before
+
+
+@pytest.mark.integration
+@pytest.mark.parametrize("runtime", ["experience"], indirect=True)
+async def test_content_only_reading_cannot_create_or_submit_empty_credit(runtime):
+    service, client, enrollment, policy, files, *_ = runtime
+    for lid in ("fixture.lesson.signal", "fixture.lesson.pattern"):
+        attempt = await start(client, enrollment, lid)
+        assert (await finish(client, attempt, policy, files)).json()["completion_credit"]
+    lid = "synthetic.experience.reading"
+    base = PREFIX + f"/enrollments/{enrollment['id']}"
+    assert (await client.get(base + "/lessons/" + lid)).status_code == 200
+    denied = await client.post(
+        base + "/attempts",
+        json={"operation_id": str(uuid4()), "lesson_id": lid, "kind": "canonical"},
+    )
+    assert denied.status_code == 409 and denied.json()["error"]["code"] == "content_only"
+    assert (await client.get(PREFIX + "/dashboard")).json()["submitted_attempts"] == 2
+    # A pre-existing unfinished empty attempt cannot mint credit on submission.
+    async with service.database.transaction() as db:
+        legacy = Attempt(
+            enrollment_id=UUID(enrollment["id"]),
+            operation_id=uuid4(),
+            lesson_id=lid,
+            lesson_version=documents(files)[f"lessons/{lid}.json"]["version"],
+            kind="canonical",
+            started_at=datetime.now(UTC),
+        )
+        db.add(legacy)
+        await db.flush()
+        legacy_id = legacy.id
+    denied = await client.post(
+        PREFIX + f"/attempts/{legacy_id}/submit", json={"acknowledged": True, "responses": []}
+    )
+    assert denied.status_code == 409 and denied.json()["error"]["code"] == "content_only"
+    state = (await client.get(base)).json()
+    assert sum(p["completion"] == "completed" for p in state["progress"]) == 2
+    async with service.database.transaction() as db:
+        row = await db.get(Attempt, legacy_id)
+        assert row.submitted_at is None and row.results is None

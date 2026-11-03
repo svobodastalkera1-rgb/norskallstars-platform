@@ -2,7 +2,8 @@
 
 [Product-world authority](../product-world/README.md) owns normative experience
 direction. [Experience Contract v1](../product-world/experience-contract-v1.md) is approved
-and normative; implementation and the approved first slice have NOT started;
+and normative; bounded Platform implementation is Owner-authorized, with
+real Corpus handoff/integrated acceptance pending ([scope](../experience/README.md));
 Course Package Contract v1 and its current data boundary remain unchanged.
 
 The platform is a monorepo with one modular backend and two online clients.

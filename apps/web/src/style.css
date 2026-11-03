@@ -461,3 +461,408 @@ footer {
     flex-wrap: wrap;
   }
 }
+
+/* Experience slice only: OUTSIDE → JOURNEY → SHELTER. Other surfaces retain their UI. */
+.experience-shell {
+  --north-iron: #101e24;
+  --north-mist: #bacdd0;
+  --north-paper: #eee9dc;
+  --north-fire: #edc185;
+  min-height: 100vh;
+  color: #eef1e9;
+  background:
+    radial-gradient(ellipse at 80% 0%, #24423e 0, transparent 58%), #101e24;
+}
+.experience-shell header {
+  background: #0e1b21;
+  color: #eef1e9;
+  border-bottom: 1px solid #536363;
+}
+.experience-shell .brand,
+.experience-shell nav button {
+  color: #eef1e9;
+}
+.experience-shell .mark {
+  background: #b2cac5;
+  color: #101e24;
+  border-radius: 0;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.experience-shell nav button[aria-current] {
+  background: #2d4749;
+}
+.experience-shell main {
+  margin-top: 0;
+  padding-top: 36px;
+}
+.experience-shell h1 {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+.experience-shell .eyebrow,
+.experience-shell .muted,
+.experience-shell small {
+  color: var(--north-mist);
+}
+.experience-shell button {
+  border-radius: 2px;
+  box-shadow: none;
+  background: #21373c;
+  color: #eef1e9;
+  border-color: #768d8e;
+}
+.experience-shell button:hover {
+  background: #304c50;
+}
+.experience-shell button.primary {
+  background: var(--north-fire);
+  border-color: var(--north-fire);
+  color: #17242a;
+}
+.experience-shell button.primary:hover {
+  background: #f5d7a8;
+}
+.experience-shell .hero {
+  background: none;
+  border: 0;
+  padding: 40px 0 64px;
+  gap: 48px;
+}
+.experience-shell .hero h1 {
+  font-size: clamp(2.6rem, 5vw, 4.8rem);
+  line-height: 1.08;
+}
+.experience-shell .landscape {
+  background: #213a3c;
+  border-radius: 0;
+  min-height: 260px;
+  clip-path: polygon(0 14%, 100% 0, 100% 88%, 0 100%);
+}
+.experience-shell .landscape .mountain {
+  background: #45615f;
+}
+.experience-shell .landscape .sun {
+  background: #d8bd89;
+  width: 15px;
+  height: 15px;
+}
+.experience-shell .card {
+  background: transparent;
+  border: 0;
+  border-top: 1px solid #637779;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 28px 0;
+}
+.experience-shell .metrics {
+  border-block: 1px solid #56696b;
+}
+.experience-shell .metric {
+  background: transparent;
+  color: #eef1e9;
+  border: 0;
+  border-radius: 0;
+}
+.experience-shell .course-header h3 {
+  font-family: Georgia, serif;
+  font-size: 2rem;
+  font-weight: 400;
+}
+.experience-shell .chapter {
+  border-left: 1px solid #b79562;
+  padding-left: 24px;
+}
+.experience-shell .chapter li {
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid #485d60;
+  background: transparent;
+}
+.experience-shell .badge {
+  border-radius: 0;
+  background: #304b4b;
+  color: #eef1e9;
+}
+.experience-shell footer {
+  color: var(--north-mist);
+  background: transparent;
+}
+.north-progress {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.875rem;
+  color: #cbd8d7;
+  margin-block: 16px;
+}
+.north-track {
+  display: inline-flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  max-width: 100%;
+  letter-spacing: 2px;
+}
+.north-track > span {
+  color: #becfce;
+  transition: color 160ms ease;
+}
+.north-track > span[data-complete="true"] {
+  color: var(--north-fire);
+}
+.north-heading {
+  max-width: 70rem;
+  margin: auto auto 32px;
+}
+.north-heading h1 {
+  font-size: clamp(2.2rem, 4vw, 3.8rem);
+}
+.north-sequence {
+  background: var(--north-paper);
+  color: #1b302f;
+  border-left: 2px solid #ac8048;
+  max-width: 70rem;
+  margin: auto;
+  padding: clamp(20px, 5vw, 64px);
+}
+.north-scene {
+  max-width: 68ch;
+  margin: 0 auto;
+  padding-block: 16px;
+}
+.north-prose {
+  font:
+    1.25rem/1.85 Georgia,
+    serif;
+  white-space: pre-line;
+}
+.north-transcript {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  border-left: 2px solid #8c6a3c;
+  padding-left: 14px;
+}
+.north-scene .image-slot {
+  aspect-ratio: auto;
+  max-height: none;
+  display: block;
+  overflow: visible;
+}
+.north-image-frame {
+  width: 100%;
+  position: relative;
+  min-height: 0;
+  overflow-anchor: none;
+  aspect-ratio: 16 / 9;
+  max-height: 600px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.north-image-frame > * {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+}
+.north-image-frame > p {
+  display: grid;
+  place-items: center;
+}
+.north-image-frame .lesson-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.north-workspace .north-image-frame {
+  max-height: 220px;
+}
+.north-scene .lesson-image {
+  width: 100%;
+  max-height: 600px;
+  object-fit: contain;
+  border-radius: 0;
+}
+.north-scene .translation {
+  color: #253e3b;
+  border-color: #9f7d4b;
+  background: #e0d9c8;
+}
+.north-sequence :focus-visible {
+  outline-color: #1b302f;
+}
+.north-workspace :focus-visible {
+  outline-color: var(--north-fire);
+}
+.north-scene button {
+  background: #253b3d;
+  color: #fff8ea;
+}
+.north-lesson[data-mode="learning"] .north-sequence {
+  padding-block: 24px;
+}
+.north-lesson[data-mode="learning"] .north-scene {
+  padding-block: 10px;
+}
+.north-lesson[data-mode="learning"] .north-prose {
+  margin-block: 12px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+.north-lesson[data-mode="learning"] .lesson-image {
+  max-height: 220px;
+}
+.north-workspace {
+  max-width: 46rem;
+  background: #162b31;
+  color: #f0eee5;
+  padding: clamp(16px, 3vw, 28px);
+  border-top: 3px solid #bd9a65;
+}
+.north-workspace .activity {
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.north-workspace legend {
+  font-size: 1.35rem;
+  font-weight: 600;
+  padding: 0 0 16px;
+}
+.north-workspace .check {
+  border-bottom: 1px solid #617579;
+  margin: 0;
+  padding: 10px 0;
+}
+.north-workspace label:has(input:checked) {
+  color: #ffe0a9;
+  background: #294440;
+}
+.north-workspace textarea,
+.north-workspace select,
+.north-workspace input:not([type="checkbox"]):not([type="radio"]) {
+  border-radius: 0;
+  color: #13272c;
+  background: #f4eee0;
+}
+.north-workspace .lesson-image {
+  max-height: 220px;
+}
+.north-action {
+  display: block;
+  margin: 24px auto;
+  min-width: 12rem;
+}
+.north-completion {
+  max-width: 46rem;
+  margin: 32px auto;
+  padding: 32px;
+  border-top: 1px solid #a3b6b6;
+  background: #1a2d32;
+}
+.north-completion[data-credit="true"] {
+  border-color: #e0b879;
+  background: #253a33;
+  animation: north-hearth 900ms ease-out;
+}
+.north-ember {
+  font-size: 2rem;
+  color: var(--north-fire);
+}
+.experience-shell .north-feedback {
+  list-style: none;
+  padding: 16px;
+  margin: 8px 0;
+  border-left: 3px solid #819796;
+}
+.experience-shell .north-feedback[data-state="correct"] {
+  background: #234c3b;
+  color: #e4ffec;
+  border-color: #e5bd79;
+  animation: north-ignition 220ms ease-out;
+}
+.experience-shell .north-feedback[data-state="incorrect"] {
+  background: #48272c;
+  color: #ffded5;
+  border-color: #ffb7a9;
+}
+.north-image-dialog {
+  border: 1px solid #c3a574;
+  border-radius: 0;
+  padding: 20px;
+  background: #101e24;
+  color: white;
+  max-width: 94vw;
+  max-height: 94vh;
+  overflow: auto;
+}
+.north-image-dialog::backdrop {
+  background: #091619e8;
+}
+.north-image-dialog img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-top: 16px;
+}
+@keyframes north-ignition {
+  from {
+    transform: translateY(3px);
+    opacity: 0.7;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes north-hearth {
+  from {
+    background-color: #414535;
+  }
+  to {
+    background-color: #253a33;
+  }
+}
+@media (max-width: 640px) {
+  .experience-shell header {
+    height: auto;
+    padding: 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .experience-shell nav {
+    flex-wrap: wrap;
+  }
+  .experience-shell main {
+    padding: 20px 16px;
+  }
+  .experience-shell .hero {
+    padding: 16px 0 32px;
+  }
+  .experience-shell .landscape {
+    min-height: 160px;
+  }
+  .north-sequence {
+    padding: 16px;
+  }
+  .north-prose {
+    font-size: 1.1rem;
+  }
+  .north-workspace {
+    padding: 16px;
+  }
+  .north-completion {
+    padding: 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .experience-shell *,
+  .north-feedback,
+  .north-completion {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -227,8 +227,8 @@ class ApiTest {
     }
 
     @Test fun inputPresentationFailsClosedAndDoesNotGrade() {
-        val basic = LearningActivityView("synthetic", emptyList(), "deterministic", null,
-            "Synthetic prompt", "text", null, "short_answer")
+        val basic = LearningActivityView(activity_id = "synthetic", choices = emptyList(), evaluation_type = "deterministic", presentation = null,
+            prompt = "Synthetic prompt", response_mode = "text", rubric = null, type = "short_answer")
         assertEquals("text", presentationKind(basic))
         assertNull(presentationKind(basic.copy(response_mode = "pairs", type = "matching")))
         assertNull(presentationKind(basic.copy(presentation = LearningPresentation(null, "unsupported-future-kind", emptyList()))))

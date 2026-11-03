@@ -7,8 +7,9 @@ import secrets
 from pathlib import Path
 
 import httpx2
+from experience_fixture import experience_payload
 from sqlalchemy import text
-from test_course_packages import payload, zipped
+from test_course_packages import zipped
 from test_identity import verified
 from test_learning import documents, eligible, synthetic_policy
 
@@ -24,7 +25,7 @@ from norskallstars_backend.storage import create_storage
 def browser_policy(docs):
     """Explicit binding for the approved synthetic fixture, never runtime inference."""
     policy = synthetic_policy(docs)
-    policy.policy_version = "synthetic-browser-policy-2"
+    policy.policy_version = "synthetic-browser-policy-3-experience"
     policy.activities["fixture.activity.match"].presentation = Presentation(
         kind="matching",
         fields=["yellow square", "blue circle"],
@@ -58,7 +59,7 @@ async def main(client_name="browser"):
         storage = create_storage(settings)
         if storage is None:
             raise RuntimeError("Explicit synthetic local storage required")
-        files = payload()
+        files = experience_payload()
         docs = documents(files)
         policy = browser_policy(docs)
         first_chapter = docs["course.json"]["chapters"][0]
@@ -67,6 +68,7 @@ async def main(client_name="browser"):
         activity = docs[f"activities/{lesson['activity_refs'][0]}.json"]
         scenario = {
             "lesson_title": lesson["title"],
+            "reading_title": "Synthetic continuous reading",
             "correct_choice": activity["accepted_answers"][0],
             "alternative_choice": next(
                 choice
@@ -97,7 +99,7 @@ async def main(client_name="browser"):
             for browser in (
                 ("chromium", "firefox", "webkit") if client_name == "browser" else ("android",)
             ):
-                for flow in ("learning", "accessibility"):
+                for flow in ("learning", "accessibility", "experience"):
                     email = f"synthetic-{browser}-{flow}@example.com"
                     password = secrets.token_urlsafe(24)
                     await verified(app.state.identity, client, password, email)
