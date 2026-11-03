@@ -4,25 +4,20 @@ Current facts and acceptance: [PROJECT_STATE](PROJECT_STATE.md).
 Future product scope: [ROADMAP](ROADMAP.md). Completed task snapshots are retained
 in the [dated engineering archive](docs/reviews/engineering-memory-before-android-closure-2026-11-02.md).
 
-## Current documentation review
+## First integrated Experience slice — Platform authorized 2026-11-03
 
-- [x] Verify Owner-accepted Android PR #17 is merged and its tree matches the accepted head.
-- [x] Rebuild the public README and security policy; add audience-oriented navigation.
-- [x] Reconcile current state without changing contracts, runtime or historical reviews.
-- [ ] Complete exact-head hosted checks and Product Owner review of this documentation PR.
-- [ ] Merge only after a separate Owner decision; no automatic merge.
+- [x] Verify merged Android #17 and public information architecture #42 on main.
+- [x] Record pre-implementation Experience requirement matrix and scope.
+- [x] Implement minimal safe transcript/stimulus projections and Web/native presentation.
+- [ ] Complete local/hosted regression, security and cross-client device checks.
+- [ ] Provide synthetic visual/manual review and obtain Owner visual approval.
+- [ ] Receive actual authored slice through controlled Course Package receiving;
+  compare semantics and exercise normal import/release boundaries end to end.
+- [ ] Claim integrated completion only after real handoff and Owner acceptance.
 
-## Experience integration — authorized contract, implementation NOT STARTED
-
-- [ ] Obtain separate Owner execution authorization for the integrated slice
-  **014 → 015 → 016 → REVIEW-02 → READING-02**; contract-level READY is not
-  implementation authorization or proof of Corpus adoption.
-- [ ] Verify required public-safe inputs through controlled receiving, without private
-  repository access. Synchronization/adoption remains independently unverified.
-- [ ] Follow normative Experience v1, Bible v1.0 and versioned Learning Core rules;
-  never invent fields, thresholds or progression from provisional content.
-- [ ] Obtain visual approval before rollout. Existing Web/Android visuals are evidence,
-  not normative precedent. No RetroCel dependency, mass redesign or next phase.
+Target intermediate state: PLATFORM_IMPLEMENTATION_READY_FOR_CORPUS_HANDOFF.
+See [implementation/review procedure](docs/experience/README.md). No private Corpus
+access, invented lesson content, full visual rollout or next-phase authorization.
 
 ## Licensing and future README showcase
 
@@ -50,4 +45,4 @@ in the [dated engineering archive](docs/reviews/engineering-memory-before-androi
 Provider/storage/privacy/license details remain in PROJECT_STATE and relevant
 security/architecture references. Offline/sync, gamification, billing, administration,
 hardening/operations and release work retain their roadmap scope and require
-separate phase authorization. This documentation task starts none of them.
+separate phase authorization. This Experience slice starts none of them.

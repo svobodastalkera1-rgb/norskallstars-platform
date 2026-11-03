@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "./api";
+import { ProgressOrnament } from "./Experience";
 import { Auth, AccountSettings } from "./Identity";
 import {
   LearningLesson,
@@ -118,7 +119,13 @@ export function App() {
   };
   const back = () => setRoute({ page: "home" });
   return (
-    <>
+    <div
+      className={
+        account && (route.page === "home" || route.page === "lesson")
+          ? "experience-shell"
+          : undefined
+      }
+    >
       <a className="skip" href="#content">
         {t("continue")}
       </a>
@@ -273,6 +280,7 @@ export function App() {
               );
               return (
                 <article className="course card" key={enrollment.id}>
+                  <ProgressOrnament progress={enrollment.progress} />
                   <div className="course-header">
                     <div>
                       <p className="eyebrow">
@@ -408,6 +416,6 @@ export function App() {
         )}
       </main>
       <footer>NorskAllstars · Norsk bokmål</footer>
-    </>
+    </div>
   );
 }

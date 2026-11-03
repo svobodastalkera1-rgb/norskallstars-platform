@@ -5,6 +5,15 @@ import android.graphics.BitmapFactory
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.Text
@@ -26,6 +35,9 @@ fun Asset(api: Api, media: NativeMedia, enrollment: String, lesson: String, asse
     var loaded by remember { mutableStateOf<Pair<String, ByteArray>?>(null) }
     var file by remember { mutableStateOf<File?>(null) }
     var failed by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
+    var zoom by remember { mutableFloatStateOf(1f) }
+    val windowWidth = with(LocalDensity.current) { LocalWindowInfo.current.containerSize.width.toDp() }
     val playing by media.playingFile.collectAsStateWithLifecycle()
     LaunchedEffect(enrollment, lesson, asset) {
         try {
@@ -55,7 +67,24 @@ fun Asset(api: Api, media: NativeMedia, enrollment: String, lesson: String, asse
                 }
             }
             if (bitmap == null) Text(t(Msg.mediaError))
-            else Image(bitmap, contentDescription = alt.ifBlank { t(Msg.courseImage) }, modifier = Modifier.fillMaxWidth().heightIn(max = 320.dp))
+            else {
+                Image(bitmap, contentDescription = alt.ifBlank { t(Msg.courseImage) }, modifier = Modifier.fillMaxWidth().heightIn(max = 320.dp))
+                Action(t(Msg.inspectImage)) { expanded = true; zoom = 1f }
+                if (expanded) Dialog(onDismissRequest = { expanded = false }, properties = DialogProperties(usePlatformDefaultWidth = false)) {
+                    Surface(Modifier.fillMaxSize()) {
+                        Column(Modifier.padding(20.dp)) {
+                            Action(t(Msg.closeImage)) { expanded = false }
+                            Row {
+                                TextButton({ zoom = (zoom - .5f).coerceAtLeast(1f) }, enabled = zoom > 1f) { Text(t(Msg.zoomOut)) }
+                                TextButton({ zoom = (zoom + .5f).coerceAtMost(3f) }, enabled = zoom < 3f) { Text(t(Msg.zoomIn)) }
+                            }
+                            Box(Modifier.weight(1f).horizontalScroll(rememberScrollState()).verticalScroll(rememberScrollState())) {
+                                Image(bitmap, contentDescription = alt.ifBlank { t(Msg.courseImage) }, modifier = Modifier.width((windowWidth - 40.dp).coerceAtLeast(1.dp) * zoom))
+                            }
+                        }
+                    }
+                }
+            }
         }
         else -> Action(t(if (playing == file && file != null) Msg.stopAudio else Msg.playAudio), file != null) {
             if (playing == file) media.stopPlayback() else file?.let { media.play(it) { failed = true } }

@@ -51,6 +51,13 @@
             ],
             "title": "Rubric"
           },
+          "stimuli": {
+            "items": {
+              "$ref": "#/components/schemas/MediaReferenceView"
+            },
+            "title": "Stimuli",
+            "type": "array"
+          },
           "type": {
             "title": "Type",
             "type": "string"
@@ -266,6 +273,17 @@
               }
             ],
             "title": "Text"
+          },
+          "transcript": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transcript"
           },
           "translation_available": {
             "title": "Translation Available",
@@ -758,6 +776,45 @@
           "score"
         ],
         "title": "MasteryView",
+        "type": "object"
+      },
+      "MediaReferenceView": {
+        "additionalProperties": false,
+        "properties": {
+          "alt_text": {
+            "title": "Alt Text",
+            "type": "string"
+          },
+          "asset_id": {
+            "title": "Asset Id",
+            "type": "string"
+          },
+          "transcript": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transcript"
+          },
+          "type": {
+            "enum": [
+              "image",
+              "audio"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "asset_id",
+          "type",
+          "alt_text"
+        ],
+        "title": "MediaReferenceView",
         "type": "object"
       },
       "PlacementInput": {

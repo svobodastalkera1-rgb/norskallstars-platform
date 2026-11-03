@@ -9,6 +9,7 @@ const login = JSON.parse(
     lesson_title: string;
     correct_choice: string;
     alternative_choice: string;
+    reading_title: string;
   };
 };
 async function signIn(
@@ -140,10 +141,27 @@ test("real backend identity, pinned enrollment, placement, history and logout", 
   await expect(page.locator(".results")).toContainText("Venter");
   await page.getByRole("button", { name: "Fortsett", exact: true }).click();
   await expect(page.getByRole("progressbar")).toHaveAttribute("value", "2");
-  await expect(page.getByRole("progressbar")).toHaveAttribute("max", "2");
+  await expect(page.getByRole("progressbar")).toHaveAttribute("max", "3");
   await expect(
     page.getByRole("button", { name: "Øv igjen", exact: true }),
   ).toHaveCount(2);
+  // Reading is available under the existing course policy; opening/scrolling
+  // never supplies completion evidence or credits the canonical path.
+  await page.getByRole("button", { name: "Fortsett", exact: true }).click();
+  await expect(
+    page.getByRole("heading", {
+      name: login.scenario.reading_title,
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(page.locator(".north-prose")).toContainText(
+    "Synthetic paragraph 8.",
+  );
+  await expect(
+    page.getByRole("button", { name: "Send svar", exact: true }),
+  ).toHaveCount(0);
+  await page.getByRole("button", { name: "Tilbake", exact: true }).click();
+  await expect(page.getByRole("progressbar")).toHaveAttribute("value", "2");
   await page.getByRole("button", { name: "Logg ut", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Logg inn", exact: true }),

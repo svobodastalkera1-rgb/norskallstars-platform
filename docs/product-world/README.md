@@ -7,7 +7,8 @@ version 1.0, by Product Owner decision on 2026-11-01. See
 [reconciliation](experience-reconciliation-v1.md). Semantic review is closed; publication and approval lineage remain in the linked
 records. Current execution state belongs to [PROJECT_STATE](../../PROJECT_STATE.md).
 Approved first slice 014 → 015 → 016 → REVIEW-02 → READING-02 is contract READY;
-implementation has NOT started. Course Package v1 remains unchanged. RetroCel
+Platform implementation is Owner-authorized and in progress; actual integrated
+acceptance awaits controlled Corpus handoff. Course Package v1 remains unchanged. RetroCel
 is not a dependency; Corpus adoption/synchronization is not claimed.
 
 [World & Experience Bible v1.0](world-experience-bible-v1.md) is the Product Owner's

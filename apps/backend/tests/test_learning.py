@@ -74,7 +74,7 @@ def synthetic_policy(docs):
             activity_rules[aid]["accepted_responses"] = [["synthetic-one", "synthetic-two"]]
     rules = {}
     for lid, lesson in lessons.items():
-        scored = all(
+        scored = bool(lesson["activity_refs"]) and all(
             activities[aid]["evaluation"]["type"] == "deterministic"
             for aid in lesson["activity_refs"]
         )
@@ -163,6 +163,11 @@ async def runtime(database, integration_settings, tmp_path):
             reference_text="Synthetic explicit translation",
             internal_extra="private-internal-sentinel",
         ),
+    )
+    mutate(
+        files,
+        "activities/fixture.activity.choose.json",
+        lambda d: d.update(stimulus_refs=["fixture.asset.garden"]),
     )
     policy = synthetic_policy(documents(files))
     storage_root = tmp_path / "objects"
@@ -1061,3 +1066,26 @@ def test_required_future_grading_and_unacknowledged_extensions_fail_closed():
     value["package_policy_inputs"] = {}
     with pytest.raises(ValueError):
         validate_policy(LearningPolicy.model_validate(value), docs)
+
+
+@pytest.mark.integration
+async def test_authorized_lesson_projects_transcript_without_private_notes(runtime):
+    _, client, enrollment, *_ = runtime
+    response = await client.get(
+        f"/api/v1/learning/enrollments/{enrollment['id']}/lessons/fixture.lesson.signal"
+    )
+    assert response.status_code == 200
+    blocks = response.json()["blocks"]
+    assert response.json()["activities"][0]["stimuli"][0]["asset_id"] == "fixture.asset.garden"
+    assert next(b for b in blocks if b["type"] == "audio")["transcript"] == "ding-dong"
+    assert "speaker_notes" not in response.text
+    assert "private-internal-sentinel" not in response.text
+    assert (
+        await client.get(f"/api/v1/learning/enrollments/{uuid4()}/lessons/fixture.lesson.signal")
+    ).status_code == 404
+    client.headers.pop("Authorization")
+    assert (
+        await client.get(
+            f"/api/v1/learning/enrollments/{enrollment['id']}/lessons/fixture.lesson.signal"
+        )
+    ).status_code == 401

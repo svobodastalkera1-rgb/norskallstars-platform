@@ -202,6 +202,7 @@ data class LearningActivityView(
     val prompt: String,
     val response_mode: String,
     val rubric: List<String>?,
+    val stimuli: List<LearningMediaReferenceView>? = null,
     val type: String,
 ) {
     override fun toString(): String = "LearningActivityView(redacted)"
@@ -243,6 +244,7 @@ data class LearningBlockView(
     val language: String?,
     val order: Int,
     val text: String?,
+    val transcript: String? = null,
     val translation_available: Boolean,
     val type: String,
 ) {
@@ -382,6 +384,16 @@ data class LearningMasteryView(
     val value: Boolean?,
 ) {
     override fun toString(): String = "LearningMasteryView(redacted)"
+}
+
+@Serializable
+data class LearningMediaReferenceView(
+    val alt_text: String,
+    val asset_id: String,
+    val transcript: String? = null,
+    val type: String,
+) {
+    override fun toString(): String = "LearningMediaReferenceView(redacted)"
 }
 
 @Serializable

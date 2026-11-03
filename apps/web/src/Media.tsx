@@ -19,6 +19,13 @@ export function Asset({
     null,
   );
   const [error, setError] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const dialog = useRef<HTMLDialogElement>(null);
+  const opener = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (expanded) dialog.current?.showModal();
+    else if (dialog.current?.open) dialog.current.close();
+  }, [expanded]);
   useEffect(() => {
     let active = true;
     let url: string | undefined;
@@ -45,7 +52,33 @@ export function Asset({
   ) : !media ? (
     <p role="status">{t("loading")}</p>
   ) : media.type.startsWith("image/") ? (
-    <img className="lesson-image" src={media.url} alt={alt} />
+    <>
+      <img className="lesson-image" src={media.url} alt={alt} />
+      <button type="button" ref={opener} onClick={() => setExpanded(true)}>
+        {t("inspectImage")}
+      </button>
+      <dialog
+        ref={dialog}
+        className="north-image-dialog"
+        aria-label={t("inspectImage")}
+        onClose={() => {
+          setExpanded(false);
+          opener.current?.focus();
+        }}
+        onCancel={() => setExpanded(false)}
+      >
+        <button
+          type="button"
+          autoFocus
+          onClick={() => {
+            dialog.current?.close();
+          }}
+        >
+          {t("closeImage")}
+        </button>
+        {expanded && <img src={media.url} alt={alt} />}
+      </dialog>
+    </>
   ) : (
     <audio
       aria-label={alt || t("response")}

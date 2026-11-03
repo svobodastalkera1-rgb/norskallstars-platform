@@ -355,13 +355,37 @@ class Learning:
             raise LearningError()
         return lesson
 
+    def media_reference(self, content: PublishedContent, aid: str) -> dto.MediaReferenceView:
+        # Published immutable content only. Never project arbitrary asset metadata.
+        assets = content.documents["course.json"]["assets"]
+        matches = [a for a in assets if a["asset_id"] == aid]
+        if len(matches) != 1:
+            raise LearningError()
+        asset = matches[0]
+        return dto.MediaReferenceView(
+            asset_id=aid,
+            type=asset["type"],
+            alt_text=asset["alt_text"],
+            transcript=asset.get("transcript"),
+        )
+
     def activity_view(
-        self, content: PublishedContent, policy: LearningPolicy, aid: str
+        self,
+        content: PublishedContent,
+        policy: LearningPolicy,
+        aid: str,
+        *,
+        include_media: bool = False,
     ) -> dto.ActivityView:
         activity = content.documents[f"activities/{aid}.json"]
         rule = policy.activities[aid]
         return dto.ActivityView(
             activity_id=aid,
+            stimuli=[
+                self.media_reference(content, ref) for ref in activity.get("stimulus_refs", [])
+            ]
+            if include_media
+            else [],
             presentation=rule.presentation,
             type=activity["type"],
             response_mode=activity["response_mode"],
@@ -385,6 +409,7 @@ class Learning:
                 raise LearningError(409, "lesson_locked")
             blocks = [
                 dto.BlockView(
+                    transcript=b.get("transcript"),
                     block_id=b["block_id"],
                     type=b["type"],
                     order=b["order"],
@@ -403,7 +428,8 @@ class Learning:
                 title=lesson["title"],
                 blocks=blocks,
                 activities=[
-                    self.activity_view(content, policy, aid) for aid in lesson["activity_refs"]
+                    self.activity_view(content, policy, aid, include_media=True)
+                    for aid in lesson["activity_refs"]
                 ],
             )
 
