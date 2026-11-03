@@ -369,6 +369,16 @@ class Learning:
             transcript=asset.get("transcript"),
         )
 
+    def block_transcript(self, content: PublishedContent, block: dict[str, Any]) -> str | None:
+        if "transcript" in block:
+            return cast(str | None, block["transcript"])
+        reference = block.get("asset_ref")
+        if block["type"] == "audio" and isinstance(reference, str):
+            # This is the exact declared audio asset's approved transcript, not
+            # speaker notes, a neighboring block or an inferred speech role.
+            return self.media_reference(content, reference).transcript
+        return None
+
     def activity_view(
         self,
         content: PublishedContent,
@@ -409,7 +419,7 @@ class Learning:
                 raise LearningError(409, "lesson_locked")
             blocks = [
                 dto.BlockView(
-                    transcript=b.get("transcript"),
+                    transcript=self.block_transcript(content, b),
                     block_id=b["block_id"],
                     type=b["type"],
                     order=b["order"],

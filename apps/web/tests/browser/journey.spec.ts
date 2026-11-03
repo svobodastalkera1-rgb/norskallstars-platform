@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { readFileSync } from "node:fs";
+import { reviewEvidence } from "./review-evidence";
 const login = JSON.parse(
   readFileSync("../../.cache/web-e2e/login.json", "utf8"),
 ) as {
@@ -157,6 +158,7 @@ test("real backend identity, pinned enrollment, placement, history and logout", 
   await expect(page.locator(".north-prose")).toContainText(
     "Synthetic paragraph 8.",
   );
+  await reviewEvidence(page, testInfo, "continuous-reading");
   await expect(
     page.getByRole("button", { name: "Send svar", exact: true }),
   ).toHaveCount(0);

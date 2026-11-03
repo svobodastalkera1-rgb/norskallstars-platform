@@ -18,7 +18,7 @@ import type {
 export function Results({ evaluations }: { evaluations: Evaluation[] }) {
   const { t } = useLanguage();
   return (
-    <ul className="results">
+    <ul className="results" role="list">
       {evaluations.map((result) => (
         <li
           key={result.activity_id}

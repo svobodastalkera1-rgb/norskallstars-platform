@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import { readFileSync, mkdirSync } from "node:fs";
+import { readFileSync } from "node:fs";
+import { reviewEvidence } from "./review-evidence";
 const login = JSON.parse(
   readFileSync("../../.cache/web-e2e/login.json", "utf8"),
 );
@@ -21,27 +22,7 @@ test("synthetic Experience: contextual media, inspection, authored order and sem
   await expect(
     page.getByRole("group", { name: "Fremgang: 0/3" }),
   ).toBeVisible();
-  const evidence = async (state: string) => {
-    if (
-      process.env.NORSKALLSTARS_VISUAL_EVIDENCE !== "1" ||
-      info.project.name !== "chromium"
-    )
-      return;
-    mkdirSync("../../.cache/experience-review/web", { recursive: true });
-    for (const [name, width, height] of [
-      ["mobile", 390, 844],
-      ["tablet", 820, 1180],
-      ["desktop", 1440, 1000],
-    ] as const) {
-      await page.setViewportSize({ width, height });
-      await page.evaluate(() => window.scrollTo(0, 0));
-      await page.screenshot({
-        path: `../../.cache/experience-review/web/${name}-${state}.png`,
-        fullPage: true,
-      });
-    }
-  };
-  await evidence("journey");
+  await reviewEvidence(page, info, "journey");
   await page.getByRole("button", { name: "Fortsett", exact: true }).click();
   await expect(page.locator(".lesson-image")).toHaveCount(1);
   const inspect = page
@@ -53,7 +34,7 @@ test("synthetic Experience: contextual media, inspection, authored order and sem
   await expect(inspect).toBeFocused();
   await expect(page.locator("audio")).toHaveCount(1);
   await expect(page.locator(".north-transcript")).not.toBeEmpty();
-  await evidence("reading");
+  await reviewEvidence(page, info, "reading");
   await page.getByRole("button", { name: "Begynn", exact: true }).click();
   await expect(page.locator(".north-workspace")).toHaveCount(1);
   await expect(page.locator(".lesson-image")).toHaveCount(2);
@@ -63,7 +44,7 @@ test("synthetic Experience: contextual media, inspection, authored order and sem
       exact: true,
     }),
   ).toHaveCount(1);
-  await evidence("exercise");
+  await reviewEvidence(page, info, "exercise");
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await page
     .getByRole("radio", { name: login.scenario.correct_choice, exact: true })
@@ -73,7 +54,7 @@ test("synthetic Experience: contextual media, inspection, authored order and sem
     .check();
   await page.getByRole("button", { name: "Send svar", exact: true }).click();
   await expect(page.locator('[data-state="correct"]')).toContainText("Riktig");
-  await evidence("completion");
+  await reviewEvidence(page, info, "completion");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator(".north-feedback").first()).toHaveCSS(
     "animation-name",

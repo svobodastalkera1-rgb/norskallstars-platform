@@ -47,3 +47,21 @@ def test_safe_stimulus_projection_never_copies_authoring_metadata():
             "fixture.activity.choose",
             include_media=True,
         )
+
+
+def test_transcript_preserves_explicit_audio_association_and_block_precedence():
+    docs = documents(experience_payload())
+    audio = next(a for a in docs["course.json"]["assets"] if a["type"] == "audio")
+    audio["transcript"] = "Synthetic approved asset transcript"
+    audio["speaker_notes"] = ["private-sentinel"]
+    content = PublishedContent(uuid4(), "fixture.course", "1.0.0", docs)
+    service = Learning(Mock(), Mock())
+    block = {"type": "audio", "asset_ref": audio["asset_id"]}
+    assert service.block_transcript(content, block) == "Synthetic approved asset transcript"
+    assert (
+        service.block_transcript(content, {**block, "transcript": "Explicit block"})
+        == "Explicit block"
+    )
+    assert service.block_transcript(content, {"type": "text"}) is None
+    with pytest.raises(LearningError):
+        service.block_transcript(content, {**block, "asset_ref": "foreign.asset"})

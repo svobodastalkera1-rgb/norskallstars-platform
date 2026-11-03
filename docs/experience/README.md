@@ -65,7 +65,8 @@ access, content reconstruction, deployment, provider integration or next phase.
 ## Implemented technical surface
 
 The existing authorized lesson endpoint adds `ActivityView.stimuli` (asset identity,
-image/audio type, alt text and optional approved transcript) and `BlockView.transcript`.
+image/audio type, alt text and optional approved transcript) and `BlockView.transcript` (explicit block transcript, or the exact declared audio
+asset transcript when the block has none).
 Descriptors resolve only within the enrolled immutable release. No URLs, storage
 keys, answer keys, speaker notes or arbitrary metadata are projected. Existing
 media delivery still checks authenticated account, enrollment ownership, lesson
@@ -147,7 +148,10 @@ Synthetic Experience Lab**, inspect the path, Continue, enlarge/close the geomet
 image, play the synthetic chime and request translation. Start the task, submit
 responses, inspect correct/incorrect feedback and replay. Complete the second unit
 with its explicit matching/self-acknowledgement policy, then open **Synthetic
-continuous reading**. Verify that reading/scrolling does not increment completion.
+continuous reading**. Verify that reading/scrolling does not increment completion:
+this lab remains at two completed exercise units out of three listed units. It
+does not invent a reading acknowledgement merely to display 100%. Real authored
+progression must be verified against the controlled handoff, not inferred here.
 Synthetic review answers: first unit chooses **water** and its acknowledgement.
 Second unit pairs **yellow square → water**, **blue circle → shade**, enters
 `An invented square signals water.` and acknowledges its activities. These are
@@ -160,13 +164,13 @@ For reproducible local Web review screenshots (synthetic learning surfaces only)
 
 ```sh
 python3 scripts/web_e2e.py prepare
-NORSKALLSTARS_VISUAL_EVIDENCE=1 npm --prefix apps/web run e2e -- --project chromium --grep "synthetic Experience" --timeout=120000
+NORSKALLSTARS_VISUAL_EVIDENCE=1 npm --prefix apps/web run e2e -- --project chromium --timeout=120000
 ```
 
 Narrow 390, intermediate 820 and desktop 1440 px images go only to ignored
 `.cache/experience-review/web`. They are review evidence, not an approved README
 showcase or production visual acceptance. The separate review command allows time
-for twelve full-page renders; normal browser CI retains its unchanged 30-second
+for the additional full-page renders; normal browser CI retains its unchanged 30-second
 test limit and does not capture images. Browser traces/videos remain disabled.
 
 ### Android manual review

@@ -9,8 +9,10 @@ in the [dated engineering archive](docs/reviews/engineering-memory-before-androi
 - [x] Verify merged Android #17 and public information architecture #42 on main.
 - [x] Record pre-implementation Experience requirement matrix and scope.
 - [x] Implement minimal safe transcript/stimulus projections and Web/native presentation.
-- [ ] Complete local/hosted regression, security and cross-client device checks.
-- [ ] Provide synthetic visual/manual review and obtain Owner visual approval.
+- [ ] Product Owner review of exact-head local/hosted regression, security and
+  cross-client device evidence on PR #43; never merge automatically.
+- [x] Provide synthetic fixtures and reproducible Web/native manual-review procedures.
+- [ ] Obtain Owner cross-client visual approval of the bounded slice.
 - [ ] Receive actual authored slice through controlled Course Package receiving;
   compare semantics and exercise normal import/release boundaries end to end.
 - [ ] Claim integrated completion only after real handoff and Owner acceptance.

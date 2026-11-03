@@ -654,6 +654,12 @@ footer {
   border-color: #9f7d4b;
   background: #e0d9c8;
 }
+.north-sequence :focus-visible {
+  outline-color: #1b302f;
+}
+.north-workspace :focus-visible {
+  outline-color: var(--north-fire);
+}
 .north-scene button {
   background: #253b3d;
   color: #fff8ea;

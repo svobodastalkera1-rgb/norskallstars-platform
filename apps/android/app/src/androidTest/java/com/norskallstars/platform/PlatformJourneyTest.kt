@@ -105,14 +105,23 @@ class PlatformJourneyTest {
         waitFor(scenario.getValue("lesson_title").jsonPrimitive.content)
         val initialLesson = probe("initial lesson") { api.get<LearningLessonView>("/api/v1/learning/enrollments/${part(enrollment.id)}/lessons/${part(advisory.progress.first { it.available }.lesson_id)}") }
         val image = initialLesson.blocks.first { it.type == "image" && it.alt_text != null }
-        rule.waitUntil(30000) { rule.onAllNodesWithContentDescription(checkNotNull(image.alt_text)).fetchSemanticsNodes().isNotEmpty() }
+        val description = checkNotNull(image.alt_text)
+        rule.waitUntil(30000) {
+            if (rule.onAllNodesWithContentDescription(description).fetchSemanticsNodes().isNotEmpty()) true
+            else runCatching {
+                rule.onNodeWithTag("screen-list").performScrollToNode(hasContentDescription(description))
+                rule.onAllNodesWithContentDescription(description).fetchSemanticsNodes().isNotEmpty()
+            }.getOrDefault(false)
+        }
         assertTrue(initialLesson.blocks.any { it.transcript != null })
-        assertTrue(initialLesson.activities.any { it.stimuli.isNotEmpty() })
+        assertTrue(initialLesson.activities.any { it.stimuli.orEmpty().isNotEmpty() })
         review("reading")
         click("Inspect image")
         rule.onNodeWithText("Enlarge").assertIsDisplayed().performClick()
         // Native Back dismisses inspection, preserving the lesson and its state.
-        androidx.test.espresso.Espresso.pressBack()
+        InstrumentationRegistry.getInstrumentation().sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK)
+        val inspectionModel = androidx.lifecycle.ViewModelProvider(rule.activity)[com.norskallstars.platform.ui.PlatformModel::class.java]
+        assertEquals(com.norskallstars.platform.ui.Page.LESSON, inspectionModel.state.value.page)
         waitFor(scenario.getValue("lesson_title").jsonPrimitive.content)
         click("Start")
         waitFor("Submit answers")

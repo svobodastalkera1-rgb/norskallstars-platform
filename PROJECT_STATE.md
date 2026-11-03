@@ -58,7 +58,8 @@ normative precedent for the upcoming Experience redesign.
 - Course Package Contract v1: unchanged; public upstream files remain inventoried.
 - First integrated slice: **014 → 015 → 016 → REVIEW-02 → READING-02**.
   Contract-level **READY**. Owner authorized the Platform implementation on
-  2026-11-03; implementation and validation are in progress on a dedicated PR.
+  2026-11-03; the bounded implementation is provided for review in
+  [PR #43](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/43).
   Real Corpus handoff/integrated acceptance remain pending; no private repository
   access is authorized. See [Experience implementation](docs/experience/README.md).
 - RetroCel is an optional future illustration provider/candidate, not a dependency.
@@ -121,5 +122,5 @@ PR #42 is merged/accepted on main. This dedicated work reuses accepted Phases 0�
 and implements only the approved Experience first-slice projection/presentation
 on Web and native Android using clearly synthetic data. No new roadmap phase,
 Course Package change, migration, production provider or RetroCel dependency.
-Final readiness and exact-head checks must be established before Owner review;
+Exact-head checks and Owner cross-client visual acceptance remain review gates;
 INTEGRATED_SLICE_COMPLETE is not claimed. Real Corpus handoff remains pending.

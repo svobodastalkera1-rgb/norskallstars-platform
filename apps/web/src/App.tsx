@@ -350,7 +350,7 @@ export function App() {
                   {enrollment.chapters.map((chapter) => (
                     <section className="chapter" key={chapter.chapter_id}>
                       <h4>{chapter.title}</h4>
-                      <ul>
+                      <ul role="list" aria-label={chapter.title}>
                         {chapter.lessons.map((lesson) => {
                           const state = enrollment.progress.find(
                             (p) => p.lesson_id === lesson.lesson_id,
