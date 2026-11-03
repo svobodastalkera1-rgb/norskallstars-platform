@@ -108,7 +108,8 @@ Web respects `prefers-reduced-motion`; Compose transitions respect the system
 animator duration scale. No autoplay, ambient layer, reward sound, permissions or
 sensory effects are added. Keyboard/screen-reader labels, native Back, touch sizes,
 text scaling, IME and existing microphone/session protection remain requirements.
-Success, incorrect, pending and not-applicable remain distinct. Backend completion
+Success, incorrect, pending and not-applicable remain distinct. Content-only units without activities have no attempt start/submit affordance;
+there is no invented reading acknowledgement. Backend completion
 is never inferred from marker color, scrolling, playback, reading or acknowledgement.
 
 ## Synthetic review environment
@@ -147,6 +148,10 @@ image, play the synthetic chime and request translation. Start the task, submit
 responses, inspect correct/incorrect feedback and replay. Complete the second unit
 with its explicit matching/self-acknowledgement policy, then open **Synthetic
 continuous reading**. Verify that reading/scrolling does not increment completion.
+Synthetic review answers: first unit chooses **water** and its acknowledgement.
+Second unit pairs **yellow square → water**, **blue circle → shade**, enters
+`An invented square signals water.` and acknowledges its activities. These are
+public artificial test values, not real authored answers.
 A rubric result may remain pending while its explicit completion policy is met;
 this is not a fabricated score. All content/answers for this artificial fixture are
 public test data; no real course or learner content is required.
@@ -154,12 +159,15 @@ public test data; no real course or learner content is required.
 For reproducible local Web review screenshots (synthetic learning surfaces only):
 
 ```sh
-NORSKALLSTARS_VISUAL_EVIDENCE=1 python3 scripts/web_e2e.py run
+python3 scripts/web_e2e.py prepare
+NORSKALLSTARS_VISUAL_EVIDENCE=1 npm --prefix apps/web run e2e -- --project chromium --grep "synthetic Experience" --timeout=120000
 ```
 
 Narrow 390, intermediate 820 and desktop 1440 px images go only to ignored
 `.cache/experience-review/web`. They are review evidence, not an approved README
-showcase or production visual acceptance. Browser traces/videos remain disabled.
+showcase or production visual acceptance. The separate review command allows time
+for twelve full-page renders; normal browser CI retains its unchanged 30-second
+test limit and does not capture images. Browser traces/videos remain disabled.
 
 ### Android manual review
 

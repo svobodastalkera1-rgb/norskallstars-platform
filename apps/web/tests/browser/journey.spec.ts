@@ -160,6 +160,9 @@ test("real backend identity, pinned enrollment, placement, history and logout", 
   await expect(
     page.getByRole("button", { name: "Send svar", exact: true }),
   ).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: "Begynn", exact: true }),
+  ).toHaveCount(0);
   await page.getByRole("button", { name: "Tilbake", exact: true }).click();
   await expect(page.getByRole("progressbar")).toHaveAttribute("value", "2");
   await page.getByRole("button", { name: "Logg ut", exact: true }).click();

@@ -242,28 +242,11 @@ private fun LessonUi(model: PlatformModel, media: NativeMedia, state: UiState) {
             if (state.practice) Text(t(Msg.replayNote))
         }
         items(sequence, key = { it.block?.block_id ?: "activity/${it.activity!!.activity_id}" }) { entry ->
-            val block = entry.block
-            val activity = entry.activity
-            Column(Modifier.fillMaxWidth().background(NorthPaper).drawBehind { drawLine(NorthFire, Offset.Zero, Offset(0f, size.height), 2.dp.toPx()) }.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                CompositionLocalProvider(LocalContentColor provides NorthInk) {
-                block?.text?.let { Text(it, color = NorthInk, fontFamily = FontFamily.Serif, fontSize = 20.sp, lineHeight = 32.sp) }
-                block?.asset_ref?.let { Asset(model.api, media, enrollment.id, lesson.lesson_id, it, block.alt_text ?: "") }
-                block?.transcript?.let { Text(it, color = NorthInk) }
-                if (block?.translation_available == true) {
-                    Action(t(Msg.translation), !state.busy) { model.translate(block.block_id) }
-                    state.translations[block.block_id]?.let { Text(it, color = NorthInk) }
-                }
-                if (activity != null && state.attempt?.submitted_at == null && state.attempt != null) {
-                    activity.stimuli.orEmpty().forEach { stimulus ->
-                        Asset(model.api, media, enrollment.id, lesson.lesson_id, stimulus.asset_id, stimulus.alt_text)
-                        stimulus.transcript?.let { Text(it, color = NorthInk) }
-                    }
-                    ActivityUi(activity, state.answers[activity.activity_id], !state.busy, model.api, media, state.attempt.id, model::answer)
-                }
-                }
-            }
+            LessonScene(entry, model, media, state, lesson, enrollment)
         }
-        if (state.attempt == null) item { Action(t(Msg.start), !state.busy, model::start) }
+        if (state.attempt == null) {
+            if (lesson.activities.isNotEmpty()) item { Action(t(Msg.start), !state.busy, model::start) }
+        }
         else if (state.attempt.submitted_at == null) {
             item { Action(t(Msg.submit), !state.busy && lesson.activities.all { state.answers[it.activity_id]?.acknowledged == true }, model::submit) }
         } else {
@@ -272,6 +255,32 @@ private fun LessonUi(model: PlatformModel, media: NativeMedia, state: UiState) {
                 Results(state.attempt.evaluations.orEmpty())
                 Action(t(Msg.continueLearning), !state.busy, model::home)
             }
+        }
+    }
+}
+
+@Composable
+private fun LessonScene(entry: ExperienceItem, model: PlatformModel, media: NativeMedia,
+    state: UiState, lesson: LearningLessonView, enrollment: LearningEnrollmentView) {
+    val t = LocalStrings.current
+    val block = entry.block
+    val activity = entry.activity
+    Column(Modifier.fillMaxWidth().background(NorthPaper).drawBehind { drawLine(NorthFire, Offset.Zero, Offset(0f, size.height), 2.dp.toPx()) }.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        CompositionLocalProvider(LocalContentColor provides NorthInk) {
+        block?.text?.let { Text(it, color = NorthInk, fontFamily = FontFamily.Serif, fontSize = 20.sp, lineHeight = 32.sp) }
+        block?.asset_ref?.let { Asset(model.api, media, enrollment.id, lesson.lesson_id, it, block.alt_text ?: "") }
+        block?.transcript?.let { Text(it, color = NorthInk) }
+        if (block?.translation_available == true) {
+            Action(t(Msg.translation), !state.busy) { model.translate(block.block_id) }
+            state.translations[block.block_id]?.let { Text(it, color = NorthInk) }
+        }
+        if (activity != null && state.attempt?.submitted_at == null && state.attempt != null) {
+            activity.stimuli.orEmpty().forEach { stimulus ->
+                Asset(model.api, media, enrollment.id, lesson.lesson_id, stimulus.asset_id, stimulus.alt_text)
+                stimulus.transcript?.let { Text(it, color = NorthInk) }
+            }
+            ActivityUi(activity, state.answers[activity.activity_id], !state.busy, model.api, media, state.attempt.id, model::answer)
+        }
         }
     }
 }

@@ -273,7 +273,7 @@ export function LearningLesson({
             </section>
           ))}
         </div>
-        {!attempt && (
+        {!attempt && lesson.activities.length > 0 && (
           <button
             type="button"
             className="primary north-action"
@@ -283,7 +283,7 @@ export function LearningLesson({
             {t("start")}
           </button>
         )}
-        {attempt && !attempt.submitted_at && (
+        {attempt && !attempt.submitted_at && lesson.activities.length > 0 && (
           <button
             className="primary north-action"
             disabled={

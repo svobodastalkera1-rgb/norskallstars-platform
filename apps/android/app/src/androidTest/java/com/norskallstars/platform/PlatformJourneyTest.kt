@@ -110,7 +110,7 @@ class PlatformJourneyTest {
         assertTrue(initialLesson.activities.any { it.stimuli.isNotEmpty() })
         review("reading")
         click("Inspect image")
-        rule.onNodeWithText("Zoom in").assertIsDisplayed().performClick()
+        rule.onNodeWithText("Enlarge").assertIsDisplayed().performClick()
         // Native Back dismisses inspection, preserving the lesson and its state.
         androidx.test.espresso.Espresso.pressBack()
         waitFor(scenario.getValue("lesson_title").jsonPrimitive.content)
@@ -154,6 +154,7 @@ class PlatformJourneyTest {
         click("Continue")
         waitFor(scenario.getValue("reading_title").jsonPrimitive.content)
         rule.onAllNodesWithText("Submit answers").assertCountEquals(0)
+        rule.onAllNodesWithText("Start").assertCountEquals(0)
         click("Back")
         val afterReading = probe("reading does not grant credit") { api.get<LearningEnrollmentView>("/api/v1/learning/enrollments/${part(enrollment.id)}") }
         assertEquals(2, afterReading.progress.count { it.completion == "completed" })
