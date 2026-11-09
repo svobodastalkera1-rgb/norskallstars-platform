@@ -329,7 +329,7 @@ export function LearningLesson({
                 ? t("replayNote")
                 : t("inProgress")}
           </p>
-          <button type="button" onClick={onBack}>
+          <button type="button" disabled={busy} onClick={onBack}>
             {t("continue")}
           </button>
         </section>

@@ -155,8 +155,31 @@ test("real backend identity, pinned enrollment, placement, history and logout", 
   await page
     .getByLabel("Jeg har gjennomført oppgaven", { exact: true })
     .check();
-  await page.getByRole("button", { name: "Send svar", exact: true }).click();
-  await expect(page.locator(".results")).toContainText("Prøv igjen");
+  // Results arrive before the canonical dashboard refresh. Keep navigation
+  // disabled until that refresh settles so its loading surface cannot move a
+  // live Continue target between pointer down/up (notably in WebKit).
+  let releaseRefresh = () => {};
+  const refreshBarrier = new Promise<void>((resolve) => {
+    releaseRefresh = resolve;
+  });
+  const dashboardPattern = "**/api/v1/learning/dashboard";
+  const holdRefresh = async (route: import("@playwright/test").Route) => {
+    await refreshBarrier;
+    await route.continue();
+  };
+  await page.route(dashboardPattern, holdRefresh);
+  try {
+    await page.getByRole("button", { name: "Send svar", exact: true }).click();
+    await expect(page.locator(".results")).toContainText("Prøv igjen");
+    await expect(page.locator("main")).toHaveAttribute("aria-busy", "true");
+    await expect(
+      page.getByRole("button", { name: "Fortsett", exact: true }),
+    ).toBeDisabled();
+  } finally {
+    releaseRefresh();
+    await page.unrouteAll({ behavior: "wait" });
+  }
+  await expect(page.locator("main")).toHaveAttribute("aria-busy", "false");
   await page.getByRole("button", { name: "Fortsett", exact: true }).click();
   await expect(completedLesson).toContainText("Fullført");
   await expect(page.getByRole("progressbar")).toHaveAttribute(
