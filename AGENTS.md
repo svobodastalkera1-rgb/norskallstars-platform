@@ -85,7 +85,9 @@ Owner-approved benchmarks. Preserve behavior/accessibility, not legacy appearanc
 Experience Contract v1 is APPROVED / NORMATIVE as of 2026-11-01; read
 docs/product-world/experience-contract-v1.md and the dated approval record. Semantic
 review is closed; contract-level first slice 014 → 015 → 016 → REVIEW-02 → READING-02
-is READY, implementation NOT STARTED. No new reading state/gate absent authoritative
+is contract-level READY. Owner authorized a bounded Platform implementation on
+2026-11-03; read docs/experience/README.md and current PROJECT_STATE/TASKS.
+Real Corpus handoff and integrated acceptance remain pending. No new reading state/gate absent authoritative
 data; local reading UX grants no canonical credit. Existing attribution/text/audio
 suffice; no voice registry/sidecar. EXP-REQ-011 is deferred outside normative v1.
 Do not invent fields or extend Course Package v1. RetroCel is a future candidate, not a dependency. Bible adoption does

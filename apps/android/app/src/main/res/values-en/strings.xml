@@ -100,4 +100,8 @@
   <string name="text_play_recording">Play my recording</string>
   <string name="text_stop_audio">Stop playback</string>
   <string name="text_course_image">Course image</string>
+  <string name="text_inspect_image">Inspect image</string>
+  <string name="text_close_image">Close image</string>
+  <string name="text_zoom_in">Enlarge</string>
+  <string name="text_zoom_out">Reduce</string>
 </resources>

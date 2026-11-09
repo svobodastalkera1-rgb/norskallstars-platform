@@ -1,6 +1,8 @@
 package com.norskallstars.platform
 
 import androidx.compose.ui.test.*
+import androidx.compose.ui.graphics.asAndroidBitmap
+import android.graphics.Bitmap
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.platform.app.InstrumentationRegistry
 import com.norskallstars.platform.data.*
@@ -49,6 +51,18 @@ class PlatformJourneyTest {
         rule.onNodeWithTag("screen-list").performScrollToNode(hasTestTag("$id/ack"))
         rule.onNodeWithTag("$id/ack").performClick()
     }
+    // Opt-in local evidence of this guarded synthetic journey only. CI does not
+    // supply the argument or publish screenshots; the secure window stays enabled.
+    private fun review(name: String) {
+        if (InstrumentationRegistry.getArguments().getString("experienceReview") != "synthetic-only") return
+        val model = androidx.lifecycle.ViewModelProvider(rule.activity)[com.norskallstars.platform.ui.PlatformModel::class.java]
+        rule.waitUntil(30000) { !model.state.value.busy }
+        rule.waitForIdle()
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        File(context.cacheDir, "synthetic-review-$name.png").outputStream().use {
+            rule.onRoot().captureToImage().asAndroidBitmap().compress(Bitmap.CompressFormat.PNG, 100, it)
+        }
+    }
     private fun finishAttempt() {
         // Await the real result screen, not a tight stream of server probes.
         // Failure to submit must fail this UI gate, never become a rate-limit storm.
@@ -83,24 +97,54 @@ class PlatformJourneyTest {
         click(scenario.getValue("correct_choice").jsonPrimitive.content)
         assessment.activities.forEach { acknowledge(it.activity_id) }
         click("Submit answers")
-        waitFor("Accept recommendation")
+        try { waitFor("Accept recommendation") }
+        catch (failure: ComposeTimeoutException) {
+            val state = androidx.lifecycle.ViewModelProvider(rule.activity)[com.norskallstars.platform.ui.PlatformModel::class.java].state.value
+            // Distinct assertion sites survive the sanitized frame-only harness;
+            // no response, account, credential or arbitrary exception text is emitted.
+            assertTrue("Placement operation reported a generic error", state.message == null)
+            assertFalse("Placement operation remained busy", state.busy)
+            assertNotNull("Placement action produced no result", state.placement)
+            throw failure
+        }
         click("Accept recommendation")
         waitFor("Norwegian, one step at a time.")
         val advisory = probe("advisory result") { api.get<LearningEnrollmentView>("/api/v1/learning/enrollments/${part(enrollment.id)}") }
         assertTrue(advisory.progress.none { it.completion == "completed" })
+        review("journey")
         click("Continue")
         waitFor(scenario.getValue("lesson_title").jsonPrimitive.content)
         val initialLesson = probe("initial lesson") { api.get<LearningLessonView>("/api/v1/learning/enrollments/${part(enrollment.id)}/lessons/${part(advisory.progress.first { it.available }.lesson_id)}") }
         val image = initialLesson.blocks.first { it.type == "image" && it.alt_text != null }
-        rule.waitUntil(30000) { rule.onAllNodesWithContentDescription(checkNotNull(image.alt_text)).fetchSemanticsNodes().isNotEmpty() }
+        val description = checkNotNull(image.alt_text)
+        rule.waitUntil(30000) {
+            if (rule.onAllNodesWithContentDescription(description).fetchSemanticsNodes().isNotEmpty()) true
+            else runCatching {
+                rule.onNodeWithTag("screen-list").performScrollToNode(hasContentDescription(description))
+                rule.onAllNodesWithContentDescription(description).fetchSemanticsNodes().isNotEmpty()
+            }.getOrDefault(false)
+        }
+        assertTrue(initialLesson.blocks.any { it.transcript != null })
+        assertTrue(initialLesson.activities.any { it.stimuli.orEmpty().isNotEmpty() })
+        review("reading")
+        click("Inspect image")
+        rule.onNodeWithText("Enlarge").assertIsDisplayed().performClick()
+        // Native Back dismisses inspection, preserving the lesson and its state.
+        InstrumentationRegistry.getInstrumentation().sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK)
+        val inspectionModel = androidx.lifecycle.ViewModelProvider(rule.activity)[com.norskallstars.platform.ui.PlatformModel::class.java]
+        assertEquals(com.norskallstars.platform.ui.Page.LESSON, inspectionModel.state.value.page)
+        waitFor(scenario.getValue("lesson_title").jsonPrimitive.content)
         click("Start")
         waitFor("Submit answers")
+        review("exercise")
         click(scenario.getValue("correct_choice").jsonPrimitive.content)
         val first = probe("canonical progress") { api.get<LearningEnrollmentView>("/api/v1/learning/enrollments/${part(enrollment.id)}") }
         val lessonId = first.progress.first { it.available && it.completion != "completed" }.lesson_id
         val lesson = probe("canonical lesson") { api.get<LearningLessonView>("/api/v1/learning/enrollments/${part(enrollment.id)}/lessons/${part(lessonId)}") }
         lesson.activities.forEach { acknowledge(it.activity_id) }
         click("Submit answers")
+        waitFor("Continue")
+        review("completion")
         finishAttempt()
         val canonical = probe("canonical completion") { api.get<LearningEnrollmentView>("/api/v1/learning/enrollments/${part(enrollment.id)}") }
         assertEquals(1, canonical.progress.count { it.completion == "completed" })
@@ -125,7 +169,15 @@ class PlatformJourneyTest {
         assertEquals(3, probe("final count") { api.get<Map<String, Int>>("/api/v1/learning/dashboard") }["submitted_attempts"])
         val completed = probe("pinned completion") { api.get<LearningEnrollmentView>("/api/v1/learning/enrollments/${part(enrollment.id)}") }
         assertEquals(pinned, completed.course.release_id)
-        assertTrue(completed.progress.all { it.completion == "completed" })
+        assertEquals(2, completed.progress.count { it.completion == "completed" })
+        assertTrue(completed.progress.any { it.completion != "completed" && it.available })
+        click("Continue")
+        waitFor(scenario.getValue("reading_title").jsonPrimitive.content)
+        rule.onAllNodesWithText("Submit answers").assertCountEquals(0)
+        rule.onAllNodesWithText("Start").assertCountEquals(0)
+        click("Back")
+        val afterReading = probe("reading does not grant credit") { api.get<LearningEnrollmentView>("/api/v1/learning/enrollments/${part(enrollment.id)}") }
+        assertEquals(2, afterReading.progress.count { it.completion == "completed" })
         val history = probe("history") { api.post<LearningHistoryView, LearningHistoryInput>(
             "/api/v1/learning/enrollments/${part(enrollment.id)}/history", LearningHistoryInput(null, 25)) }
         assertTrue(history.attempts.any { it.evaluations?.any { evaluation -> evaluation.status == "pending" } == true })
