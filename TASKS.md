@@ -6,6 +6,11 @@ in the [dated engineering archive](docs/reviews/engineering-memory-before-androi
 
 ## First integrated Experience slice — Platform authorized 2026-11-03
 
+- [ ] Resolve the additional **BLOCKED_BY_CONTRACT_GAP** methodology gate:
+  Owner/joint contract review of [scope/start proposal corrections](docs/experience/semantics-proposal-review-v1.md),
+  semantic version/adoption and client compatibility. No implementation resumes
+  before approval and separate authorization; no real Corpus ingestion now.
+
 - [x] Verify merged Android #17 and public information architecture #42 on main.
 - [x] Record pre-implementation Experience requirement matrix and scope.
 - [x] Implement minimal safe transcript/stimulus projections and Web/native presentation.

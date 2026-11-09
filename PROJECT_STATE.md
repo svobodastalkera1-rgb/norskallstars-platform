@@ -60,6 +60,11 @@ normative precedent for the upcoming Experience redesign.
   Contract-level **READY**. Owner authorized the Platform implementation on
   2026-11-03; the bounded implementation is provided for review in
   [PR #43](https://github.com/svobodastalkera1-rgb/norskallstars-platform/pull/43).
+  Additional methodology gate (2026-11-09): **BLOCKED_BY_CONTRACT_GAP** for
+  authored practice/world scope and episode starts. The public-safe Corpus proposal
+  passed dedicated review intake; [Platform review](docs/experience/semantics-proposal-review-v1.md)
+  recommends **ACCEPT_WITH_MINOR_CORRECTIONS**, not semantic approval.
+  Implementation is paused; approved v1 contracts remain unchanged.
   Real Corpus handoff/integrated acceptance remain pending; no private repository
   access is authorized. See [Experience implementation](docs/experience/README.md).
 - RetroCel is an optional future illustration provider/candidate, not a dependency.

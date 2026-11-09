@@ -1,5 +1,12 @@
 # First Experience slice — Platform implementation
 
+Current gate (2026-11-09): **BLOCKED_BY_CONTRACT_GAP**. The methodology review
+requires authoritative practice/world scope and episode starts; current approved
+v1 does not define them. The independent [proposal review](semantics-proposal-review-v1.md)
+is **ACCEPT_WITH_MINOR_CORRECTIONS / NOT_APPROVED**. Implementation remains paused
+pending joint semantic approval and separate authorization. Earlier implementation
+readiness below describes the existing bounded v1 baseline, not resolution of this gate.
+
 Owner authorization: 2026-11-03. Scope: Platform-side Web/native online Experience
 using public-safe synthetic data, pending controlled Corpus handoff. No private
 unit content is known, inferred or copied. The target authored sequence is only
