@@ -22,6 +22,7 @@ test("synthetic Experience: contextual media, inspection, authored order and sem
   await expect(
     page.getByRole("group", { name: "Fremgang: 0/3" }),
   ).toBeVisible();
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await reviewEvidence(page, info, "journey");
   await page.getByRole("button", { name: "Fortsett", exact: true }).click();
   await expect(page.locator(".lesson-image")).toHaveCount(1);

@@ -502,7 +502,9 @@ footer {
 }
 .experience-shell .eyebrow,
 .experience-shell .muted,
-.experience-shell small {
+.experience-shell small,
+.experience-shell .hero p:last-child,
+.experience-shell .metric span {
   color: var(--north-mist);
 }
 .experience-shell button {
