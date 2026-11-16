@@ -2,7 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { Blob as NodeBlob } from "node:buffer";
-import { Recorder } from "../src/Media";
+import { Asset, Recorder } from "../src/Media";
 import { Languages } from "../src/i18n";
 import { api } from "../src/api";
 const stopped = vi.fn();
@@ -123,5 +123,63 @@ describe("private microphone lifecycle", () => {
         screen.queryByRole("button", { name: "Send valgt opptak" }),
       ).toBeNull(),
     );
+  });
+});
+
+describe("authenticated image inspection", () => {
+  it("opens a modal and returns focus without a new asset request or retained object URL", async () => {
+    Object.defineProperty(HTMLDialogElement.prototype, "showModal", {
+      configurable: true,
+      value: () => {},
+    });
+    Object.defineProperty(HTMLDialogElement.prototype, "close", {
+      configurable: true,
+      value: () => {},
+    });
+    const show = vi
+      .spyOn(HTMLDialogElement.prototype, "showModal")
+      .mockImplementation(function (this: HTMLDialogElement) {
+        this.open = true;
+      });
+    vi.spyOn(HTMLDialogElement.prototype, "close").mockImplementation(function (
+      this: HTMLDialogElement,
+    ) {
+      this.open = false;
+      this.dispatchEvent(new Event("close"));
+    });
+    Object.defineProperty(URL, "createObjectURL", {
+      configurable: true,
+      value: vi.fn(() => "blob:synthetic-image"),
+    });
+    Object.defineProperty(URL, "revokeObjectURL", {
+      configurable: true,
+      value: vi.fn(),
+    });
+    const asset = vi
+      .spyOn(api, "asset")
+      .mockResolvedValue(new Blob(["synthetic"], { type: "image/png" }));
+    const { unmount } = render(
+      <Languages>
+        <Asset
+          enrollment="synthetic"
+          lesson="synthetic"
+          asset="synthetic"
+          alt="Synthetic geometry"
+          kind="image"
+        />
+      </Languages>,
+    );
+    const open = await screen.findByRole("button", {
+      name: "Se bildet større",
+    });
+    await waitFor(() => expect(open).toBeEnabled());
+    await userEvent.click(open);
+    expect(show).toHaveBeenCalledOnce();
+    expect(screen.getByRole("dialog")).toHaveAccessibleName("Se bildet større");
+    await userEvent.click(screen.getByRole("button", { name: "Lukk bildet" }));
+    await waitFor(() => expect(open).toHaveFocus());
+    expect(asset).toHaveBeenCalledOnce();
+    unmount();
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:synthetic-image");
   });
 });

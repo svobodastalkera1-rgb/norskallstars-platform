@@ -152,3 +152,14 @@ self-assessment. Unscored required activities can complete only under explicit a
 conditions without score/mastery gates. No future evaluator is required for core progress.
 Policy concept rules explicitly list lesson evidence; missing scores are unknown, never zero.
 Review intervals, success threshold and reset/retain behavior are explicit policy inputs.
+
+## Content-only availability — Experience v1 clarification
+
+An available unit without activities can be read and its authorized media used.
+It cannot create or submit an empty attempt to gain completion through a vacuous
+set of conditions. Start/submission reject this case server-side; hiding a client
+button is insufficient. No reading acknowledgement, new progression state or
+mastery threshold is added. Already committed history remains immutable/idempotent.
+A future explicitly authored non-activity completion mechanism would require its
+own approved policy representation; do not infer one from prose, scroll, title or
+opaque extension objects.

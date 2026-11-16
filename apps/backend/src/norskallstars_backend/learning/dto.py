@@ -113,6 +113,13 @@ class EnrollmentView(LearningDTO):
     placement_available: bool
 
 
+class MediaReferenceView(LearningDTO):
+    asset_id: str
+    type: Literal["image", "audio"]
+    alt_text: str
+    transcript: str | None = None
+
+
 class ActivityView(LearningDTO):
     presentation: Presentation | None = None
     activity_id: str
@@ -122,6 +129,7 @@ class ActivityView(LearningDTO):
     prompt: str
     choices: list[str]
     rubric: list[str] | None
+    stimuli: list[MediaReferenceView] = Field(default_factory=list)
 
 
 class BlockView(LearningDTO):
@@ -134,6 +142,7 @@ class BlockView(LearningDTO):
     activity_ref: str | None
     alt_text: str | None
     translation_available: bool
+    transcript: str | None = None
 
 
 class LessonView(LearningDTO):

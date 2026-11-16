@@ -246,6 +246,8 @@ export interface components {
             response_mode: string;
             /** Rubric */
             rubric: string[] | null;
+            /** Stimuli */
+            stimuli?: components["schemas"]["MediaReferenceView"][];
             /** Type */
             type: string;
         };
@@ -310,6 +312,8 @@ export interface components {
             order: number;
             /** Text */
             text: string | null;
+            /** Transcript */
+            transcript?: string | null;
             /** Translation Available */
             translation_available: boolean;
             /** Type */
@@ -483,6 +487,20 @@ export interface components {
             status: "unknown" | "not_applicable" | "assessed";
             /** Value */
             value: boolean | null;
+        };
+        /** MediaReferenceView */
+        MediaReferenceView: {
+            /** Alt Text */
+            alt_text: string;
+            /** Asset Id */
+            asset_id: string;
+            /** Transcript */
+            transcript?: string | null;
+            /**
+             * Type
+             * @enum {string}
+             */
+            type: "image" | "audio";
         };
         /** PlacementInput */
         PlacementInput: {

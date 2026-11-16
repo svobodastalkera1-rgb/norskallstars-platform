@@ -13,3 +13,10 @@ Phase 4 supplies authenticated [Learning Core](../architecture/learning-core.md)
 and [Learning OpenAPI](../../contracts/api/learning-v1.openapi.json). Identity remains
 its sole authentication model. The separate platform learning policy does not
 redefine Course Package v1; no importer/publication/admin/media API is introduced.
+
+The authorized learning lesson projection includes declared activity stimulus
+asset descriptors and optional authored block transcripts. These are allowlisted
+presentation data from the learner's pinned release, not arbitrary package metadata
+or asset URLs. Delivery still requires the existing enrollment/lesson authorization.
+See the [bounded Experience slice](../experience/README.md); clients do not parse
+Course Packages or implement canonical completion rules.

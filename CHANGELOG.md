@@ -2,16 +2,22 @@
 
 ## Unreleased
 
+- Bounded Web/native Experience implementation supplied for review: safe declared
+  media/transcript projections, sequence-preserving learning/reading, inspectable
+  images and scoped North visual primitives. Synthetic validation only; real
+  Corpus handoff/integrated acceptance remain pending. Course Package v1 unchanged.
+
 - Native Android accepted and merged through PR #17; online client, protected
   sessions, Guava toolchain remediation and sanitized instrumentation diagnostics.
-  No production release or integrated Experience slice implementation.
+  No production release.
 - Public information architecture: product README, security policy, reference
   navigation and current engineering memory separated from historical snapshots.
 
 - World & Experience Bible v1.0: normative public direction with exact-index
   version/SHA verification. Experience Contract v1 is approved/normative;
   separate Corpus adoption/synchronization remains unverified. No integrated
-  runtime/Contract change, visual rollout or private repository access.
+  runtime/Contract change, visual rollout or private repository access was included
+  in that documentation decision.
 
 - Phase 0 bootstrap: architecture boundaries, project workflow, confidentiality
   safeguards, development tooling and CI definitions; accepted by Product Owner.

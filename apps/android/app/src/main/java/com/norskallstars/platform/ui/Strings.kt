@@ -103,7 +103,11 @@ enum class Msg(val resource: Int) {
     playAudio(R.string.text_play_audio),
     playRecording(R.string.text_play_recording),
     stopAudio(R.string.text_stop_audio),
-    courseImage(R.string.text_course_image);
+    courseImage(R.string.text_course_image),
+    inspectImage(R.string.text_inspect_image),
+    closeImage(R.string.text_close_image),
+    zoomIn(R.string.text_zoom_in),
+    zoomOut(R.string.text_zoom_out);
 }
 
 val LocalStrings = staticCompositionLocalOf<(Msg) -> String> { error("Missing strings") }

@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 const nb = {
+  inspectImage: "Se bildet større",
+  closeImage: "Lukk bildet",
   home: "Oversikt",
   courses: "Kurs",
   settings: "Konto",
@@ -105,6 +107,8 @@ const nb = {
     "Sjekk opplysningene og prøv igjen. Ved behov må du logge inn på nytt.",
 };
 const en: typeof nb = {
+  inspectImage: "Inspect image",
+  closeImage: "Close image",
   home: "Dashboard",
   courses: "Courses",
   settings: "Account",

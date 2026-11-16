@@ -3,6 +3,8 @@ import { useEngagement } from "./engagement";
 import { api, part } from "./api";
 import { ActivityInput, type Answer } from "./Activities";
 import { Asset } from "./Media";
+import { ProgressOrnament } from "./Experience";
+import { experienceSequence } from "./experience";
 import { useLanguage } from "./i18n";
 import type {
   Assessment,
@@ -13,13 +15,39 @@ import type {
   Lesson,
   Placement,
 } from "./types";
-export function Results({ evaluations }: { evaluations: Evaluation[] }) {
+export function Results({
+  evaluations,
+  labels = {},
+}: {
+  evaluations: Evaluation[];
+  labels?: Record<string, string>;
+}) {
   const { t } = useLanguage();
   return (
-    <ul className="results">
+    <ul className="results" role="list">
       {evaluations.map((result) => (
-        <li key={result.activity_id}>
-          {result.activity_id}:{" "}
+        <li
+          key={result.activity_id}
+          className="north-feedback"
+          data-state={
+            result.correct === true
+              ? "correct"
+              : result.correct === false
+                ? "incorrect"
+                : "unscored"
+          }
+        >
+          <span aria-hidden="true">
+            {result.correct === true
+              ? "▲ "
+              : result.correct === false
+                ? "× "
+                : "◇ "}
+          </span>
+          {Object.hasOwn(labels, result.activity_id)
+            ? labels[result.activity_id]
+            : result.activity_id}
+          :{" "}
           {result.status === "pending"
             ? t("pending")
             : result.status === "not_applicable"
@@ -114,25 +142,57 @@ export function LearningLesson({
     }
   };
   if (!lesson) return <p role="status">{message || t("loading")}</p>;
+  let sequence: ReturnType<typeof experienceSequence>;
+  try {
+    sequence = experienceSequence(lesson);
+  } catch {
+    return <p role="alert">{t("error")}</p>;
+  }
   return (
-    <article>
-      <button onClick={onBack}>{t("back")}</button>
-      <p className="eyebrow">
-        {enrollment.course.title} · v{enrollment.course.course_version}
-      </p>
-      <h1>{lesson.title}</h1>
-      {practice && <p>{t("replayNote")}</p>}
-      <div className="reading card">
-        {[...lesson.blocks]
-          .sort((a, b) => a.order - b.order)
-          .map((block) => (
-            <section key={block.block_id}>
-              {block.text && (
-                <p lang={block.language ?? enrollment.course.language}>
+    <article
+      className="north-lesson"
+      data-mode={attempt && !attempt.submitted_at ? "learning" : "narrative"}
+    >
+      <div className="north-heading">
+        <button type="button" onClick={onBack}>
+          {t("back")}
+        </button>
+        <p className="eyebrow">
+          {enrollment.course.title} · v{enrollment.course.course_version}
+        </p>
+        <h1>{lesson.title}</h1>
+        <ProgressOrnament
+          progress={enrollment.progress.map((p) =>
+            p.lesson_id === lid && attempt?.completion_credit === true
+              ? { ...p, completion: "completed" as const }
+              : p,
+          )}
+        />
+        {practice && <p>{t("replayNote")}</p>}
+      </div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          void submit();
+        }}
+      >
+        <div className="north-sequence">
+          {sequence.map(({ block, activity }, index) => (
+            <section
+              className={
+                activity ? "north-scene north-task-scene" : "north-scene"
+              }
+              key={block?.block_id ?? `activity-${index}`}
+            >
+              {block?.text && (
+                <p
+                  className="north-prose"
+                  lang={block.language ?? enrollment.course.language}
+                >
                   {block.text}
                 </p>
               )}
-              {block.asset_ref && (
+              {block?.asset_ref && (
                 <Asset
                   enrollment={enrollment.id}
                   lesson={lid}
@@ -141,9 +201,18 @@ export function LearningLesson({
                   kind={block.type}
                 />
               )}
-              {block.translation_available && (
+              {block?.transcript && (
+                <p
+                  className="north-transcript"
+                  lang={block.language ?? enrollment.course.language}
+                >
+                  {block.transcript}
+                </p>
+              )}
+              {block?.translation_available && (
                 <>
                   <button
+                    type="button"
                     onClick={() => {
                       if (!translationOperations.has(block.block_id))
                         translationOperations.set(
@@ -180,62 +249,96 @@ export function LearningLesson({
                   )}
                 </>
               )}
+              {activity && attempt && !attempt.submitted_at && (
+                <div className="north-workspace">
+                  {(activity.stimuli ?? []).map((stimulus) => (
+                    <div key={stimulus.asset_id}>
+                      <Asset
+                        enrollment={enrollment.id}
+                        lesson={lid}
+                        asset={stimulus.asset_id}
+                        alt={stimulus.alt_text}
+                        kind={stimulus.type}
+                      />
+                      {stimulus.transcript && (
+                        <p className="north-transcript">
+                          {stimulus.transcript}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                  <ActivityInput
+                    activity={activity}
+                    attempt={attempt.id}
+                    onChange={(answer) =>
+                      setAnswers((previous) => ({
+                        ...previous,
+                        [answer.activity_id]: answer,
+                      }))
+                    }
+                  />
+                </div>
+              )}
             </section>
           ))}
-      </div>
-      {!attempt && (
-        <button
-          className="primary"
-          disabled={busy}
-          onClick={() => void start()}
-        >
-          {t("start")}
-        </button>
-      )}
-      {attempt && !attempt.submitted_at && (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            void submit();
-          }}
-        >
-          {lesson.activities.map((activity) => (
-            <ActivityInput
-              key={activity.activity_id}
-              activity={activity}
-              attempt={attempt.id}
-              onChange={(answer) =>
-                setAnswers((previous) => ({
-                  ...previous,
-                  [answer.activity_id]: answer,
-                }))
-              }
-            />
-          ))}
+        </div>
+        {!attempt && lesson.activities.length > 0 && (
           <button
-            className="primary"
+            type="button"
+            className="primary north-action"
+            disabled={busy}
+            onClick={() => void start()}
+          >
+            {t("start")}
+          </button>
+        )}
+        {attempt && !attempt.submitted_at && lesson.activities.length > 0 && (
+          <button
+            className="primary north-action"
             disabled={
               busy ||
               lesson.activities.some(
-                (activity) => !answers[activity.activity_id]?.acknowledged,
+                (a) => !answers[a.activity_id]?.acknowledged,
               )
             }
           >
             {t("submit")}
           </button>
-        </form>
-      )}
+        )}
+      </form>
       {attempt?.evaluations && (
-        <>
+        <section
+          className="north-completion"
+          data-credit={attempt.completion_credit === true}
+          aria-live="polite"
+        >
+          <span className="north-ember" aria-hidden="true">
+            {attempt.completion_credit === true ? "▲" : "△"}
+          </span>
           <h2>{t("score")}</h2>
-          <Results evaluations={attempt.evaluations} />
-          <button onClick={onBack}>{t("continue")}</button>
-        </>
+          <Results
+            evaluations={attempt.evaluations}
+            labels={Object.fromEntries(
+              lesson.activities.map((a) => [a.activity_id, a.prompt]),
+            )}
+          />
+          <p>
+            {attempt.completion_credit === true
+              ? t("completed")
+              : practice
+                ? t("replayNote")
+                : t("inProgress")}
+          </p>
+          <button type="button" disabled={busy} onClick={onBack}>
+            {t("continue")}
+          </button>
+        </section>
       )}
       <p role="alert">{message}</p>
     </article>
   );
 }
+
 export function PlacementAssessment({
   enrollment,
   onChanged,
@@ -433,7 +536,24 @@ export function AttemptHistory({
               <Results evaluations={attempt.evaluations} />
               <ul>
                 {attempt.evaluations.map((result) => (
-                  <li key={result.activity_id}>
+                  <li
+                    key={result.activity_id}
+                    className="north-feedback"
+                    data-state={
+                      result.correct === true
+                        ? "correct"
+                        : result.correct === false
+                          ? "incorrect"
+                          : "unscored"
+                    }
+                  >
+                    <span aria-hidden="true">
+                      {result.correct === true
+                        ? "▲ "
+                        : result.correct === false
+                          ? "× "
+                          : "◇ "}
+                    </span>
                     {t("response")}:{" "}
                     <pre>
                       {typeof result.response === "string"

@@ -124,7 +124,9 @@ to heartbeat/fractional rounding; active interaction over approximately seventy
 seconds followed by submission should normally do so. Telemetry never grants
 completion/mastery or financial/gamification credit.
 
-The primary browser/manual-review synthetic course must be completable end to end.
+The synthetic exercise units must remain completable end to end. The bounded
+[Experience lab](../experience/README.md) also includes content-only reading;
+opening/scrolling it grants no canonical credit.
 `apps/backend/tests/browser_seed.py` supplies an explicit versioned **test-only**
 matching presentation binding for the approved fixture. Contract v1 bytes and the
 runtime's generic interpretation remain unchanged. The rubric response can complete
@@ -132,8 +134,9 @@ under that fixture's explicit acknowledgment policy while its evaluation remains
 pending; no grade/mastery is fabricated. Missing bindings/media remain isolated
 negative tests. Existing enrollments retain their immutable old policy; use a fresh
 enrollment/account after selecting a corrected seed policy rather than silently
-rewriting progress. E2E verifies both lessons, matching, the pending rubric result,
-and replay preserving canonical completion across all three browser engines.
+rewriting progress. E2E verifies both exercise units, matching, the pending rubric result,
+replay preserving canonical completion and reading without implicit credit across
+all three browser engines.
 
 ## Resolved policy history
 

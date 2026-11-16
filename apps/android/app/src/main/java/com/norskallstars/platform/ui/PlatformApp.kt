@@ -4,6 +4,14 @@ import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
@@ -35,7 +43,7 @@ import kotlinx.serialization.json.*
 
 @Composable
 fun Action(label: String, enabled: Boolean = true, onClick: () -> Unit) {
-    Button(onClick = onClick, enabled = enabled, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(label) }
+    Button(onClick = onClick, enabled = enabled, shape = if (LocalExperience.current) RoundedCornerShape(2.dp) else ButtonDefaults.shape, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(label) }
 }
 
 @Composable
@@ -82,9 +90,10 @@ fun PlatformApp(model: PlatformModel, media: NativeMedia) {
     }
     val t: (Msg) -> String = { localized.getString(it.resource) }
     BackHandler(state.account != null && state.page != Page.HOME && !state.busy) { model.home() }
-    MaterialTheme(colorScheme = lightColorScheme(primary = Color(0xFF155A4E), secondary = Color(0xFF405F59),
+    val experience = state.account != null && state.page in setOf(Page.HOME, Page.LESSON)
+    MaterialTheme(shapes = if (experience) NorthShapes else Shapes(), colorScheme = if (experience) NorthColors else lightColorScheme(primary = Color(0xFF155A4E), secondary = Color(0xFF405F59),
         background = Color(0xFFF4F7F4), surface = Color(0xFFF4F7F4))) {
-        CompositionLocalProvider(LocalStrings provides t) {
+        CompositionLocalProvider(LocalStrings provides t, LocalExperience provides experience) {
             Scaffold { padding ->
                 Column(Modifier.fillMaxSize().onPreviewKeyEvent {
                     model.engagement.interact(android.os.SystemClock.elapsedRealtime()); false
@@ -161,7 +170,7 @@ private fun AuthUi(model: PlatformModel, state: UiState) {
 private fun HomeUi(model: PlatformModel, state: UiState) {
     val t = LocalStrings.current
     LazyColumn(modifier = Modifier.testTag("screen-list"), verticalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
-        item { Title(t(Msg.welcome)); Text(t(Msg.intro)) }
+        item { Text(t(Msg.welcome), style = MaterialTheme.typography.headlineLarge, fontFamily = FontFamily.Serif); Text(t(Msg.intro)) }
         item {
             val stats = state.dashboard
             Text("${t(Msg.attempts)}: ${stats["submitted_attempts"] ?: 0}")
@@ -174,14 +183,15 @@ private fun HomeUi(model: PlatformModel, state: UiState) {
         }
         if (state.courses.isEmpty() && state.enrollments.isEmpty()) item { Text(t(Msg.empty)) }
         items(state.courses.filter { c -> state.enrollments.none { it.course.course_id == c.course_id } }, key = { it.release_id }) { course ->
-            Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
+            Surface(Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.background) { Column(Modifier.padding(vertical = 16.dp)) {
                 Title(course.title); Text("${course.language} · v${course.course_version}")
                 Action(t(Msg.start), !state.busy) { model.enroll(course.course_id) }
             } }
         }
         state.enrollments.forEach { enrollment ->
             item(key = enrollment.id) {
-                Title(enrollment.course.title)
+                ExperienceProgress(enrollment.progress)
+                Text(enrollment.course.title, style = MaterialTheme.typography.headlineMedium, fontFamily = FontFamily.Serif)
                 Text("v${enrollment.course.course_version} · ${t(Msg.progress)}: " +
                     "${enrollment.progress.count { it.completion == "completed" }}/${enrollment.progress.size}")
                 enrollment.progress.find { it.available && it.completion != "completed" }?.let { next ->
@@ -197,7 +207,7 @@ private fun HomeUi(model: PlatformModel, state: UiState) {
                 item(key = "${enrollment.id}/${chapter.chapter_id}") { Title(chapter.title) }
                 items(chapter.lessons, key = { "${enrollment.id}/${it.lesson_id}" }) { lesson ->
                     val progress = enrollment.progress.find { it.lesson_id == lesson.lesson_id }
-                    if (progress != null) Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
+                    if (progress != null) Surface(Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.background) { Column(Modifier.padding(vertical = 16.dp)) {
                         Text(lesson.title, style = MaterialTheme.typography.titleMedium)
                         Text(t(when (progress.completion) { "completed" -> Msg.completed; "in_progress" -> Msg.inProgress; else -> Msg.notStarted }))
                         Text("${t(Msg.mastery)}: " + when {
@@ -222,26 +232,55 @@ private fun LessonUi(model: PlatformModel, media: NativeMedia, state: UiState) {
     val t = LocalStrings.current
     val lesson = state.lesson ?: return
     val enrollment = state.enrollment ?: return
-    LazyColumn(modifier = Modifier.testTag("screen-list"), verticalArrangement = Arrangement.spacedBy(16.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
-        item { Action(t(Msg.back), !state.busy, model::home); Title(lesson.title); if (state.practice) Text(t(Msg.replayNote)) }
-        items(lesson.blocks.sortedBy { it.order }, key = { it.block_id }) { block ->
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                block.text?.let { Text(it) }
-                block.asset_ref?.let { Asset(model.api, media, enrollment.id, lesson.lesson_id, it, block.alt_text ?: "") }
-                if (block.translation_available) {
-                    Action(t(Msg.translation), !state.busy) { model.translate(block.block_id) }
-                    state.translations[block.block_id]?.let { Text(it) }
-                }
-            }
+    val sequence = runCatching { experienceSequence(lesson) }.getOrNull()
+    if (sequence == null) { Text(t(Msg.error)); return }
+    LazyColumn(modifier = Modifier.testTag("screen-list"), verticalArrangement = Arrangement.spacedBy(0.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
+        item {
+            Action(t(Msg.back), !state.busy, model::home)
+            Text(lesson.title, fontFamily = FontFamily.Serif, style = MaterialTheme.typography.headlineLarge)
+            ExperienceProgress(enrollment.progress)
+            if (state.practice) Text(t(Msg.replayNote))
         }
-        if (state.attempt == null) item { Action(t(Msg.start), !state.busy, model::start) }
+        items(sequence, key = { it.block?.block_id ?: "activity/${it.activity!!.activity_id}" }) { entry ->
+            LessonScene(entry, model, media, state, lesson, enrollment)
+        }
+        if (state.attempt == null) {
+            if (lesson.activities.isNotEmpty()) item { Action(t(Msg.start), !state.busy, model::start) }
+        }
         else if (state.attempt.submitted_at == null) {
-            items(lesson.activities, key = { it.activity_id }) { activity ->
-                ActivityUi(activity, state.answers[activity.activity_id], !state.busy, model.api, media, state.attempt.id, model::answer)
-            }
             item { Action(t(Msg.submit), !state.busy && lesson.activities.all { state.answers[it.activity_id]?.acknowledged == true }, model::submit) }
         } else {
-            item { Results(state.attempt.evaluations.orEmpty()); Action(t(Msg.continueLearning), !state.busy, model::home) }
+            item {
+                Text(if (state.attempt.completion_credit == true) "▲" else "△", color = NorthFire, style = MaterialTheme.typography.headlineLarge)
+                Results(state.attempt.evaluations.orEmpty(), labels = lesson.activities.associate { it.activity_id to it.prompt })
+                Action(t(Msg.continueLearning), !state.busy, model::home)
+            }
+        }
+    }
+}
+
+@Composable
+private fun LessonScene(entry: ExperienceItem, model: PlatformModel, media: NativeMedia,
+    state: UiState, lesson: LearningLessonView, enrollment: LearningEnrollmentView) {
+    val t = LocalStrings.current
+    val block = entry.block
+    val activity = entry.activity
+    Column(Modifier.fillMaxWidth().background(NorthPaper).drawBehind { drawLine(NorthFire, Offset.Zero, Offset(0f, size.height), 2.dp.toPx()) }.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        CompositionLocalProvider(LocalContentColor provides NorthInk) {
+        block?.text?.let { Text(it, color = NorthInk, fontFamily = FontFamily.Serif, fontSize = 20.sp, lineHeight = 32.sp) }
+        block?.asset_ref?.let { Asset(model.api, media, enrollment.id, lesson.lesson_id, it, block.alt_text ?: "", block.type) }
+        block?.transcript?.let { Text(it, color = NorthInk) }
+        if (block?.translation_available == true) {
+            Action(t(Msg.translation), !state.busy) { model.translate(block.block_id) }
+            state.translations[block.block_id]?.let { Text(it, color = NorthInk) }
+        }
+        if (activity != null && state.attempt?.submitted_at == null && state.attempt != null) {
+            activity.stimuli.orEmpty().forEach { stimulus ->
+                Asset(model.api, media, enrollment.id, lesson.lesson_id, stimulus.asset_id, stimulus.alt_text, stimulus.type)
+                stimulus.transcript?.let { Text(it, color = NorthInk) }
+            }
+            ActivityUi(activity, state.answers[activity.activity_id], !state.busy, model.api, media, state.attempt.id, model::answer)
+        }
         }
     }
 }
@@ -284,10 +323,17 @@ private fun HistoryUi(model: PlatformModel, state: UiState) {
 }
 
 @Composable
-fun Results(evaluations: List<LearningEvaluationView>, responses: Boolean = false) {
+fun Results(evaluations: List<LearningEvaluationView>, responses: Boolean = false, labels: Map<String, String> = emptyMap()) {
     val t = LocalStrings.current
     evaluations.forEach { value ->
-        Text("${value.activity_id}: " + when {
+        val feedback = if (!LocalExperience.current) MaterialTheme.colorScheme.surface else when (value.correct) {
+            true -> Color(0xFF234C3B); false -> Color(0xFF48272C); null -> MaterialTheme.colorScheme.surface
+        }
+        var lit by remember(value) { mutableStateOf(false) }
+        LaunchedEffect(value) { lit = true }
+        val surface by animateColorAsState(if (lit) feedback else MaterialTheme.colorScheme.surface, tween(if (value.correct == true) 160 else 900), label = "Experience feedback")
+        Column(if (LocalExperience.current) Modifier.fillMaxWidth().background(surface).padding(12.dp) else Modifier) {
+        Text((if (LocalExperience.current) when (value.correct) { true -> "▲ "; false -> "× "; null -> "◇ " } else "") + "${labels[value.activity_id] ?: value.activity_id}: " + when {
             value.status == "pending" -> t(Msg.pending)
             value.status == "not_applicable" -> t(Msg.notApplicable)
             value.correct == null -> t(Msg.unknown)
@@ -295,6 +341,7 @@ fun Results(evaluations: List<LearningEvaluationView>, responses: Boolean = fals
             else -> t(Msg.incorrect)
         } + (value.score?.let { " · $it" } ?: ""))
         if (responses) Text("${t(Msg.response)}: ${value.response}")
+        }
     }
 }
 
